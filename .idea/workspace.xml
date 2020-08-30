@@ -1,7 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="364d5e53-b33a-4e4c-b1b9-cef73668790c" name="Default Changelist" comment="" />
+    <list default="true" id="364d5e53-b33a-4e4c-b1b9-cef73668790c" name="Default Changelist" comment="еще какое-то изменение">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -10,6 +30,14 @@
   <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="search" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -119,15 +147,19 @@
     </include_path>
   </component>
   <component name="ProjectId" id="1ga8951mooORQlrP4l7706MBuMa" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/storage/app/public/svg" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -156,22 +188,91 @@
       <workItem from="1598522734501" duration="29301000" />
       <workItem from="1598615163943" duration="21422000" />
       <workItem from="1598686376136" duration="8767000" />
-      <workItem from="1598785268354" duration="653000" />
+      <workItem from="1598785268354" duration="5348000" />
     </task>
+    <task id="LOCAL-00001" summary="test changes and commit">
+      <created>1598790024811</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1598790024811</updated>
+    </task>
+    <task id="LOCAL-00002" summary="back to origin readme file">
+      <created>1598790278432</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1598790278432</updated>
+    </task>
+    <task id="LOCAL-00003" summary="+">
+      <created>1598791728383</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1598791728383</updated>
+    </task>
+    <task id="LOCAL-00004" summary="какое-то изменение">
+      <created>1598791865924</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1598791865924</updated>
+    </task>
+    <task id="LOCAL-00005" summary="еще какое-то изменение">
+      <created>1598792039822</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1598792039822</updated>
+    </task>
+    <task id="LOCAL-00006" summary="еще какое-то изменение">
+      <created>1598792151891</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1598792151891</updated>
+    </task>
+    <task id="LOCAL-00007" summary="еще какое-то изменение">
+      <created>1598792214184</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1598792214184</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="test changes and commit" />
+    <MESSAGE value="back to origin readme file" />
+    <MESSAGE value="+" />
+    <MESSAGE value="какое-то изменение" />
+    <MESSAGE value="еще какое-то изменение" />
+    <option name="LAST_COMMIT_MESSAGE" value="еще какое-то изменение" />
   </component>
   <component name="WindowStateProjectService">
     <state x="413" y="118" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1598689344150">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="413" y="118" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.728@0.0.1366.728" timestamp="1598689344150" />
-    <state x="463" y="118" key="FileChooserDialogImpl" timestamp="1598444642681">
+    <state x="463" y="118" key="FileChooserDialogImpl" timestamp="1598789598345">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="463" y="118" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1598444642681" />
+    <state x="463" y="118" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1598789598345" />
     <state width="1323" height="179" key="GridCell.Tab.0.bottom" timestamp="1598553208032">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -188,6 +289,30 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="1323" height="179" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1598553208032" />
+    <state x="129" y="55" key="MergeDialog" timestamp="1598792335190">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="129" y="55" key="MergeDialog/0.0.1366.728@0.0.1366.728" timestamp="1598792335190" />
+    <state x="321" y="125" key="MultipleFileMergeDialog" timestamp="1598792335197">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="321" y="125" key="MultipleFileMergeDialog/0.0.1366.728@0.0.1366.728" timestamp="1598792335197" />
+    <state x="184" y="8" key="SettingsEditor" timestamp="1598789337380">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="184" y="8" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1598789337380" />
+    <state x="275" y="96" key="Vcs.Push.Dialog.v2" timestamp="1598790287854">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="275" y="96" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1598790287854" />
+    <state x="472" y="76" key="git4idea.branch.GitSmartOperationDialog" timestamp="1598791929154">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="472" y="76" key="git4idea.branch.GitSmartOperationDialog/0.0.1366.728@0.0.1366.728" timestamp="1598791929154" />
+    <state x="481" y="265" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1598791445308">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="481" y="265" key="git4idea.remote.GitConfigureRemotesDialog/0.0.1366.728@0.0.1366.728" timestamp="1598791445308" />
     <state x="339" y="162" key="run.anything.popup" timestamp="1598538711359">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
