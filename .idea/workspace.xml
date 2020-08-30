@@ -19,7 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="364d5e53-b33a-4e4c-b1b9-cef73668790c" name="Default Changelist" comment="еще какое-то изменение">
+    <list default="true" id="364d5e53-b33a-4e4c-b1b9-cef73668790c" name="Default Changelist" comment="изменение">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -34,7 +34,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="search" />
+        <entry key="$PROJECT_DIR$" value="masterNew" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -189,6 +189,7 @@
       <workItem from="1598615163943" duration="21422000" />
       <workItem from="1598686376136" duration="8767000" />
       <workItem from="1598785268354" duration="5348000" />
+      <workItem from="1598792698688" duration="110000" />
     </task>
     <task id="LOCAL-00001" summary="test changes and commit">
       <created>1598790024811</created>
@@ -239,7 +240,21 @@
       <option name="project" value="LOCAL" />
       <updated>1598792214184</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="еще какое-то изменение">
+      <created>1598792491815</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1598792491815</updated>
+    </task>
+    <task id="LOCAL-00009" summary="изменение">
+      <created>1598792793499</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1598792793499</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -255,6 +270,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="test changes and commit" />
@@ -262,7 +278,8 @@
     <MESSAGE value="+" />
     <MESSAGE value="какое-то изменение" />
     <MESSAGE value="еще какое-то изменение" />
-    <option name="LAST_COMMIT_MESSAGE" value="еще какое-то изменение" />
+    <MESSAGE value="изменение" />
+    <option name="LAST_COMMIT_MESSAGE" value="изменение" />
   </component>
   <component name="WindowStateProjectService">
     <state x="413" y="118" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1598689344150">
@@ -305,10 +322,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="275" y="96" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1598790287854" />
-    <state x="472" y="76" key="git4idea.branch.GitSmartOperationDialog" timestamp="1598791929154">
+    <state x="472" y="76" key="git4idea.branch.GitSmartOperationDialog" timestamp="1598792577261">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="472" y="76" key="git4idea.branch.GitSmartOperationDialog/0.0.1366.728@0.0.1366.728" timestamp="1598791929154" />
+    <state x="472" y="76" key="git4idea.branch.GitSmartOperationDialog/0.0.1366.728@0.0.1366.728" timestamp="1598792577261" />
     <state x="481" y="265" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1598791445308">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
