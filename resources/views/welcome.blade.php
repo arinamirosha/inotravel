@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12 text-center p-3 h1">
-            Искать жилье туц туц туц
+            Искать жилье туц туц туц туууц
         </div>
     </div>
     <div class="row justify-content-center">
