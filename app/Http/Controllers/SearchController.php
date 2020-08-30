@@ -17,14 +17,20 @@ class SearchController extends Controller
         ]);
 
         $houses = House::where('city', 'like', "%{$data['where']}%")
-            ->where('places', '>=', $data['people'])->latest()->get();
+            ->where('places', '>=', $data['people'])->orderBy('name')->get();
+
+        session([
+            'arrival' => $data['arrival'],
+            'departure' => $data['departure'],
+        ]);
 
         return view('search', [
             'houses' => $houses,
             'where' => $data['where'],
             'arrival' => $data['arrival'],
             'departure' => $data['departure'],
-            'people' => $data['people']
+            'people' => $data['people'],
+            'data' => $data
         ]);
     }
 }

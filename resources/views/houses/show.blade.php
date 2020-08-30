@@ -15,21 +15,29 @@
                         <div>{{ $house->city }}, {{ $house->address }}</div>
                         <div>{{ $house->user->name }} {{ $house->user->surname }}</div>
                     </div>
-                    <div class="col-4 text-center">
+                    <div class="col-4">
                         @can('update', $house->user)
                             <a href="{{ route('house.edit', $house->id) }}" class="btn btn-outline-dark btn-block">Редактировать</a>
-                                <form action="{{ route('house.destroy', $house->id) }}" method="post" class="pt-2">
-                                    @csrf
-                                    @method('delete')
-                                    <button class="btn btn-outline-secondary btn-block" onclick="x=confirm('Вы уверены, что хотите удалить?'); return x">Удалить</button>
-                                </form>
+                            <form action="{{ route('house.destroy', $house->id) }}" method="post" class="pt-2">
+                                @csrf
+                                @method('delete')
+                                <button class="btn btn-outline-secondary btn-block" onclick="x=confirm('Вы уверены, что хотите удалить?'); return x">Удалить</button>
+                            </form>
+                        @else
+                            @if(session('arrival') && session('departure'))
+                                <div>
+                                    Свободно / занято
+                                </div>
+                                <div class="mb-1">
+                                    <a href="#" class="btn btn-outline-secondary btn-block">Забронировать</a>
+                                </div>
+                                <div>c {{ session('arrival') }}</div>
+                                <div>по {{ session('departure') }}</div>
                             @else
-                            <div>
-                                Свободно / занято
-                            </div>
-                            <div>
-                                Забронировать / заявка отправлена
-                            </div>
+                                <div class="alert alert-info">
+                                    Используйте поиск, чтобы задать даты прибытия и отъезда
+                                </div>
+                            @endif
                         @endcan
                     </div>
                 </div>

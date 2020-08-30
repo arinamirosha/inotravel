@@ -125,7 +125,7 @@
             @if(session('message'))
                 <div class="row justify-content-center pt-5">
                     <div class="alert alert-info col-md-5 text-center">
-                        {{ session('message')}}
+                        {{ session('message') }}
                     </div>
                 </div>
             @endif
