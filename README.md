@@ -1,3 +1,3 @@
 Laravel project
 
-In process
+In the process
