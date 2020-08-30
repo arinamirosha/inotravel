@@ -29,6 +29,8 @@ Route::delete('/house/{house}', 'HousesController@destroy')->name('house.destroy
 Route::get('/house/{house}/edit', 'HousesController@edit')->name('house.edit');
 Route::patch('/house/{house}', 'HousesController@update')->name('house.update');
 
+Route::get('/search', 'SearchController@index')->name('search.index');
+
 //сделать нормальные пути
 Route::get('/profile/{user}', function ($user) { return redirect("/profile/{$user}/edit"); }); // из браузера идет не в patch
 Route::get('/password/{user}', function ($user) { return redirect("/profile/{$user}/edit"); }); // из браузера идет не в patch

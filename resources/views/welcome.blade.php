@@ -9,7 +9,7 @@
     </div>
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <form method="POST" action="{{ route('login') }}">
+            <form method="POST" action="{{ route('search.index') }}">
                 @csrf
 
                 <div class="form-group row">
