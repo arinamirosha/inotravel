@@ -24,19 +24,41 @@
                                 <button class="btn btn-outline-secondary btn-block" onclick="x=confirm('Вы уверены, что хотите удалить?'); return x">Удалить</button>
                             </form>
                         @else
-                            @if(session('arrival') && session('departure'))
-                                <div>
-                                    Свободно / занято
-                                </div>
-                                <div class="mb-1">
-                                    <a href="#" class="btn btn-outline-secondary btn-block">Забронировать</a>
-                                </div>
-                                <div>c {{ session('arrival') }}</div>
-                                <div>по {{ session('departure') }}</div>
+                            @if(session('arrival') && session('departure') && session('people'))
+
+                                @if ($isBooked)
+                                    <div class="mb-1 btn btn-outline-secondary btn-block disabled">Заявка отправлена!</div>
+                                @else
+
+                                    @if ($house->places < session('people'))
+                                        <div class="alert alert-info">Недостаточно спальных мест</div>
+                                    @else
+
+
+                                        <div>
+{{--                                            @if ()--}}
+{{--                                            Свободно .. мест--}}
+                                            <div class="mb-1">
+                                                <form action="{{ route('booking.store', $house->id) }}" method="post">
+                                                    @csrf
+                                                    <button class="btn btn-outline-secondary btn-block">Забронировать</button>
+                                                </form>
+                                            </div>
+{{--                                            @else--}}
+{{--                                            Нет мест--}}
+{{--                                            @endif--}}
+                                        </div>
+                                        <div>людей: {{ session('people') }}</div>
+                                        <div>c {{ session('arrival') }}</div>
+                                        <div>по {{ session('departure') }}</div>
+
+
+                                    @endif
+
+                                @endif
+
                             @else
-                                <div class="alert alert-info">
-                                    Используйте поиск, чтобы задать даты прибытия и отъезда
-                                </div>
+                                <div class="alert alert-info">Используйте поиск, чтобы задать даты прибытия и отъезда</div>
                             @endif
                         @endcan
                     </div>

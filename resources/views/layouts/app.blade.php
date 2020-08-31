@@ -60,6 +60,10 @@
                                     <a class="navbar-item" href="{{ route('house.index') }}">Мое жилье</a>
                                 </div>
 
+                                <div class="pr-3">
+                                    <a class="navbar-item" href="{{ route('booking.index') }}">Заявки</a>
+                                </div>
+
                                 <div>
                                     <a class="navbar-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();

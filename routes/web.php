@@ -31,8 +31,11 @@ Route::patch('/house/{house}', 'HousesController@update')->name('house.update');
 
 Route::get('/search', 'SearchController@index')->name('search');
 
+Route::post('/booking/{house}', 'BookingController@store')->name('booking.store');
+Route::get('/booking', 'BookingController@index')->name('booking.index');
+
 //сделать нормальные пути
 Route::get('/profile/{user}', function ($user) { return redirect("/profile/{$user}/edit"); }); // из браузера идет не в patch
 Route::get('/password/{user}', function ($user) { return redirect("/profile/{$user}/edit"); }); // из браузера идет не в patch
-
+Route::get('/booking/{house}', function () { return redirect("/"); }); // из браузера идет не в post
 

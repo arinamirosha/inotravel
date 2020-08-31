@@ -24,6 +24,11 @@ class House extends Model
         return $this->belongsTo(Restriction::class);
     }
 
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
+
     public function houseImage()
     {
         $imagePath = ($this->image) ? $this->image : 'icons/noImage.svg';

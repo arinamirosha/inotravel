@@ -19,10 +19,6 @@ class ProfilesController extends Controller
     {
         $this->authorize('update', $user);
         return view('profiles.edit', compact('user'));
-        // Если не на своей странице, то на главную
-//        return (auth()->user() == $user) ?
-//            view('profiles.edit', compact('user')) :
-//            redirect('/');
     }
 
     public function update(User $user)

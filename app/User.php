@@ -46,4 +46,9 @@ class User extends Authenticatable
     {
         return House::where('user_id', '=', $this->id)->get();
     }
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class)->orderBy('created_at', 'DESC');
+    }
 }

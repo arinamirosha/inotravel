@@ -17,6 +17,9 @@ class SearchController extends Controller
             'people' => ['required', 'numeric', 'max:100'],
         ]);
 
+        // оптимизировать поиск, показать только свободные
+        // учитывать ли пересечения дат и частичные места?
+
         $houses = House::addSelect(['user_name' => User::select('name')->whereColumn('user_id', 'users.id')])
             ->where('city', 'like', "%{$data['where']}%")
             ->where('places', '>=', $data['people'])
@@ -27,6 +30,7 @@ class SearchController extends Controller
         session([
             'arrival' => $data['arrival'],
             'departure' => $data['departure'],
+            'people' => $data['people'],
         ]);
 
         return view('search', [
