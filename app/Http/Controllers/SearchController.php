@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\House;
+use App\User;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
@@ -16,8 +17,12 @@ class SearchController extends Controller
             'people' => ['required', 'numeric', 'max:100'],
         ]);
 
-        $houses = House::where('city', 'like', "%{$data['where']}%")
-            ->where('places', '>=', $data['people'])->orderBy('name')->get();
+        $houses = House::addSelect(['user_name' => User::select('name')->whereColumn('user_id', 'users.id')])
+            ->where('city', 'like', "%{$data['where']}%")
+            ->where('places', '>=', $data['people'])
+            ->orderBy('name')
+            ->orderBy('user_name')
+            ->get();
 
         session([
             'arrival' => $data['arrival'],
