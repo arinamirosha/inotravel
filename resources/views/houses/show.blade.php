@@ -41,6 +41,7 @@
                                             <div class="mb-1">
                                                 <form action="{{ route('booking.store', $house->id) }}" method="post">
                                                     @csrf
+                                                    <input type="hidden" value="{{ $house->id }}" name="house_id">
                                                     <button class="btn btn-outline-secondary btn-block">Забронировать</button>
                                                 </form>
                                             </div>

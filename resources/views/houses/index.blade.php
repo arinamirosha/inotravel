@@ -46,11 +46,17 @@
                                     @if($booking->status === 1)
                                         <div class="text-success">Заявка принята!</div>
                                     @else($booking->status === null)
-                                        <form method="post" action="">
+                                        <form method="post" action="{{ route('booking.update', $booking->id) }}">
                                             @csrf
                                             @method("patch")
-                                            принять/отклонить
 
+                                            <input type="hidden" name="accept" id="accept" value="0">
+                                            <button class="btn btn-outline-secondary" onclick="$('#accept').val('1')">
+                                                Принять
+                                            </button>
+                                            <button class="btn btn-outline-secondary">
+                                                Отказать
+                                            </button>
 
                                         </form>
                                     @endif
