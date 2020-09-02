@@ -16,7 +16,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="col-md-4 text-left h5">
+                            <div class="col-md-3 text-left h5">
                                 <div>
                                     <a href="{{ route('house.show', $booking->house->id) }}">{{ $booking->house->name }}</a>
                                 </div>
@@ -44,6 +44,37 @@
                                 <div>
                                     (статус заявки {{ date_format(date_create($booking->updated_at),"d/m/y") }})
                                 </div>
+                            </div>
+
+                            <div class="col-md-2 text-right">
+
+                                <div class="row">
+
+                                    @if($booking->new === 1)
+                                        <div class="col-8">
+                                            <form method="post" action="{{ route(($booking->status === 0)?'booking.destroy':'booking.update', $booking->id) }}">
+                                                @csrf
+                                                @method(($booking->status === 0)?'delete':'patch')
+                                                NEW!!! <button class="btn btn-sm btn-outline-secondary">Ок</button>
+                                            </form>
+                                        </div>
+                                    @endif
+
+                                    @if($booking->status === null)
+                                        <div class="col-8">
+                                            <form action="{{ route('booking.destroy', $booking->id) }}" method="post">
+                                                @csrf
+                                                @method('delete')
+                                                <button class="btn btn-sm btn-outline-secondary btn-block" onclick="return confirm('Вы уверены, что хотите отозвать заявку?')">
+                                                    Отозвать
+{{--                                                    <img src="/storage/icons/delete.png" alt="" class="img w-25">--}}
+                                                </button>
+                                            </form>
+                                        </div>
+                                    @endif
+
+                                </div>
+
                             </div>
                         </div>
                     @endforeach

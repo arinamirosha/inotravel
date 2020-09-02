@@ -51,4 +51,25 @@ class User extends Authenticatable
     {
         return $this->hasMany(Booking::class)->orderBy('created_at', 'DESC');
     }
+
+    public function newInBooks()
+    {
+        $newInBooks = Booking::join('houses', 'houses.id', '=', 'house_id')
+            ->where('houses.user_id', '=', $this->id)
+            ->whereNull('status')
+            ->select('bookings.*')
+            ->get()->count();
+        if ($newInBooks != 0 ) return "(+$newInBooks)";
+        else return '';
+    }
+
+    public function unreadOutBooks()
+    {
+        $unreadOutBooks = Booking::where('user_id', '=', $this->id)
+            ->whereNotNull('status')
+            ->where('new', true)
+            ->get()->count();
+        if ($unreadOutBooks != 0 ) return "(+$unreadOutBooks)";
+        else return '';
+    }
 }

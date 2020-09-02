@@ -57,11 +57,15 @@
                                 </div>
 
                                 <div class="pr-3">
-                                    <a class="navbar-item" href="{{ route('house.index') }}">Мое жилье</a>
+                                    <a class="navbar-item" href="{{ route('house.index') }}">Мое жилье
+                                        {{ Auth::user()->newInBooks() }}
+                                    </a>
                                 </div>
 
                                 <div class="pr-3">
-                                    <a class="navbar-item" href="{{ route('booking.index') }}">Заявки</a>
+                                    <a class="navbar-item" href="{{ route('booking.index') }}">Заявки
+                                        {{ Auth::user()->unreadOutBooks() }}
+                                    </a>
                                 </div>
 
                                 <div>

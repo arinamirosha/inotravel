@@ -21,7 +21,7 @@
                             <form action="{{ route('house.destroy', $house->id) }}" method="post" class="pt-2">
                                 @csrf
                                 @method('delete')
-                                <button class="btn btn-outline-secondary btn-block" onclick="x=confirm('Вы уверены, что хотите удалить?'); return x">Удалить</button>
+                                <button class="btn btn-outline-secondary btn-block" onclick="return confirm('Вы уверены, что хотите удалить?')">Удалить</button>
                             </form>
                         @else
                             @if(session('arrival') && session('departure') && session('people'))

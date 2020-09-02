@@ -18,6 +18,7 @@ class CreateBookingsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('house_id');
             $table->tinyInteger('status')->nullable();
+            $table->tinyInteger('new')->nullable();
             $table->date('arrival');
             $table->date('departure');
             $table->unsignedSmallInteger('people');

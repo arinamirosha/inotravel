@@ -50,8 +50,8 @@
                                             @csrf
                                             @method("patch")
 
-                                            <input type="hidden" name="accept" id="accept" value="0">
-                                            <button class="btn btn-outline-secondary" onclick="$('#accept').val('1')">
+                                            <input type="hidden" name="accept" id="accept{{ $booking->id }}" value="0">
+                                            <button class="btn btn-outline-secondary" onclick="$('#accept{{ $booking->id }}').val('1')">
                                                 Принять
                                             </button>
                                             <button class="btn btn-outline-secondary">

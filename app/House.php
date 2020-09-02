@@ -41,6 +41,7 @@ class House extends Model
         static::deleted(function($house)
         {
             $house->deleteImage();
+            $house->bookings()->delete();
             $house->facility()->delete();
             $house->restriction()->delete();
         });
