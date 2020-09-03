@@ -47,35 +47,51 @@
                             </div>
 
                             <div class="col-md-2 text-right">
-
                                 <div class="row">
+                                    <div class="col-8">
 
-                                    @if($booking->new === 1)
-                                        <div class="col-8">
-                                            <form method="post" action="{{ route(($booking->status === 0)?'booking.destroy':'booking.update', $booking->id) }}">
+                                        @if($booking->new === 1)
+                                            <form method="post" action="{{ route('booking.update', $booking->id) }}">
                                                 @csrf
-                                                @method(($booking->status === 0)?'delete':'patch')
+                                                @method('patch')
                                                 NEW!!! <button class="btn btn-sm btn-outline-secondary">Ок</button>
                                             </form>
-                                        </div>
-                                    @endif
 
-                                    @if($booking->status === null)
-                                        <div class="col-8">
+                                        @elseif($booking->status === 1)
+                                            <form method="post" action="{{ route('booking.update', $booking->id) }}">
+                                                @csrf
+                                                @method('patch')
+                                                <input type="hidden" name="cancel">
+                                                <button class="btn btn-sm btn-outline-secondary btn-block" onclick="return confirm('Вы уверены, что хотите отменить заявку?')">
+                                                    Отменить
+                                                </button>
+                                            </form>
+
+                                        @elseif($booking->status === 0)
+                                            <form action="{{ route('booking.destroy', $booking->id) }}" method="post">
+                                                @csrf
+                                                @method('delete')
+                                                <button class="btn btn-sm btn-outline-secondary btn-block" onclick="return confirm('Вы уверены, что хотите удалить заявку?')">
+                                                    Удалить
+                                                </button>
+                                            </form>
+                                        @endif
+
+                                        @if($booking->status === null)
                                             <form action="{{ route('booking.destroy', $booking->id) }}" method="post">
                                                 @csrf
                                                 @method('delete')
                                                 <button class="btn btn-sm btn-outline-secondary btn-block" onclick="return confirm('Вы уверены, что хотите отозвать заявку?')">
                                                     Отозвать
-{{--                                                    <img src="/storage/icons/delete.png" alt="" class="img w-25">--}}
+                                                    {{--                                                    <img src="/storage/icons/delete.png" alt="" class="img w-25">--}}
                                                 </button>
                                             </form>
-                                        </div>
-                                    @endif
+                                        @endif
 
+                                    </div>
                                 </div>
-
                             </div>
+
                         </div>
                     @endforeach
 

@@ -26,7 +26,7 @@
                                         </a>
                                     </div>
                                 </div>
-                                <div class="col-md-4 text-left h5">
+                                <div class="col-md-3 text-left h5">
                                     <div>
                                         <a href="{{ route('house.show', $booking->house->id) }}">{{ $booking->house->name }}</a>
                                     </div>
@@ -43,9 +43,7 @@
                                         Людей: {{ $booking->people }}
                                     </div>
 
-                                    @if($booking->status === 1)
-                                        <div class="text-success">Заявка принята!</div>
-                                    @else($booking->status === null)
+                                    @if($booking->status === null)
                                         <form method="post" action="{{ route('booking.update', $booking->id) }}">
                                             @csrf
                                             @method("patch")
@@ -59,9 +57,32 @@
                                             </button>
 
                                         </form>
+                                    @elseif($booking->new === 0)
+                                        <div class="text-danger">Пользователь отменил заявку!</div>
+                                    @else
+                                        <div class="text-success">Заявка принята!</div>
                                     @endif
 
                                 </div>
+
+                                <div class="col-md-2 text-right">
+                                    <div class="row">
+                                        <div class="col-8">
+
+                                            @if($booking->new === 0)
+                                                <form action="{{ route('booking.destroy', $booking->id) }}" method="post">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button class="btn btn-sm btn-outline-secondary btn-block" onclick="return confirm('Вы уверены, что хотите удалить заявку?')">
+                                                        Удалить
+                                                    </button>
+                                                </form>
+                                            @endif
+
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         @endforeach
 

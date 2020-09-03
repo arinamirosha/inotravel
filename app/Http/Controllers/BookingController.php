@@ -30,7 +30,13 @@ class BookingController extends Controller
     public function index()
     {
         $user_id = auth()->user()->id;
-        $bookings = Booking::where('user_id', '=', $user_id)->orderBy('updated_at','desc')->get();
+        $bookings = Booking::where('user_id', '=', $user_id)
+            ->where(function ($query){
+                $query
+                    ->where('new', '=', 1)
+                    ->orWhereNull('new');
+            })
+            ->orderBy('updated_at','desc')->get();
         return view('booking.index', compact('bookings'));
     }
 
@@ -39,17 +45,19 @@ class BookingController extends Controller
         if (request()->has('accept')) {
             $newStatus = request('accept');
             $booking->update(['status' => $newStatus, 'new' => true]);
-            return redirect(route('house.index'));
+        }
+        elseif (request()->has('cancel')) {
+            $booking->update(['new' => 0]);
         }
         else {
             $booking->update(['new' => null]);
-            return redirect(route('booking.index'));
         }
+        return redirect()->back();
     }
 
     public function destroy(Booking $booking)
     {
         $booking->delete();
-        return redirect(route('booking.index'));
+        return redirect()->back();
     }
 }
