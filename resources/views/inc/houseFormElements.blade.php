@@ -2,7 +2,7 @@
     <label for="name" class="col-md-2 col-form-label-sm text-md-right">{{ __('Название:') }}</label>
 
     <div class="col-md-4">
-        <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $house->name ?? old('name') }}" required autocomplete="name" autofocus>
+        <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $house->name ?? old('name') }}" autocomplete="name" autofocus>
 
         @error('name')
         <span class="invalid-feedback" role="alert">
@@ -14,7 +14,7 @@
     <label for="city" class="col-md-2 col-form-label-sm text-md-right">{{ __('Город:') }}</label>
 
     <div class="col-md-4">
-        <input id="city" type="text" class="form-control @error('city') is-invalid @enderror" name="city" value="{{ $house->city ?? old('city') }}" required autocomplete="city" autofocus>
+        <input id="city" type="text" class="form-control @error('city') is-invalid @enderror" name="city" value="{{ $house->city ?? old('city') }}" autocomplete="city" autofocus>
 
         @error('city')
         <span class="invalid-feedback" role="alert">
@@ -28,7 +28,7 @@
     <label for="places" class="col-md-2 col-form-label-sm text-md-right">{{ __('Спальных мест:') }}</label>
 
     <div class="col-md-4">
-        <input id="places" type="number" class="form-control @error('places') is-invalid @enderror" name="places" value="{{ $house->places ?? old('places') }}" required autocomplete="places" autofocus>
+        <input id="places" type="number" class="form-control @error('places') is-invalid @enderror" name="places" value="{{ $house->places ?? old('places') }}" autocomplete="places" autofocus>
 
         @error('places')
         <span class="invalid-feedback" role="alert">
@@ -40,7 +40,7 @@
     <label for="address" class="col-md-2 col-form-label-sm text-md-right">{{ __('Адрес:') }}</label>
 
     <div class="col-md-4">
-        <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ $house->address ?? old('address') }}" required autocomplete="address" autofocus>
+        <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ $house->address ?? old('address') }}" autocomplete="address" autofocus>
 
         @error('address')
         <span class="invalid-feedback" role="alert">
