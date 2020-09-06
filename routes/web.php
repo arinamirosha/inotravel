@@ -36,7 +36,7 @@ Route::get('/booking', 'BookingController@index')->name('booking.index');
 Route::patch('/booking/{booking}', 'BookingController@update')->name('booking.update');
 Route::delete('/booking/{booking}', 'BookingController@destroy')->name('booking.destroy');
 
-//сделать нормальные пути
+// нет пути
 Route::get('/profile/{user}', function ($user) { return redirect("/profile/{$user}/edit"); }); // из браузера идет не в patch
 Route::get('/password/{user}', function ($user) { return redirect("/profile/{$user}/edit"); }); // из браузера идет не в patch
 Route::get('/booking/{booking}', function () { return redirect("/"); }); // из браузера идет не в patch
