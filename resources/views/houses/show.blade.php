@@ -35,23 +35,22 @@
                                     @else
 
                                         <div>
-{{--                                            @if ()--}}
-{{--                                            Свободно .. мест--}}
-                                            <div class="mb-1">
-                                                <form action="{{ route('booking.store', $house->id) }}" method="post">
-                                                    @csrf
-                                                    <input type="hidden" value="{{ $house->id }}" name="house_id">
-                                                    <button class="btn btn-outline-secondary btn-block">Забронировать</button>
-                                                </form>
-                                            </div>
-{{--                                            @else--}}
-{{--                                            Нет мест--}}
-{{--                                            @endif--}}
+                                            @if ($isFree)
+                                                <div class="alert alert-info">Свободно .. мест</div>
+                                                <div class="mb-1">
+                                                    <form action="{{ route('booking.store', $house->id) }}" method="post">
+                                                        @csrf
+                                                        <input type="hidden" value="{{ $house->id }}" name="house_id">
+                                                        <button class="btn btn-outline-secondary btn-block">Забронировать</button>
+                                                    </form>
+                                                </div>
+                                            @else
+                                                <div class="alert alert-info">Даты заняты / нет мест</div>
+                                            @endif
                                         </div>
                                         <div>людей: {{ session('people') }}</div>
                                         <div>c {{ session('arrival') }}</div>
                                         <div>по {{ session('departure') }}</div>
-
 
                                     @endif
 

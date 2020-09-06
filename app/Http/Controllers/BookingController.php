@@ -36,7 +36,9 @@ class BookingController extends Controller
                     ->where('new', '=', 1)
                     ->orWhereNull('new');
             })
-            ->orderBy('updated_at','desc')->get();
+            ->orderBy('updated_at','desc')
+            ->orderBy('created_at','desc')
+            ->get();
         return view('booking.index', compact('bookings'));
     }
 

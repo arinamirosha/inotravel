@@ -74,30 +74,21 @@ class HousesController extends Controller
             ->get()->isNotEmpty()
             : null;
 
+        $isFree = $house->bookings()
+            ->where('status','=','1')
+            ->where(function ($query){
+                $query
+                    ->where('new','=','1')
+                    ->orWhereNull('new');
+            })
+            ->where(function ($query){
+                $query
+                    ->whereBetween('departure', [session('arrival'), session('departure')])
+                    ->orWhereBetween('arrival', [session('arrival'), session('departure')]);
+            })
+            ->get()->isEmpty();
 
-
-//        $isFree = ! $house->bookings()
-//            ->where(function ($query){
-//                $query
-//                    ->where('departure', '<', session('arrival'))
-//                    ->orWhere('arrival', '>', session('departure'));
-//            })
-//            ->where(function ($query){
-//                $query
-//                    ->whereNull('status')
-//                    ->orWhere('status', '=', 0);
-//            })
-//            ->get()->isEmpty();
-
-//        dd($house->bookings()
-//            ->where(function ($query){
-//                $query
-//                    ->where('departure', '>=', session('arrival'))
-//                    ->orWhere('arrival', '<=', session('departure'));
-//            })
-//            ->get());
-
-        return view('houses.show', compact('house', 'isBooked'));
+        return view('houses.show', compact('house', 'isBooked', 'isFree'));
     }
 
     public function destroy(House $house)
