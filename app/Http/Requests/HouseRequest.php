@@ -27,9 +27,26 @@ class HouseRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
-            'places' => ['required', 'numeric', 'max:100'],
+            'places' => ['required', 'numeric', 'max:100', 'min:1'],
             'info' => ['max:1000'],
             'image' => ['image'],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Поле имя является обязательным',
+            'city.required' => 'Поле город является обязательным',
+            'address.required' => 'Поле адрес является обязательным',
+            'places.required' => 'Укажите количество спальных мест',
+            'name.max' => 'Имя не может содержать > 255 символов',
+            'city.max' => 'Город не может содержать > 255 символов',
+            'address.max' => 'Адрес не может содержать > 255 символов',
+            'places.max' => 'Мест не может быть > 100',
+            'places.min' => 'Мест не может быть < 1',
+            'info.max' => 'Доп.инфо не может содержать > 1000 символов',
+            'image.image' => 'Изображение должно быть изображением'
         ];
     }
 }
