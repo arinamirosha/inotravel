@@ -1,4 +1,4 @@
-#*
-#!public/
-#!.gitignore
-public/uploads
+*
+!public/
+!.gitignore
+!public/icons
