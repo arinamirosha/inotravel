@@ -15,11 +15,11 @@ class CreateFacilitiesTable extends Migration
     {
         Schema::create('facilities', function (Blueprint $table) {
             $table->id();
-            $table->tinyInteger('internet')->default(false);
-            $table->tinyInteger('wifi')->default(false);
-            $table->tinyInteger('cable_tv')->default(false);
-            $table->tinyInteger('conditioner')->default(false);
-            $table->tinyInteger('washer')->default(false);
+            $table->boolean('internet')->default(false);
+            $table->boolean('wifi')->default(false);
+            $table->boolean('cable_tv')->default(false);
+            $table->boolean('conditioner')->default(false);
+            $table->boolean('washer')->default(false);
             $table->timestamps();
         });
     }

@@ -9,6 +9,7 @@ use App\Http\Requests\HouseRequest;
 use App\Restriction;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
@@ -110,11 +111,11 @@ class HousesController extends Controller
         $data['city'] = ucfirst($data['city']);
         $data['info'] = ucfirst($data['info']);
 
-        $facilities=$this->makeTrueArray('facilities');
-        $house->facility->update($facilities);
+        $facilities=$this->makeTrueFalseArray('facilities');
+        $house->facility()->update($facilities);
 
-        $restrictions=$this->makeTrueArray('restrictions');
-        $house->restriction->update($restrictions);
+        $restrictions=$this->makeTrueFalseArray('restrictions');
+        $house->restriction()->update($restrictions);
 
         if (request('deleteImage')){
             $house->deleteImage();
@@ -127,7 +128,7 @@ class HousesController extends Controller
 
         $house->update($data);
 
-        return redirect("/house/{$house->id}");
+        return redirect(route('house.show', $house->id));
     }
 
 
@@ -138,6 +139,19 @@ class HousesController extends Controller
         $req = request($name);
         $arr=[];
         if ($req) foreach ($req as $value) $arr[$value]=true;
+        return $arr;
+    }
+
+    private function makeTrueFalseArray($name)
+    {
+        $req = request($name) ? request($name) : [];
+        $columns = Schema::getColumnListing($name);
+        $count_fac_res = count($columns) - 2;
+        $arr=[];
+        for ($i=1; $i<$count_fac_res; $i++) {
+            $col_name = $columns[$i];
+            $arr[$col_name] = in_array($col_name, $req) ? true : false;
+        }
         return $arr;
     }
 

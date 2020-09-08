@@ -15,10 +15,10 @@ class CreateRestrictionsTable extends Migration
     {
         Schema::create('restrictions', function (Blueprint $table) {
             $table->id();
-            $table->tinyInteger('animals')->default(false);
-            $table->tinyInteger('houseplants')->default(false);
-            $table->tinyInteger('no_smoke')->default(false);
-            $table->tinyInteger('no_drink')->default(false);
+            $table->boolean('animals')->default(false);
+            $table->boolean('houseplants')->default(false);
+            $table->boolean('no_smoke')->default(false);
+            $table->boolean('no_drink')->default(false);
             $table->timestamps();
         });
     }
