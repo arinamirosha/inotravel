@@ -31,8 +31,8 @@ class House extends Model
 
     public function houseImage()
     {
-        $imagePath = ($this->image) ? $this->image : 'icons/noImage.svg';
-        return '/storage/' . $imagePath;
+        $imagePath = ($this->image) ? '/storage/' . $this->image : '/images/noImage.svg';
+        return $imagePath;
     }
 
     public static function boot()

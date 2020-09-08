@@ -71,31 +71,31 @@
                         <div class="row text-center h6 pt-3">
                             @if($house->facility->internet)
                                 <div class="col-2">
-                                    <div><img src="/storage/icons/internet.png" alt="" class="w-50"></div>
+                                    <div><img src="/images/internet.png" alt="" class="w-50"></div>
                                     <div>Интернет</div>
                                 </div>
                             @endif
                             @if($house->facility->wifi)
                                 <div class="col-2">
-                                    <div><img src="/storage/icons/wifi.png" alt="" class="w-50"></div>
+                                    <div><img src="/images/wifi.png" alt="" class="w-50"></div>
                                     <div>Wi-Fi</div>
                                 </div>
                             @endif
                             @if($house->facility->cable_tv)
                                 <div class="col-2">
-                                    <div><img src="/storage/icons/tv.png" alt="" class="w-50"></div>
+                                    <div><img src="/images/tv.png" alt="" class="w-50"></div>
                                     <div>Кабельное ТВ</div>
                                 </div>
                             @endif
                             @if($house->facility->conditioner)
                                 <div class="col-2">
-                                    <div><img src="/storage/icons/conditioner.png" alt="" class="w-50"></div>
+                                    <div><img src="/images/conditioner.png" alt="" class="w-50"></div>
                                     <div>Кондиционер</div>
                                 </div>
                             @endif
                             @if($house->facility->washer)
                                 <div class="col-2">
-                                    <div><img src="/storage/icons/washer.png" alt="" class="w-50"></div>
+                                    <div><img src="/images/washer.png" alt="" class="w-50"></div>
                                     <div>Стиральная машина</div>
                                 </div>
                             @endif
@@ -108,25 +108,25 @@
                         <div class="row text-center h6 pt-3">
                             @if($house->restriction->animals)
                                 <div class="col-2">
-                                    <div><img src="/storage/icons/animal.png" alt="" class="w-50"></div>
+                                    <div><img src="/images/animal.png" alt="" class="w-50"></div>
                                     <div>Животные</div>
                                 </div>
                             @endif
                             @if($house->restriction->houseplants)
                                 <div class="col-2">
-                                    <div><img src="/storage/icons/plant.png" alt="" class="w-50"></div>
+                                    <div><img src="/images/plant.png" alt="" class="w-50"></div>
                                     <div>Комнатные растения</div>
                                 </div>
                             @endif
                             @if($house->restriction->no_smoke)
                                 <div class="col-2">
-                                    <div><img src="/storage/icons/nosmoke.png" alt="" class="w-50"></div>
+                                    <div><img src="/images/nosmoke.png" alt="" class="w-50"></div>
                                     <div>Нельзя курить</div>
                                 </div>
                             @endif
                             @if($house->restriction->no_drink)
                                 <div class="col-2">
-                                    <div><img src="/storage/icons/nodrink.png" alt="" class="w-50"></div>
+                                    <div><img src="/images/nodrink.png" alt="" class="w-50"></div>
                                     <div>Нельзя пить</div>
                                 </div>
                             @endif

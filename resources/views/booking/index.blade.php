@@ -83,7 +83,6 @@
                                                 @method('delete')
                                                 <button class="btn btn-sm btn-outline-secondary btn-block" onclick="return confirm('Вы уверены, что хотите отозвать заявку?')">
                                                     Отозвать
-                                                    {{--                                                    <img src="/storage/icons/delete.png" alt="" class="img w-25">--}}
                                                 </button>
                                             </form>
                                         @endif
