@@ -32,7 +32,7 @@ class SearchController extends Controller
             'people' => $data['people'],
         ]);
 
-        // (эта же проверка должна быть в HousesController@show на $isFree, но без !)
+        // эта же проверка должна быть в HousesController@show на $isFree, но без !
         $ids = [];
         foreach ($houses as $house) {
             // найти лишние
@@ -60,13 +60,13 @@ class SearchController extends Controller
         // исключить
         $houses = $houses->whereNotIn('id', $ids);
 
-
         return view('search', [
             'houses' => $houses,
             'where' => $data['where'],
             'arrival' => $data['arrival'],
             'departure' => $data['departure'],
             'people' => $data['people'],
+            // используется ли? пересмотреть, исправить
             'data' => $data
         ]);
     }

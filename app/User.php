@@ -58,7 +58,7 @@ class User extends Authenticatable
             ->where('houses.user_id', '=', $this->id)
             ->whereNull('status')
             ->select('bookings.*')
-            ->get()->count();
+            ->count();
         if ($newInBooks != 0 ) return "(+$newInBooks)";
         else return '';
     }
@@ -68,7 +68,7 @@ class User extends Authenticatable
         $unreadOutBooks = Booking::where('user_id', '=', $this->id)
             ->whereNotNull('status')
             ->where('new', true)
-            ->get()->count();
+            ->count();
         if ($unreadOutBooks != 0 ) return "(+$unreadOutBooks)";
         else return '';
     }

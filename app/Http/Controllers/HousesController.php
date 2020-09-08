@@ -9,6 +9,7 @@ use App\Http\Requests\HouseRequest;
 use App\Restriction;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
@@ -28,29 +29,28 @@ class HousesController extends Controller
     public function store(HouseRequest $request)
     {
         $data = $request->validated();
-        $data['name'] = ucfirst($data['name']);
-        $data['city'] = ucfirst($data['city']);
-        $data['info'] = ucfirst($data['info']);
 
-        $facilities=$this->makeTrueArray('facilities');
+        $facilities=$this->makeTrueArray($request->facilities);
         $data['facility_id'] = Facility::create($facilities)->id;
 
-        $restrictions=$this->makeTrueArray('restrictions');
+        $restrictions=$this->makeTrueArray($request->restrictions);
         $data['restriction_id'] = Restriction::create($restrictions)->id;
 
         if (request('image')){
-            $imagePath = $this->storeImage();
+            $imagePath = $this->storeImage($request->image);
             $data['image']=$imagePath;
         }
 
-        auth()->user()->houses()->create($data);
+        $user = Auth::user();
+        $user->houses()->create($data);
 
         return redirect(route('house.index'));
     }
 
     public function index()
     {
-        $user_id = auth()->user()->id;
+        $user = Auth::user();
+        $user_id = $user->id;
         $houses = House::where('user_id', '=', $user_id)->latest()->get();
         $bookings = Booking::join('houses', 'houses.id', '=', 'house_id')
             ->where('houses.user_id', '=', $user_id)
@@ -67,11 +67,12 @@ class HousesController extends Controller
 
     public function show(House $house)
     {
-        $isBooked = auth()->user() ?
+        $user = Auth::user();
+        $isBooked = $user ?
             $house->bookings()
             ->where('arrival', '=', session('arrival'))
             ->where('departure', '=', session('departure'))
-            ->where('user_id', '=', auth()->user()->id)
+            ->where('user_id', '=', $user->id)
             ->get()->isNotEmpty()
             : null;
 
@@ -107,14 +108,11 @@ class HousesController extends Controller
     public function update(House $house, HouseRequest $request)
     {
         $data = $request->validated();
-        $data['name'] = ucfirst($data['name']);
-        $data['city'] = ucfirst($data['city']);
-        $data['info'] = ucfirst($data['info']);
 
-        $facilities=$this->makeTrueFalseArray('facilities');
+        $facilities=$this->makeTrueFalseArray($request->facilities, 'facilities');
         $house->facility()->update($facilities);
 
-        $restrictions=$this->makeTrueFalseArray('restrictions');
+        $restrictions=$this->makeTrueFalseArray($request->restrictions, 'restrictions');
         $house->restriction()->update($restrictions);
 
         if (request('deleteImage')){
@@ -122,7 +120,7 @@ class HousesController extends Controller
         }
         elseif (request('image')){
             $house->deleteImage();
-            $imagePath = $this->storeImage();
+            $imagePath = $this->storeImage($request->image);
             $data['image']=$imagePath;
         }
 
@@ -134,30 +132,28 @@ class HousesController extends Controller
 
     // Private methods
 
-    private function makeTrueArray($name)
+    private function makeTrueArray($req)
     {
-        $req = request($name);
         $arr=[];
         if ($req) foreach ($req as $value) $arr[$value]=true;
         return $arr;
     }
 
-    private function makeTrueFalseArray($name)
+    private function makeTrueFalseArray($req, $tableName)
     {
-        $req = request($name) ? request($name) : [];
-        $columns = Schema::getColumnListing($name);
-        $count_fac_res = count($columns) - 2;
+        if (! $req) $req = [];
+        $columns = Schema::getColumnListing($tableName);
         $arr=[];
-        for ($i=1; $i<$count_fac_res; $i++) {
+        for ($i = 1; $i < count($columns) - 2; $i++) {
             $col_name = $columns[$i];
             $arr[$col_name] = in_array($col_name, $req) ? true : false;
         }
         return $arr;
     }
 
-    private function storeImage()
+    private function storeImage($file)
     {
-        $imagePath = request('image')->store('uploads', 'public');
+        $imagePath = $file->store('uploads', 'public');
         /*resize the image so that the largest side fits within the limit; the smaller
         side will be scaled to maintain the original aspect ratio*/
         $image = Image::make(public_path("storage/$imagePath"))

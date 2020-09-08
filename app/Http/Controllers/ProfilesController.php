@@ -29,12 +29,9 @@ class ProfilesController extends Controller
             'email' => ['required', 'string', 'email', 'max:255'],
         ]);
 
-        $data['name'] = ucfirst($data['name']); // только первая, потому что могут быть двойные имена/фамилии
-        $data['surname'] = ucfirst($data['surname']);
-
         try
         {
-            auth()->user()->update($data);
+            $user->update($data);
             $message = "Данные успешно обновлены";
         }
         catch(QueryException $e)
@@ -42,7 +39,7 @@ class ProfilesController extends Controller
             $message = "Указанная почта привязана к другому аккаунту";
         }
 
-        return redirect("/profile/{$user->id}/edit")->with('message', $message);
+        return redirect(route('profile.edit', $user->id))->with('message', $message);
     }
 
 

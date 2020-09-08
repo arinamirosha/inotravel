@@ -17,11 +17,11 @@ class PasswordsController extends Controller
 
         if (Hash::check($data['password_old'], $user->password)) {
             $data['password'] = Hash::make($data['password']);
-            auth()->user()->update($data);
+            $user->update($data);
             $message = "Пароль успешно обновлен";
         }
         else $message = "Старый пароль не соответствует";
 
-        return redirect("/profile/{$user->id}/edit")->with('message', $message);
+        return redirect(route('profile.edit', $user->id))->with('message', $message);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Booking;
+use Illuminate\Support\Facades\Auth;
 use App\House;
 use GuzzleHttp\Psr7\Uri;
 use Illuminate\Http\Request;
@@ -18,7 +19,8 @@ class BookingController extends Controller
     public function store()
     {
         $house_id = request('house_id');
-        auth()->user()->bookings()->create([
+        $user = Auth::user();
+        $user->bookings()->create([
             'house_id' => $house_id,
             'arrival' => session('arrival'),
             'departure' => session('departure'),
@@ -29,8 +31,8 @@ class BookingController extends Controller
 
     public function index()
     {
-        $user_id = auth()->user()->id;
-        $bookings = Booking::where('user_id', '=', $user_id)
+        $user = Auth::user();
+        $bookings = Booking::where('user_id', '=', $user->id)
             ->where(function ($query){
                 $query
                     ->where('new', '=', 1)
@@ -42,13 +44,13 @@ class BookingController extends Controller
         return view('booking.index', compact('bookings'));
     }
 
-    public function update(Booking $booking)
+    public function update(Booking $booking, Request $request)
     {
-        if (request()->has('accept')) {
-            $newStatus = request('accept');
+        if ($request->has('accept')) {
+            $newStatus = $request->accept;
             $booking->update(['status' => $newStatus, 'new' => true]);
         }
-        elseif (request()->has('cancel')) {
+        elseif ($request->has('cancel')) {
             $booking->update(['new' => 0]);
         }
         else {
