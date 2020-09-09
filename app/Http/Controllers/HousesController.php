@@ -28,21 +28,21 @@ class HousesController extends Controller
 
     public function store(HouseRequest $request)
     {
-        $data = $request->validated();
+        $requestData = $request->all();
 
         $facilities=$this->makeTrueArray($request->facilities);
-        $data['facility_id'] = Facility::create($facilities)->id;
+        $requestData['facility_id'] = Facility::create($facilities)->id;
 
         $restrictions=$this->makeTrueArray($request->restrictions);
-        $data['restriction_id'] = Restriction::create($restrictions)->id;
+        $requestData['restriction_id'] = Restriction::create($restrictions)->id;
 
-        if (request('image')){
+        if ($request->hasFile('image')){
             $imagePath = $this->storeImage($request->image);
-            $data['image']=$imagePath;
+            $requestData['image'] = $imagePath;
         }
 
         $user = Auth::user();
-        $user->houses()->create($data);
+        $user->houses()->create($requestData);
 
         return redirect(route('house.index'));
     }
@@ -107,24 +107,24 @@ class HousesController extends Controller
 
     public function update(House $house, HouseRequest $request)
     {
-        $data = $request->validated();
-
         $facilities=$this->makeTrueFalseArray($request->facilities, 'facilities');
         $house->facility()->update($facilities);
 
         $restrictions=$this->makeTrueFalseArray($request->restrictions, 'restrictions');
         $house->restriction()->update($restrictions);
 
-        if (request('deleteImage')){
+        $requestData = $request->all();
+
+        if ($request->filled('deleteImage')){
             $house->deleteImage();
         }
-        elseif (request('image')){
+        elseif ($request->hasFile('image')){
             $house->deleteImage();
             $imagePath = $this->storeImage($request->image);
-            $data['image']=$imagePath;
+            $requestData['image'] = $imagePath;
         }
 
-        $house->update($data);
+        $house->update($requestData);
 
         return redirect(route('house.show', $house->id));
     }

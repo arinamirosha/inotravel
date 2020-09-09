@@ -19,6 +19,7 @@ Auth::routes();
 
 Route::get('/profile/{user}/edit', 'ProfilesController@edit')->name('profile.edit');
 Route::patch('/profile/{user}', 'ProfilesController@update')->name('profile.update');
+// освободить для сброса
 Route::patch('/password/{user}', 'PasswordsController@update')->name('password.update');
 
 Route::get('/house/create', 'HousesController@create')->name('house.create');
