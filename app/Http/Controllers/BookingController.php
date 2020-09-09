@@ -16,9 +16,9 @@ class BookingController extends Controller
         $this->middleware('auth'); // if not auth, go to register
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $house_id = request('house_id');
+        $house_id = $request->house_id;
         $user = Auth::user();
         $user->bookings()->create([
             'house_id' => $house_id,
@@ -27,6 +27,7 @@ class BookingController extends Controller
             'people' => session('people')
         ]);
         return redirect(route('house.show', $house_id));
+//        return redirect()->back();
     }
 
     public function index()

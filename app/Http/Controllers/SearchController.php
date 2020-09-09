@@ -4,20 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Booking;
 use App\House;
+use App\Http\Requests\SearchRequest;
 use App\User;
 use Illuminate\Http\Request;
 use SebastianBergmann\Comparator\Book;
 
 class SearchController extends Controller
 {
-    public function index()
+    public function index(SearchRequest $request)
     {
-        $data = request()->validate([
-            'where' => ['required', 'string', 'max:255'],
-            'arrival' => ['required', 'date', 'after:yesterday'],
-            'departure' => ['required', 'date', 'after:arrival'],
-            'people' => ['required', 'numeric', 'max:100'],
-        ]);
+        $data = $request->all();
 
         $houses = House::addSelect(['user_name' => User::select('name')->whereColumn('user_id', 'users.id')])
             ->where('city', 'like', "%{$data['where']}%")
