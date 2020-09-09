@@ -35,12 +35,7 @@ class SearchController extends Controller
             if (! $house->bookings()
 
                 // уже забронированы
-                ->where('status','=','1')
-                ->where(function ($query){
-                    $query
-                    ->where('new','=','1')
-                    ->orWhereNull('new');
-                })
+                ->where('status', '=', Booking::STATUS_BOOKING_ACCEPT)
 
                 // на эти даты
                 ->where(function ($query){
@@ -61,9 +56,7 @@ class SearchController extends Controller
             'where' => $data['where'],
             'arrival' => $data['arrival'],
             'departure' => $data['departure'],
-            'people' => $data['people'],
-            // используется ли? пересмотреть, исправить
-            'data' => $data
+            'people' => $data['people']
         ]);
     }
 }

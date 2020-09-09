@@ -54,11 +54,7 @@ class HousesController extends Controller
         $houses = House::where('user_id', '=', $user_id)->latest()->get();
         $bookings = Booking::join('houses', 'houses.id', '=', 'house_id')
             ->where('houses.user_id', '=', $user_id)
-            ->where(function ($query){
-                $query
-                    ->where('status', '=', 1)
-                    ->orWhereNull('status');
-            })
+            ->where('status', '<>', Booking::STATUS_BOOKING_REJECT)
             ->select('bookings.*')
             ->latest()->get();
 
@@ -77,12 +73,7 @@ class HousesController extends Controller
             : null;
 
         $isFree = $house->bookings()
-            ->where('status','=','1')
-            ->where(function ($query){
-                $query
-                    ->where('new','=','1')
-                    ->orWhereNull('new');
-            })
+            ->where('status', '=', Booking::STATUS_BOOKING_ACCEPT)
             ->where(function ($query){
                 $query
                     ->whereBetween('departure', [session('arrival'), session('departure')])

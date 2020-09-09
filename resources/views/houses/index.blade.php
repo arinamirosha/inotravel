@@ -43,13 +43,13 @@
                                         Людей: {{ $booking->people }}
                                     </div>
 
-                                    @if($booking->status === null)
+                                    @if($booking->status === \App\Booking::STATUS_BOOKING_SEND)
                                         <form method="post" action="{{ route('booking.update', $booking->id) }}">
                                             @csrf
                                             @method("patch")
 
-                                            <input type="hidden" name="accept" id="accept{{ $booking->id }}" value="0">
-                                            <button class="btn btn-outline-secondary" onclick="$('#accept{{ $booking->id }}').val('1')">
+                                            <input type="hidden" name="answer" id="answer{{ $booking->id }}" value="{{ \App\Booking::STATUS_BOOKING_REJECT }}">
+                                            <button class="btn btn-outline-secondary" onclick="$('#answer{{ $booking->id }}').val({{ \App\Booking::STATUS_BOOKING_ACCEPT }})">
                                                 Принять
                                             </button>
                                             <button class="btn btn-outline-secondary">
@@ -57,7 +57,7 @@
                                             </button>
 
                                         </form>
-                                    @elseif($booking->new === 0)
+                                    @elseif($booking->status === \App\Booking::STATUS_BOOKING_CANCEL)
                                         <div class="text-danger">Пользователь отменил заявку!</div>
                                     @else
                                         <div class="text-success">Заявка принята!</div>
@@ -69,7 +69,7 @@
                                     <div class="row">
                                         <div class="col-8">
 
-                                            @if($booking->new === 0)
+                                            @if($booking->status === \App\Booking::STATUS_BOOKING_CANCEL)
                                                 <form action="{{ route('booking.destroy', $booking->id) }}" method="post">
                                                     @csrf
                                                     @method('delete')

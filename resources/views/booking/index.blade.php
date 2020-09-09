@@ -33,9 +33,9 @@
                                     Людей: {{ $booking->people }}
                                 </div>
 
-                                @if($booking->status === 1)
+                                @if($booking->status === \App\Booking::STATUS_BOOKING_ACCEPT)
                                     <div class="text-success">Заявка принята!</div>
-                                @elseif($booking->status === 0)
+                                @elseif($booking->status === \App\Booking::STATUS_BOOKING_REJECT)
                                     <div class="text-danger">Заявка отклонена!</div>
                                 @else
                                     <div class="text-secondary">Заявка отправлена!</div>
@@ -50,14 +50,14 @@
                                 <div class="row">
                                     <div class="col-8">
 
-                                        @if($booking->new === 1)
+                                        @if($booking->new === \App\Booking::STATUS_BOOKING_NEW)
                                             <form method="post" action="{{ route('booking.update', $booking->id) }}">
                                                 @csrf
                                                 @method('patch')
                                                 NEW!!! <button class="btn btn-sm btn-outline-secondary">Ок</button>
                                             </form>
 
-                                        @elseif($booking->status === 1)
+                                        @elseif($booking->status === \App\Booking::STATUS_BOOKING_ACCEPT)
                                             <form method="post" action="{{ route('booking.update', $booking->id) }}">
                                                 @csrf
                                                 @method('patch')
@@ -67,7 +67,7 @@
                                                 </button>
                                             </form>
 
-                                        @elseif($booking->status === 0)
+                                        @elseif($booking->status === \App\Booking::STATUS_BOOKING_REJECT)
                                             <form action="{{ route('booking.destroy', $booking->id) }}" method="post">
                                                 @csrf
                                                 @method('delete')
@@ -77,7 +77,7 @@
                                             </form>
                                         @endif
 
-                                        @if($booking->status === null)
+                                        @if($booking->status === \App\Booking::STATUS_BOOKING_SEND)
                                             <form action="{{ route('booking.destroy', $booking->id) }}" method="post">
                                                 @csrf
                                                 @method('delete')

@@ -24,7 +24,8 @@ class BookingController extends Controller
             'house_id' => $house_id,
             'arrival' => session('arrival'),
             'departure' => session('departure'),
-            'people' => session('people')
+            'people' => session('people'),
+            'status' => Booking::STATUS_BOOKING_SEND
         ]);
         return redirect(route('house.show', $house_id));
 //        return redirect()->back();
@@ -34,11 +35,7 @@ class BookingController extends Controller
     {
         $user = Auth::user();
         $bookings = Booking::where('user_id', '=', $user->id)
-            ->where(function ($query){
-                $query
-                    ->where('new', '=', 1)
-                    ->orWhereNull('new');
-            })
+            ->where('status', '<>', Booking::STATUS_BOOKING_CANCEL)
             ->orderBy('updated_at','desc')
             ->orderBy('created_at','desc')
             ->get();
@@ -47,15 +44,15 @@ class BookingController extends Controller
 
     public function update(Booking $booking, Request $request)
     {
-        if ($request->has('accept')) {
-            $newStatus = $request->accept;
-            $booking->update(['status' => $newStatus, 'new' => true]);
+        if ($request->has('answer')) {
+            $newStatus = $request->answer;
+            $booking->update(['status' => $newStatus, 'new' => Booking::STATUS_BOOKING_NEW]);
         }
         elseif ($request->has('cancel')) {
-            $booking->update(['new' => 0]);
+            $booking->update(['status' => Booking::STATUS_BOOKING_CANCEL]);
         }
         else {
-            $booking->update(['new' => null]);
+            $booking->update(['new' => Booking::STATUS_BOOKING_VIEWED]);
         }
         return redirect()->back();
     }
