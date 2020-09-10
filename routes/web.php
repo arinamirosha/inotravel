@@ -13,14 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () { return view('welcome'); });
+Route::get('/', 'HomeController@welcome')->name('welcome');
 
 Auth::routes();
 
 Route::get('/profile/{user}/edit', 'ProfilesController@edit')->name('profile.edit');
 Route::patch('/profile/{user}', 'ProfilesController@update')->name('profile.update');
-// освободить для сброса
-Route::patch('/password/{user}', 'PasswordsController@update')->name('password.update');
+Route::patch('/profile/{user}/update-password', 'ProfilesController@updatePassword')->name('profile.update_password');
 
 Route::get('/house/create', 'HousesController@create')->name('house.create');
 Route::post('/house', 'HousesController@store')->name('house.store');
@@ -38,7 +37,7 @@ Route::patch('/booking/{booking}', 'BookingController@update')->name('booking.up
 Route::delete('/booking/{booking}', 'BookingController@destroy')->name('booking.destroy');
 
 // нет пути
-Route::get('/profile/{user}', function ($user) { return redirect("/profile/{$user}/edit"); }); // из браузера идет не в patch
-Route::get('/password/{user}', function ($user) { return redirect("/profile/{$user}/edit"); }); // из браузера идет не в patch
-Route::get('/booking/{booking}', function () { return redirect("/"); }); // из браузера идет не в patch
+Route::get('/profile/{user}', function ($user) { return redirect(route('profile.edit', $user)); }); // из браузера идет не в patch
+Route::get('/profile/{user}/update-password', function ($user) { return redirect(route('profile.edit', $user)); }); // из браузера идет не в patch
+Route::get('/booking/{booking}', function () { return redirect(route('welcome')); }); // из браузера идет не в patch
 
