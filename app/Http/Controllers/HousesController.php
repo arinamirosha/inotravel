@@ -33,7 +33,7 @@ class HousesController extends Controller
         $requestData['restriction_id'] = Restriction::create($restrictions)->id;
 
         if ($request->hasFile('image')){
-            $imagePath = HouseManager::storeImage($request->image);
+            $imagePath = storeImage($request->image);
             $requestData['image'] = $imagePath;
         }
 
@@ -107,7 +107,7 @@ class HousesController extends Controller
         }
         elseif ($request->hasFile('image')){
             $house->deleteImage();
-            $imagePath = HouseManager::storeImage($request->image);
+            $imagePath = storeImage($request->image);
             $requestData['image'] = $imagePath;
         }
 
