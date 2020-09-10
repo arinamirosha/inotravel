@@ -24,7 +24,7 @@
 
                         <div class="col-md-9">
 
-                            @include('inc.houseFormElements')
+                            @include('inc.house_form_elements')
 
                             <div class="row">
                                 <div class="col-md-12 text-right">

@@ -71,7 +71,7 @@
                             <div class="col-12 h3 pb-2"> Сменить пароль</div>
                         </div>
 
-                        <form method="POST" action="{{ route('password.update', $user->id) }}">
+                        <form method="POST" action="{{ route('profile.update_password', $user->id) }}">
                             @csrf
                             @method('PATCH')
 

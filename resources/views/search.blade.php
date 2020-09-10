@@ -8,7 +8,7 @@
                 <form method="get" action="{{ route('search') }}">
                     <div class="row">
                         <div class="col-9">
-                            @include('inc.searchFormElements')
+                            @include('inc.search_form_elements')
                         </div>
                         <div class="col-3 pt-4">
                             <button class="btn btn-outline-secondary">Новый поиск</button>

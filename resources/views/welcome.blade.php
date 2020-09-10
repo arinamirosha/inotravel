@@ -11,7 +11,7 @@
         <div class="col-md-9">
             <form method="get" action="{{ route('search') }}">
 
-                @include('inc.searchFormElements')
+                @include('inc.search_form_elements')
 
                 <div class="row justify-content-center pb-4 text-center">
                     <div class="col-md-3">
@@ -21,7 +21,7 @@
 
                 <div class="row justify-content-center text-center">
                     <div class="col-md-5">
-                        @if(! Auth::user() || Auth::user()->housesExist()->isEmpty())
+                        @if(! Auth::check() || ! Auth::user()->houses()->exists())
                             <a href="{{ route('house.create') }}" class="btn btn-primary">Приму гостей!</a>
                         @endif
                     </div>
