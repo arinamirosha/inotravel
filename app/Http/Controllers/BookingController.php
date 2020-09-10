@@ -33,8 +33,8 @@ class BookingController extends Controller
 
     public function index()
     {
-        $user = Auth::user();
-        $bookings = Booking::where('user_id', '=', $user->id)
+        $user_id = Auth::id();
+        $bookings = Booking::where('user_id', '=', $user_id)
             ->where('status', '<>', Booking::STATUS_BOOKING_CANCEL)
             ->orderBy('updated_at','desc')
             ->orderBy('created_at','desc')
