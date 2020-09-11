@@ -51,6 +51,7 @@ class HousesController extends Controller
             ->where('houses.user_id', '=', $user_id)
             ->where('status', '<>', Booking::STATUS_BOOKING_REJECT)
             ->select('bookings.*')
+            ->with(['house', 'user'])
             ->latest()->get();
 
         return view('houses.index', compact('houses', 'bookings'));
@@ -58,23 +59,24 @@ class HousesController extends Controller
 
     public function show(House $house)
     {
-        $user = Auth::user();
-        $isBooked = $user ?
+        $house = $house->load(['user', 'facility', 'restriction']);
+
+        $isBooked = Auth::check() ?
             $house->bookings()
             ->where('arrival', '=', session('arrival'))
             ->where('departure', '=', session('departure'))
-            ->where('user_id', '=', $user->id)
-            ->get()->isNotEmpty()
+            ->where('user_id', '=', Auth::id())
+            ->exists()
             : null;
 
-        $isFree = $house->bookings()
+        $isFree = ! $house->bookings()
             ->where('status', '=', Booking::STATUS_BOOKING_ACCEPT)
             ->where(function ($query){
                 $query
                     ->whereBetween('departure', [session('arrival'), session('departure')])
                     ->orWhereBetween('arrival', [session('arrival'), session('departure')]);
             })
-            ->get()->isEmpty();
+            ->exists();
 
         return view('houses.show', compact('house', 'isBooked', 'isFree'));
     }

@@ -28,28 +28,24 @@ class SearchController extends Controller
             'people' => $data['people'],
         ]);
 
-        // эта же проверка должна быть в HousesController@show на $isFree, но без !
+        // эта же проверка должна быть в HousesController@show на $isFree, но с !
         $ids = [];
         foreach ($houses as $house) {
-            // найти лишние
-            if (! $house->bookings()
-
-                // уже забронированы
+            // найти лишее, уже бронь на эти даты
+            if ($house->bookings()
                 ->where('status', '=', Booking::STATUS_BOOKING_ACCEPT)
-
-                // на эти даты
                 ->where(function ($query){
                     $query
                     ->whereBetween('departure', [session('arrival'), session('departure')])
                     ->orWhereBetween('arrival', [session('arrival'), session('departure')]);
                 })
-
-                ->get()->isEmpty()
+                ->exists()
             )
                 array_push($ids, $house->id);
         }
         // исключить
         $houses = $houses->whereNotIn('id', $ids);
+        $houses = $houses->load('user');
 
         return view('search', [
             'houses' => $houses,

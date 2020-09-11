@@ -28,7 +28,6 @@ class BookingController extends Controller
             'status' => Booking::STATUS_BOOKING_SEND
         ]);
         return redirect(route('house.show', $house_id));
-//        return redirect()->back();
     }
 
     public function index()
@@ -38,6 +37,7 @@ class BookingController extends Controller
             ->where('status', '<>', Booking::STATUS_BOOKING_CANCEL)
             ->orderBy('updated_at','desc')
             ->orderBy('created_at','desc')
+            ->with(['house', 'house.user'])
             ->get();
         return view('booking.index', compact('bookings'));
     }
