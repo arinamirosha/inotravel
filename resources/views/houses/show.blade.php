@@ -20,7 +20,6 @@
                             <a href="{{ route('house.edit', $house->id) }}" class="btn btn-outline-dark btn-block">Редактировать</a>
                             <form action="{{ route('house.destroy', $house->id) }}" method="post" class="pt-2">
                                 @csrf
-                                @method('delete')
                                 <button class="btn btn-outline-secondary btn-block" onclick="return confirm('Вы уверены, что хотите удалить?')">Удалить</button>
                             </form>
                         @else

@@ -14,7 +14,6 @@
 
                         <form method="POST" action="{{ route('profile.update', $user->id) }}">
                             @csrf
-                            @method('PATCH')
 
                             <div class="form-group row">
                                 <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Имя') }}</label>
@@ -73,7 +72,6 @@
 
                         <form method="POST" action="{{ route('profile.update_password', $user->id) }}">
                             @csrf
-                            @method('PATCH')
 
                             <div class="form-group row">
                                 <label for="password_old" class="col-md-4 col-form-label text-md-right">{{ __('Старый пароль') }}</label>

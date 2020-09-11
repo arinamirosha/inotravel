@@ -6,7 +6,6 @@
             <div class="col-md-11">
                 <form method="POST" action="{{ route('house.update', $house->id) }}" enctype="multipart/form-data">
                     @csrf
-                    @method('PATCH')
 
                     <div class="row">
 

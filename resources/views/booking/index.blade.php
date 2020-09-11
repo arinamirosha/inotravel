@@ -53,14 +53,12 @@
                                         @if($booking->new === \App\Booking::STATUS_BOOKING_NEW)
                                             <form method="post" action="{{ route('booking.update', $booking->id) }}">
                                                 @csrf
-                                                @method('patch')
                                                 NEW!!! <button class="btn btn-sm btn-outline-secondary">Ок</button>
                                             </form>
 
                                         @elseif($booking->status === \App\Booking::STATUS_BOOKING_ACCEPT)
                                             <form method="post" action="{{ route('booking.update', $booking->id) }}">
                                                 @csrf
-                                                @method('patch')
                                                 <input type="hidden" name="cancel">
                                                 <button class="btn btn-sm btn-outline-secondary btn-block" onclick="return confirm('Вы уверены, что хотите отменить заявку?')">
                                                     Отменить
@@ -70,7 +68,6 @@
                                         @elseif($booking->status === \App\Booking::STATUS_BOOKING_REJECT)
                                             <form action="{{ route('booking.destroy', $booking->id) }}" method="post">
                                                 @csrf
-                                                @method('delete')
                                                 <button class="btn btn-sm btn-outline-secondary btn-block" onclick="return confirm('Вы уверены, что хотите удалить заявку?')">
                                                     Удалить
                                                 </button>
@@ -80,7 +77,6 @@
                                         @if($booking->status === \App\Booking::STATUS_BOOKING_SEND)
                                             <form action="{{ route('booking.destroy', $booking->id) }}" method="post">
                                                 @csrf
-                                                @method('delete')
                                                 <button class="btn btn-sm btn-outline-secondary btn-block" onclick="return confirm('Вы уверены, что хотите отозвать заявку?')">
                                                     Отозвать
                                                 </button>

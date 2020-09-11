@@ -46,8 +46,6 @@
                                     @if($booking->status === \App\Booking::STATUS_BOOKING_SEND)
                                         <form method="post" action="{{ route('booking.update', $booking->id) }}">
                                             @csrf
-                                            @method("patch")
-
                                             <input type="hidden" name="answer" id="answer{{ $booking->id }}" value="{{ \App\Booking::STATUS_BOOKING_REJECT }}">
                                             <button class="btn btn-outline-secondary" onclick="$('#answer{{ $booking->id }}').val({{ \App\Booking::STATUS_BOOKING_ACCEPT }})">
                                                 Принять
@@ -55,7 +53,6 @@
                                             <button class="btn btn-outline-secondary">
                                                 Отказать
                                             </button>
-
                                         </form>
                                     @elseif($booking->status === \App\Booking::STATUS_BOOKING_CANCEL)
                                         <div class="text-danger">Пользователь отменил заявку!</div>
@@ -72,7 +69,6 @@
                                             @if($booking->status === \App\Booking::STATUS_BOOKING_CANCEL)
                                                 <form action="{{ route('booking.destroy', $booking->id) }}" method="post">
                                                     @csrf
-                                                    @method('delete')
                                                     <button class="btn btn-sm btn-outline-secondary btn-block" onclick="return confirm('Вы уверены, что хотите удалить заявку?')">
                                                         Удалить
                                                     </button>
