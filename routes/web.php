@@ -17,6 +17,9 @@ Route::get('/', 'HomeController@welcome')->name('welcome');
 
 Auth::routes();
 
+Route::get('/profiles', 'ProfilesController@index')->name('profiles.index'); // for admins
+Route::get('/profiles/{user}', 'ProfilesController@makeAdmin')->name('profiles.make_admin');  // for admins
+
 Route::get('/profile/{user}/edit', 'ProfilesController@edit')->name('profile.edit');
 Route::post('/profile/{user}', 'ProfilesController@update')->name('profile.update');
 Route::post('/profile/{user}/update-password', 'ProfilesController@updatePassword')->name('profile.update_password');

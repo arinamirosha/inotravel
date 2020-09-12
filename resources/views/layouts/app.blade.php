@@ -50,6 +50,15 @@
                         @else
                             <div class="d-flex">
 
+
+                                @if(Auth::user()->admin)
+                                <div class="pr-3">
+                                    <a class="navbar-item" href="{{ route('profiles.index') }}">
+                                        Пользователи
+                                    </a>
+                                </div>
+                                @endif
+
                                 <div class="pr-3">
                                     <a class="navbar-item" href="{{ route('profile.edit', Auth::user()->id) }}">
                                         {{ Auth::user()->name }} {{ Auth::user()->surname }}

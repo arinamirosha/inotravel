@@ -75,6 +75,13 @@
                             </div>
                         </div>
 
+                        <div class="form-group row justify-content-center">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="admin" name="admin">
+                                <label class="custom-control-label" for="admin">Администратор</label>
+                            </div>
+                        </div>
+
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

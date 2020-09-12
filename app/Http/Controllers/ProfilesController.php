@@ -50,5 +50,22 @@ class ProfilesController extends Controller
         return redirect(route('profile.edit', $user->id))->with('message', $message);
     }
 
+    public function index()
+    {
+        $this->authorize('viewAny', User::class);
+
+        $users = User::all();
+
+        return view('profiles.index', compact('users'));
+    }
+
+    public function makeAdmin(User $user)
+    {
+        $this->authorize('viewAny', User::class);
+
+        $user->update(['admin' => true]);
+
+        return redirect(route('profiles.index'));
+    }
 
 }
