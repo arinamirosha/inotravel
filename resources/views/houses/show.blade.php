@@ -23,23 +23,24 @@
                                 <button class="btn btn-outline-secondary btn-block" onclick="return confirm('Вы уверены, что хотите удалить?')">Удалить</button>
                             </form>
                         @else
-                            @if(session('arrival') && session('departure') && session('people'))
 
-                                @if ($isBooked)
-                                    <div class="mb-1 btn btn-outline-secondary btn-block disabled">Заявка отправлена!</div>
-                                @else
-
-                                    @if ($house->places < session('people'))
-                                        <div class="alert alert-info">Недостаточно спальных мест</div>
-                                    @else
-
+                            @if ($isBooked)
+                                <div class="mb-1 btn btn-outline-secondary btn-block disabled">Заявка отправлена!</div>
+                            @else
+                                @if($arrival)
+                                    @if ($enoughPlaces)
                                         <div>
                                             @if ($isFree)
-                                                <div class="alert alert-info">Свободно .. мест</div>
+                                                <div class="alert alert-info text-center">Свободно
+                                                    {{--                                                    .. мест--}}
+                                                </div>
                                                 <div class="mb-1">
                                                     <form action="{{ route('booking.store') }}" method="post">
                                                         @csrf
                                                         <input type="hidden" value="{{ $house->id }}" name="house_id">
+                                                        <input type="hidden" value="{{ $arrival }}" name="arrival">
+                                                        <input type="hidden" value="{{ $departure }}" name="departure">
+                                                        <input type="hidden" value="{{ $people }}" name="people">
                                                         <button class="btn btn-outline-secondary btn-block">Забронировать</button>
                                                     </form>
                                                 </div>
@@ -47,17 +48,17 @@
                                                 <div class="alert alert-info">Даты заняты / нет мест</div>
                                             @endif
                                         </div>
-                                        <div>людей: {{ session('people') }}</div>
-                                        <div>c {{ session('arrival') }}</div>
-                                        <div>по {{ session('departure') }}</div>
-
+                                        <div>c {{ $arrival }}</div>
+                                        <div>по {{ $departure }}</div>
+                                        <div>людей: {{ $people }}</div>
+                                    @else
+                                        <div class="alert alert-info">Недостаточно спальных мест</div>
                                     @endif
-
+                                @else
+                                    <div class="alert alert-info">Используйте поиск, чтобы задать даты прибытия и отъезда</div>
                                 @endif
-
-                            @else
-                                <div class="alert alert-info">Используйте поиск, чтобы задать даты прибытия и отъезда</div>
                             @endif
+
                         @endcan
                     </div>
                 </div>

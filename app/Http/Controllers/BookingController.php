@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\House;
 use GuzzleHttp\Psr7\Uri;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use SebastianBergmann\Comparator\Book;
 
 class BookingController extends Controller
@@ -22,11 +23,12 @@ class BookingController extends Controller
         $user = Auth::user();
         $user->bookings()->create([
             'house_id' => $house_id,
-            'arrival' => session('arrival'),
-            'departure' => session('departure'),
-            'people' => session('people'),
+            'arrival' => $request->arrival,
+            'departure' => $request->departure,
+            'people' => $request->people,
             'status' => Booking::STATUS_BOOKING_SEND
         ]);
+
         return redirect(route('house.show', $house_id));
     }
 

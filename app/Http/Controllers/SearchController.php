@@ -7,6 +7,7 @@ use App\House;
 use App\Http\Requests\SearchRequest;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use SebastianBergmann\Comparator\Book;
 
 class SearchController extends Controller
@@ -33,18 +34,13 @@ class SearchController extends Controller
             ->with('user')
             ->get();
 
-        session([
-            'arrival' => $requestData['arrival'],
-            'departure' => $requestData['departure'],
-            'people' => $requestData['people'],
-        ]);
+        Cookie::queue('arrival', $requestData['arrival'], 60);
+        Cookie::queue('departure', $requestData['departure'], 60);
+        Cookie::queue('people', $requestData['people'], 60);
 
-        return view('search', [
+        return response()->view('search', [
             'houses' => $houses,
-            'where' => $requestData['where'],
-            'arrival' => $requestData['arrival'],
-            'departure' => $requestData['departure'],
-            'people' => $requestData['people']
+            'searchData' => $requestData
         ]);
     }
 }

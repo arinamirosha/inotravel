@@ -9,6 +9,7 @@ use App\Http\Requests\HouseRequest;
 use App\Restriction;
 use Illuminate\Support\Facades\Auth;
 use App\Libraries\House\Facades\HouseManager;
+use Illuminate\Support\Facades\Cookie;
 
 class HousesController extends Controller
 {
@@ -61,24 +62,36 @@ class HousesController extends Controller
     {
         $house = $house->load(['user', 'facility', 'restriction']);
 
+        $arrival = Cookie::get('arrival');
+        $departure = Cookie::get('departure');
+        $people = Cookie::get('people');
+
         $isBooked = Auth::check() ?
             $house->bookings()
-            ->where('arrival', '=', session('arrival'))
-            ->where('departure', '=', session('departure'))
+            ->where('arrival', '=', $arrival)
+            ->where('departure', '=', $departure)
             ->where('user_id', '=', Auth::id())
             ->exists()
             : null;
 
+//        if ($isBooked && $arrival) {
+//            Cookie::queue(Cookie::forget('arrival'));
+//            Cookie::queue(Cookie::forget('departure'));
+//            Cookie::queue(Cookie::forget('people'));
+//        }
+
         $isFree = ! $house->bookings()
             ->where('status', '=', Booking::STATUS_BOOKING_ACCEPT)
-            ->where(function ($query){
+            ->where(function ($query) use ($arrival, $departure) {
                 $query
-                    ->whereBetween('departure', [session('arrival'), session('departure')])
-                    ->orWhereBetween('arrival', [session('arrival'), session('departure')]);
+                    ->whereBetween('departure', [$arrival, $departure])
+                    ->orWhereBetween('arrival', [$arrival, $departure]);
             })
             ->exists();
 
-        return view('houses.show', compact('house', 'isBooked', 'isFree'));
+        $enoughPlaces = $house->places >= $people;
+
+        return view('houses.show', compact('house', 'isBooked', 'isFree', 'enoughPlaces', 'arrival', 'departure', 'people'));
     }
 
     public function destroy(House $house)
