@@ -25,13 +25,10 @@ class ProfilesController extends Controller
 
     public function update(User $user, ProfileRequest $request)
     {
-        try
-        {
+        try {
             $user->update($request->all());
             $message = "Данные успешно обновлены";
-        }
-        catch(QueryException $e)
-        {
+        } catch(QueryException $e) {
             $message = "Указанная почта привязана к другому аккаунту";
         }
 
@@ -53,18 +50,14 @@ class ProfilesController extends Controller
     public function index()
     {
         $this->authorize('viewAny', User::class);
-
         $users = User::all();
-
         return view('profiles.index', compact('users'));
     }
 
     public function makeAdmin(User $user)
     {
         $this->authorize('viewAny', User::class);
-
         $user->update(['admin' => true]);
-
         return redirect(route('profiles.index'));
     }
 
