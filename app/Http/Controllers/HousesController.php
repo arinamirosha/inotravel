@@ -74,12 +74,6 @@ class HousesController extends Controller
             ->exists()
             : null;
 
-//        if ($isBooked && $arrival) {
-//            Cookie::queue(Cookie::forget('arrival'));
-//            Cookie::queue(Cookie::forget('departure'));
-//            Cookie::queue(Cookie::forget('people'));
-//        }
-
         $isFree = ! $house->bookings()
             ->where('status', '=', Booking::STATUS_BOOKING_ACCEPT)
             ->where(function ($query) use ($arrival, $departure) {
