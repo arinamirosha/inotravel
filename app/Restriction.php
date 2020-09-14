@@ -10,7 +10,7 @@ class Restriction extends Model
 
     public function house()
     {
-        return $this->hasOne(House::class);
+        return $this->belongsToMany(House::class);
     }
 
     public function restrictionsExist()

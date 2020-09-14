@@ -15,12 +15,16 @@ class CreateRestrictionsTable extends Migration
     {
         Schema::create('restrictions', function (Blueprint $table) {
             $table->id();
-            $table->boolean('animals')->default(false);
-            $table->boolean('houseplants')->default(false);
-            $table->boolean('no_smoke')->default(false);
-            $table->boolean('no_drink')->default(false);
-            $table->timestamps();
+            $table->string('name')->unique();
+            $table->string('value');
         });
+
+        DB::table('restrictions')->insert([
+            ['name' => 'animals', 'value' => 'Животные'],
+            ['name' => 'houseplants', 'value' => 'Комнатные растения'],
+            ['name' => 'no_smoke', 'value' => 'Нельзя курить'],
+            ['name' => 'no_drink', 'value' => 'Нельзя пить']
+        ]);
     }
 
     /**

@@ -55,31 +55,31 @@
 
     <div class="col-md-4">
         <div class="form-check text-left">
-            <input class="form-check-input" type="checkbox" value="internet" id="internet" name="facilities[]" @if(isset($house)) @if($house->facility->internet) checked @endif @endif>
+            <input class="form-check-input" type="checkbox" value="1" id="internet" name="facilities[]" @if(isset($house)) @if($house->facilities->contains('1')) checked @endif @endif>
             <label class="form-check-label" for="internet">
                 Интернет
             </label>
         </div>
         <div class="form-check text-left">
-            <input class="form-check-input" type="checkbox" value="wifi" id="wifi" name="facilities[]" @if(isset($house)) @if($house->facility->wifi) checked @endif @endif>
+            <input class="form-check-input" type="checkbox" value="2" id="wifi" name="facilities[]" @if(isset($house)) @if($house->facilities->contains('2')) checked @endif @endif>
             <label class="form-check-label" for="wifi">
                 Wi-Fi
             </label>
         </div>
         <div class="form-check text-left">
-            <input class="form-check-input" type="checkbox" value="cable_tv" id="cable_tv" name="facilities[]" @if(isset($house)) @if($house->facility->cable_tv) checked @endif @endif>
+            <input class="form-check-input" type="checkbox" value="3" id="cable_tv" name="facilities[]" @if(isset($house)) @if($house->facilities->contains('3')) checked @endif @endif>
             <label class="form-check-label" for="cable_tv">
                 Кабельное ТВ
             </label>
         </div>
         <div class="form-check text-left">
-            <input class="form-check-input" type="checkbox" value="conditioner" id="conditioner" name="facilities[]"@if(isset($house)) @if($house->facility->conditioner) checked @endif @endif>
+            <input class="form-check-input" type="checkbox" value="4" id="conditioner" name="facilities[]"@if(isset($house)) @if($house->facilities->contains('4')) checked @endif @endif>
             <label class="form-check-label" for="conditioner">
                 Кондиционер
             </label>
         </div>
         <div class="form-check text-left">
-            <input class="form-check-input" type="checkbox" value="washer" id="washer" name="facilities[]" @if(isset($house)) @if($house->facility->washer) checked @endif @endif>
+            <input class="form-check-input" type="checkbox" value="5" id="washer" name="facilities[]" @if(isset($house)) @if($house->facilities->contains('5')) checked @endif @endif>
             <label class="form-check-label" for="washer">
                 Стиральная машина
             </label>
@@ -90,25 +90,25 @@
 
     <div class="col-md-4">
         <div class="form-check text-left">
-            <input class="form-check-input" type="checkbox" value="animals" id="animals" name="restrictions[]" @if(isset($house)) @if($house->restriction->animals) checked @endif @endif>
+            <input class="form-check-input" type="checkbox" value="1" id="animals" name="restrictions[]" @if(isset($house)) @if($house->restrictions->contains('1')) checked @endif @endif>
             <label class="form-check-label" for="animals">
                 Животные
             </label>
         </div>
         <div class="form-check text-left">
-            <input class="form-check-input" type="checkbox" value="houseplants" id="houseplants" name="restrictions[]" @if(isset($house)) @if($house->restriction->houseplants) checked @endif @endif>
+            <input class="form-check-input" type="checkbox" value="2" id="houseplants" name="restrictions[]" @if(isset($house)) @if($house->restrictions->contains('2')) checked @endif @endif>
             <label class="form-check-label" for="houseplants">
                 Комнатные растения
             </label>
         </div>
         <div class="form-check text-left">
-            <input class="form-check-input" type="checkbox" value="no_smoke" id="no_smoke" name="restrictions[]" @if(isset($house)) @if($house->restriction->no_smoke) checked @endif @endif>
+            <input class="form-check-input" type="checkbox" value="3" id="no_smoke" name="restrictions[]" @if(isset($house)) @if($house->restrictions->contains('3')) checked @endif @endif>
             <label class="form-check-label" for="no_smoke">
                 Нельзя курить
             </label>
         </div>
         <div class="form-check text-left">
-            <input class="form-check-input" type="checkbox" value="no_drink" id="no_drink" name="restrictions[]" @if(isset($house)) @if($house->restriction->no_drink) checked @endif @endif>
+            <input class="form-check-input" type="checkbox" value="4" id="no_drink" name="restrictions[]" @if(isset($house)) @if($house->restrictions->contains('4')) checked @endif @endif>
             <label class="form-check-label" for="no_drink">
                 Нельзя пить
             </label>

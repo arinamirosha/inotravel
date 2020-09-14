@@ -20,14 +20,9 @@ class CreateHousesTable extends Migration
             $table->string('city');
             $table->string('address');
             $table->unsignedSmallInteger('places');
-            $table->unsignedBigInteger('facility_id');
-            $table->unsignedBigInteger('restriction_id');
             $table->text('info')->nullable();
             $table->string('image')->nullable();
-
             $table->timestamps();
-
-            $table->index(['user_id', 'facility_id', 'restriction_id']);
         });
     }
 

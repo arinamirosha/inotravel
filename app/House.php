@@ -14,14 +14,14 @@ class House extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function facility()
+    public function facilities()
     {
-        return $this->belongsTo(Facility::class);
+        return $this->belongsToMany(Facility::class, 'houses_facilities', 'house_id', 'facility_id');
     }
 
-    public function restriction()
+    public function restrictions()
     {
-        return $this->belongsTo(Restriction::class);
+        return $this->belongsToMany(Restriction::class, 'houses_restrictions', 'house_id', 'restriction_id');
     }
 
     public function bookings()

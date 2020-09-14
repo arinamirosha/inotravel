@@ -66,70 +66,32 @@
                     <strong class="pr-2">Спальных мест </strong>{{ $house->places }}
                 </div>
                 <div class="pt-3">
-                    @if($house->facility->facilitiesExist())
+                    @if($house->facilities()->exists())
                         <strong>Удобства</strong>
                         <div class="row text-center h6 pt-3">
-                            @if($house->facility->internet)
+
+                            @foreach($house->facilities as $facility)
                                 <div class="col-2">
-                                    <div><img src="/images/internet.png" alt="" class="w-50"></div>
-                                    <div>Интернет</div>
+                                    <div><img src="/images/{{ $facility->name }}.png" alt="" class="w-50"></div>
+                                    <div>{{ $facility->value }}</div>
                                 </div>
-                            @endif
-                            @if($house->facility->wifi)
-                                <div class="col-2">
-                                    <div><img src="/images/wifi.png" alt="" class="w-50"></div>
-                                    <div>Wi-Fi</div>
-                                </div>
-                            @endif
-                            @if($house->facility->cable_tv)
-                                <div class="col-2">
-                                    <div><img src="/images/tv.png" alt="" class="w-50"></div>
-                                    <div>Кабельное ТВ</div>
-                                </div>
-                            @endif
-                            @if($house->facility->conditioner)
-                                <div class="col-2">
-                                    <div><img src="/images/conditioner.png" alt="" class="w-50"></div>
-                                    <div>Кондиционер</div>
-                                </div>
-                            @endif
-                            @if($house->facility->washer)
-                                <div class="col-2">
-                                    <div><img src="/images/washer.png" alt="" class="w-50"></div>
-                                    <div>Стиральная машина</div>
-                                </div>
-                            @endif
+                            @endforeach
+
                         </div>
                     @endif
                 </div>
                 <div class="pt-3">
-                    @if($house->restriction->restrictionsExist())
+                    @if($house->restrictions()->exists())
                         <strong>Ограничения</strong>
                         <div class="row text-center h6 pt-3">
-                            @if($house->restriction->animals)
+
+                            @foreach($house->restrictions as $restriction)
                                 <div class="col-2">
-                                    <div><img src="/images/animal.png" alt="" class="w-50"></div>
-                                    <div>Животные</div>
+                                    <div><img src="/images/{{ $restriction->name }}.png" alt="" class="w-50"></div>
+                                    <div>{{ $restriction->value }}</div>
                                 </div>
-                            @endif
-                            @if($house->restriction->houseplants)
-                                <div class="col-2">
-                                    <div><img src="/images/plant.png" alt="" class="w-50"></div>
-                                    <div>Комнатные растения</div>
-                                </div>
-                            @endif
-                            @if($house->restriction->no_smoke)
-                                <div class="col-2">
-                                    <div><img src="/images/nosmoke.png" alt="" class="w-50"></div>
-                                    <div>Нельзя курить</div>
-                                </div>
-                            @endif
-                            @if($house->restriction->no_drink)
-                                <div class="col-2">
-                                    <div><img src="/images/nodrink.png" alt="" class="w-50"></div>
-                                    <div>Нельзя пить</div>
-                                </div>
-                            @endif
+                            @endforeach
+
                         </div>
                     @endif
                 </div>

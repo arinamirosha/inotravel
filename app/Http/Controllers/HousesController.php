@@ -7,6 +7,7 @@ use App\Facility;
 use App\House;
 use App\Http\Requests\HouseRequest;
 use App\Restriction;
+use ArrayObject;
 use Illuminate\Support\Facades\Auth;
 use App\Libraries\House\Facades\HouseManager;
 use Illuminate\Support\Facades\Cookie;
@@ -27,19 +28,23 @@ class HousesController extends Controller
     {
         $requestData = $request->all();
 
-        $facilities = HouseManager::makeTrueArray($request->facilities);
-        $requestData['facility_id'] = Facility::create($facilities)->id;
-
-        $restrictions = HouseManager::makeTrueArray($request->restrictions);
-        $requestData['restriction_id'] = Restriction::create($restrictions)->id;
-
         if ($request->hasFile('image')){
             $imagePath = storeImage($request->image);
             $requestData['image'] = $imagePath;
         }
 
         $user = Auth::user();
-        $user->houses()->create($requestData);
+        $house = $user->houses()->create($requestData);
+
+        if ($request->has('facilities'))
+            foreach ($request->facilities as $facility) {
+                $house->facilities()->attach($facility);
+            }
+
+        if ($request->has('restrictions'))
+            foreach ($request->restrictions as $restriction) {
+                $house->restrictions()->attach($restriction);
+            }
 
         return redirect(route('house.index'));
     }
@@ -60,7 +65,7 @@ class HousesController extends Controller
 
     public function show(House $house)
     {
-        $house = $house->load(['user', 'facility', 'restriction']);
+        $house = $house->load(['user', 'facilities', 'restrictions']);
 
         $arrival = Cookie::get('arrival');
         $departure = Cookie::get('departure');
@@ -102,11 +107,11 @@ class HousesController extends Controller
 
     public function update(House $house, HouseRequest $request)
     {
-        $facilities=HouseManager::makeTrueFalseArray($request->facilities, 'facilities');
-        $house->facility()->update($facilities);
-
-        $restrictions=HouseManager::makeTrueFalseArray($request->restrictions, 'restrictions');
-        $house->restriction()->update($restrictions);
+//        $facilities=HouseManager::makeTrueFalseArray($request->facilities, 'facilities');
+//        $house->facility()->update($facilities);
+//
+//        $restrictions=HouseManager::makeTrueFalseArray($request->restrictions, 'restrictions');
+//        $house->restriction()->update($restrictions);
 
         $requestData = $request->all();
 
@@ -120,6 +125,16 @@ class HousesController extends Controller
         }
 
         $house->update($requestData);
+
+//        if ($request->has('facilities'))
+//            foreach ($request->facilities as $facility) {
+//                $house->facilities()->attach($facility);
+//            } else delete all
+//
+//        if ($request->has('restrictions'))
+//            foreach ($request->restrictions as $restriction) {
+//                $house->restrictions()->attach($restriction);
+//            }
 
         return redirect(route('house.show', $house->id));
     }
