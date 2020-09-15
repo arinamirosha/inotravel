@@ -50,7 +50,7 @@ class ProfilesController extends Controller
     public function index()
     {
         $this->authorize('viewAny', User::class);
-        $users = User::all();
+        $users = User::all()->sortBy('name');
         return view('profiles.index', compact('users'));
     }
 
