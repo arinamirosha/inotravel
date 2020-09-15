@@ -42,8 +42,8 @@ class House extends Model
         {
             $house->deleteImage();
             $house->bookings()->delete();
-            $house->facility()->delete();
-            $house->restriction()->delete();
+            $house->facilities()->detach();
+            $house->restrictions()->detach();
         });
     }
 

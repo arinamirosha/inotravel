@@ -36,15 +36,7 @@ class HousesController extends Controller
         $user = Auth::user();
         $house = $user->houses()->create($requestData);
 
-        if ($request->has('facilities'))
-            foreach ($request->facilities as $facility) {
-                $house->facilities()->attach($facility);
-            }
-
-        if ($request->has('restrictions'))
-            foreach ($request->restrictions as $restriction) {
-                $house->restrictions()->attach($restriction);
-            }
+        HouseManager::attachToHouse($request->facilities, $request->restrictions, $house);
 
         return redirect(route('house.index'));
     }
@@ -107,12 +99,6 @@ class HousesController extends Controller
 
     public function update(House $house, HouseRequest $request)
     {
-//        $facilities=HouseManager::makeTrueFalseArray($request->facilities, 'facilities');
-//        $house->facility()->update($facilities);
-//
-//        $restrictions=HouseManager::makeTrueFalseArray($request->restrictions, 'restrictions');
-//        $house->restriction()->update($restrictions);
-
         $requestData = $request->all();
 
         if ($request->filled('deleteImage')){
@@ -126,15 +112,10 @@ class HousesController extends Controller
 
         $house->update($requestData);
 
-//        if ($request->has('facilities'))
-//            foreach ($request->facilities as $facility) {
-//                $house->facilities()->attach($facility);
-//            } else delete all
-//
-//        if ($request->has('restrictions'))
-//            foreach ($request->restrictions as $restriction) {
-//                $house->restrictions()->attach($restriction);
-//            }
+        $house->facilities()->detach();
+        $house->restrictions()->detach();
+
+        HouseManager::attachToHouse($request->facilities, $request->restrictions, $house);
 
         return redirect(route('house.show', $house->id));
     }

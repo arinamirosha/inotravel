@@ -12,9 +12,4 @@ class Restriction extends Model
     {
         return $this->belongsToMany(House::class);
     }
-
-    public function restrictionsExist()
-    {
-        return $this->animals || $this->houseplants || $this->no_smoke || $this->no_drink;
-    }
 }

@@ -12,9 +12,4 @@ class Facility extends Model
     {
         return $this->belongsToMany(House::class);
     }
-
-    public function facilitiesExist()
-    {
-        return $this->internet || $this->wifi || $this->cable_tv || $this->conditioner || $this->washer;
-    }
 }
