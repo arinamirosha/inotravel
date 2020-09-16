@@ -17,8 +17,10 @@ Route::get('/', 'HomeController@welcome')->name('welcome');
 
 Auth::routes();
 
-Route::get('/admin', 'AdminController@index')->name('admin.index');
-Route::post('/admin/{user}/update', 'AdminController@update')->name('admin.update');
+Route::middleware('admin')->group(function () {
+    Route::get('/admin', 'AdminController@index')->name('admin.index');
+    Route::post('/admin/{user}/update', 'AdminController@update')->name('admin.update');
+});
 
 Route::get('/profile/{user}/edit', 'ProfilesController@edit')->name('profile.edit');
 Route::post('/profile/{user}', 'ProfilesController@update')->name('profile.update');
