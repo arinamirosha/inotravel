@@ -18,7 +18,10 @@
                             @if($user->admin)
                                 Администратор
                             @else
-                                <a href="{{ route('profiles.make_admin', $user->id) }}" class="btn btn-outline-secondary btn-sm">Сделать админом</a>
+                                <form action="{{ route('admin.update', $user->id) }}" method="post">
+                                    @csrf
+                                    <button class="btn btn-outline-secondary btn-sm">Сделать админом</button>
+                                </form>
                             @endif
                         </div>
                     </div>

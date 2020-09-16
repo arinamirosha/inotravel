@@ -17,8 +17,8 @@ Route::get('/', 'HomeController@welcome')->name('welcome');
 
 Auth::routes();
 
-Route::get('/profiles', 'ProfilesController@index')->name('profiles.index'); // for admins
-Route::get('/profiles/{user}', 'ProfilesController@makeAdmin')->name('profiles.make_admin');  // for admins
+Route::get('/admin', 'AdminController@index')->name('admin.index');
+Route::post('/admin/{user}/update', 'AdminController@update')->name('admin.update');
 
 Route::get('/profile/{user}/edit', 'ProfilesController@edit')->name('profile.edit');
 Route::post('/profile/{user}', 'ProfilesController@update')->name('profile.update');
@@ -45,3 +45,4 @@ Route::get('/profile/{user}/update-password', function ($user) { return redirect
 Route::get('/house/{house}/update', function () { return redirect(route('house.index')); });
 Route::get('/booking/{booking}/update', function () { return redirect(route('booking.index')); });
 Route::get('/booking/{booking}', function () { return redirect(route('booking.index')); });
+Route::get('/admin/{user}/update', function () { return redirect(route('admin.index')); });

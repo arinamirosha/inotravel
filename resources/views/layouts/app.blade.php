@@ -53,7 +53,7 @@
 
                                 @if(Auth::user()->admin)
                                 <div class="pr-3">
-                                    <a class="navbar-item" href="{{ route('profiles.index') }}">
+                                    <a class="navbar-item" href="{{ route('admin.index') }}">
                                         Пользователи
                                     </a>
                                 </div>
