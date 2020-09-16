@@ -20,14 +20,30 @@ class BookingController extends Controller
     public function store(Request $request)
     {
         $houseId = $request->houseId;
+        $house = House::find($houseId);
+        $arrival = $request->arrival;
+        $departure = $request->departure;
+        $people = $request->people;
         $user = Auth::user();
-        $user->bookings()->create([
-            'house_id' => $houseId,
-            'arrival' => $request->arrival,
-            'departure' => $request->departure,
-            'people' => $request->people,
-            'status' => Booking::STATUS_BOOKING_SEND
-        ]);
+
+        $isFree = ! $house->bookings()
+            ->where('status', '=', Booking::STATUS_BOOKING_ACCEPT)
+            ->where(function ($query) use ($arrival, $departure) {
+                $query
+                    ->whereBetween('departure', [$arrival, $departure])
+                    ->orWhereBetween('arrival', [$arrival, $departure]);
+            })
+            ->exists();
+
+        if ($isFree) {
+            $user->bookings()->create([
+                'house_id' => $houseId,
+                'arrival' => $arrival,
+                'departure' => $departure,
+                'people' => $people,
+                'status' => Booking::STATUS_BOOKING_SEND
+            ]);
+        }
 
         return redirect(route('house.show', $houseId));
     }

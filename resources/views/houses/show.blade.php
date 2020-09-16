@@ -45,7 +45,9 @@
                                                     </form>
                                                 </div>
                                             @else
-                                                <div class="alert alert-info">Даты заняты / нет мест</div>
+                                                <div class="alert alert-info">Даты заняты
+{{--                                                    / нет мест--}}
+                                                </div>
                                             @endif
                                         </div>
                                         <div>c {{ $arrival }}</div>

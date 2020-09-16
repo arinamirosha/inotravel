@@ -71,6 +71,7 @@ class HousesController extends Controller
             ->exists()
             : null;
 
+        // также в BookingController@store
         $isFree = ! $house->bookings()
             ->where('status', '=', Booking::STATUS_BOOKING_ACCEPT)
             ->where(function ($query) use ($arrival, $departure) {
