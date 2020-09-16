@@ -21,7 +21,7 @@ class SearchController extends Controller
             ->where('places', '>=', $requestData['people'])
             ->whereDoesntHave('bookings', function ($query) use ($requestData) {
                 $query
-                    // также в HousesController@show на $isFree
+                    // также в house->isFree()
                     ->where('status', '=', Booking::STATUS_BOOKING_ACCEPT)
                     ->where(function ($query) use ($requestData) {
                         $query

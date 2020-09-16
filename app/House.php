@@ -54,4 +54,18 @@ class House extends Model
             $this->image=null;
         }
     }
+
+    public function isFree($arrival, $departure)
+    {
+        $isFree = ! $this->bookings()
+        ->where('status', '=', Booking::STATUS_BOOKING_ACCEPT)
+        ->where(function ($query) use ($arrival, $departure) {
+            $query
+                ->whereBetween('departure', [$arrival, $departure])
+                ->orWhereBetween('arrival', [$arrival, $departure]);
+        })
+        ->exists();
+
+        return $isFree;
+    }
 }

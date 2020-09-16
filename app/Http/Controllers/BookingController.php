@@ -26,14 +26,7 @@ class BookingController extends Controller
         $people = $request->people;
         $user = Auth::user();
 
-        $isFree = ! $house->bookings()
-            ->where('status', '=', Booking::STATUS_BOOKING_ACCEPT)
-            ->where(function ($query) use ($arrival, $departure) {
-                $query
-                    ->whereBetween('departure', [$arrival, $departure])
-                    ->orWhereBetween('arrival', [$arrival, $departure]);
-            })
-            ->exists();
+        $isFree = $house->isFree($arrival, $departure);
 
         if ($isFree) {
             $user->bookings()->create([
