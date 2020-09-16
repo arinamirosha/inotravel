@@ -37,7 +37,7 @@ class ProfilesController extends Controller
 
     public function updatePassword(PasswordRequest $request, User $user)
     {
-        if (Hash::check($request->password_old, $user->password)) {
+        if (Hash::check($request->passwordOld, $user->password)) {
             $newPassword = Hash::make($request->password);
             $user->update(['password' => $newPassword]);
             $message = "Пароль успешно обновлен";

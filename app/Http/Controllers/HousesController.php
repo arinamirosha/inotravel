@@ -43,10 +43,10 @@ class HousesController extends Controller
 
     public function index()
     {
-        $user_id = Auth::id();
-        $houses = House::where('user_id', '=', $user_id)->latest()->get();
+        $userId = Auth::id();
+        $houses = House::where('user_id', '=', $userId)->latest()->get();
         $bookings = Booking::join('houses', 'houses.id', '=', 'house_id')
-            ->where('houses.user_id', '=', $user_id)
+            ->where('houses.user_id', '=', $userId)
             ->where('status', '<>', Booking::STATUS_BOOKING_REJECT)
             ->select('bookings.*')
             ->with(['house', 'user'])

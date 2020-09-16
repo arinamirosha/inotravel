@@ -37,7 +37,7 @@
                                                 <div class="mb-1">
                                                     <form action="{{ route('booking.store') }}" method="post">
                                                         @csrf
-                                                        <input type="hidden" value="{{ $house->id }}" name="house_id">
+                                                        <input type="hidden" value="{{ $house->id }}" name="houseId">
                                                         <input type="hidden" value="{{ $arrival }}" name="arrival">
                                                         <input type="hidden" value="{{ $departure }}" name="departure">
                                                         <input type="hidden" value="{{ $people }}" name="people">

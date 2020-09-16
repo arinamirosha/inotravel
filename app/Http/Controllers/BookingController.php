@@ -19,23 +19,23 @@ class BookingController extends Controller
 
     public function store(Request $request)
     {
-        $house_id = $request->house_id;
+        $houseId = $request->houseId;
         $user = Auth::user();
         $user->bookings()->create([
-            'house_id' => $house_id,
+            'house_id' => $houseId,
             'arrival' => $request->arrival,
             'departure' => $request->departure,
             'people' => $request->people,
             'status' => Booking::STATUS_BOOKING_SEND
         ]);
 
-        return redirect(route('house.show', $house_id));
+        return redirect(route('house.show', $houseId));
     }
 
     public function index()
     {
-        $user_id = Auth::id();
-        $bookings = Booking::where('user_id', '=', $user_id)
+        $userId = Auth::id();
+        $bookings = Booking::where('user_id', '=', $userId)
             ->where('status', '<>', Booking::STATUS_BOOKING_CANCEL)
             ->orderBy('updated_at','desc')
             ->orderBy('created_at','desc')

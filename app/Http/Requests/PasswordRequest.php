@@ -24,7 +24,7 @@ class PasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'password_old' => ['required', 'string', 'min:8'],
+            'passwordOld' => ['required', 'string', 'min:8'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ];
     }
@@ -32,9 +32,9 @@ class PasswordRequest extends FormRequest
     public function messages()
     {
         return [
-            'password_old.required' => 'Укажите старый пароль',
+            'passwordOld.required' => 'Укажите старый пароль',
             'password.required' => 'Укажите новый пароль',
-            'password_old.min' => 'Введите не менее 8 символов',
+            'passwordOld.min' => 'Введите не менее 8 символов',
             'password.min' => 'Введите не менее 8 символов',
             'password.confirmed' => 'Пароли не совпадают',
         ];

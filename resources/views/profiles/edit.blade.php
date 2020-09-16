@@ -74,12 +74,12 @@
                             @csrf
 
                             <div class="form-group row">
-                                <label for="password_old" class="col-md-4 col-form-label text-md-right">{{ __('Старый пароль') }}</label>
+                                <label for="passwordOld" class="col-md-4 col-form-label text-md-right">{{ __('Старый пароль') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="password_old" type="password" class="form-control @error('password_old') is-invalid @enderror" name="password_old" autocomplete="password_old">
+                                    <input id="passwordOld" type="password" class="form-control @error('passwordOld') is-invalid @enderror" name="passwordOld" autocomplete="passwordOld">
 
-                                    @error('password_old')
+                                    @error('passwordOld')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
