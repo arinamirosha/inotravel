@@ -21,6 +21,8 @@ class BookingController extends Controller
     {
         $houseId = $request->houseId;
         $house = House::find($houseId);
+        if (! $house) return redirect(route('welcome'));
+
         $arrival = $request->arrival;
         $departure = $request->departure;
         $people = $request->people;
