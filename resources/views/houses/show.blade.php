@@ -5,7 +5,7 @@
         <div class="row text-center">
             <div class="col-md-5">
                 <div style="height: 500px; overflow: hidden">
-                    <img src="{{ $house->houseImage() }}" alt="" class="w-100">
+                    <img src="{{ url($house->houseImage()) }}" alt="" class="w-100">
                 </div>
             </div>
             <div class="col-md-6 text-left h5 ml-3">

@@ -22,7 +22,7 @@
                                 <div class="col-md-2">
                                     <div style="width:150px; height: 150px; overflow: hidden">
                                         <a href="{{ route('house.show', $booking->house->id) }}">
-                                            <img src="{{ $booking->house->houseImage() }}" alt="" class="h-100">
+                                            <img src="{{ url($booking->house->houseImage()) }}" alt="" class="h-100">
                                         </a>
                                     </div>
                                 </div>

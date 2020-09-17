@@ -22,7 +22,7 @@
                             <div class="mr-4 ml-4 mb-4">
                                 <div style="width:150px; height: 150px; overflow: hidden">
                                     <a href="{{ route('house.show', $house->id) }}">
-                                        <img src="{{ $house->houseImage() }}" alt="" class="h-100">
+                                        <img src="{{ url($house->houseImage()) }}" alt="" class="h-100">
                                     </a>
                                 </div>
                                 <div>
