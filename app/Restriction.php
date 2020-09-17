@@ -12,4 +12,9 @@ class Restriction extends Model
     {
         return $this->belongsToMany(House::class);
     }
+
+    public function image()
+    {
+        return "/images/{$this->name }.png";
+    }
 }

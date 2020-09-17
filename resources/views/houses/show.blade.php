@@ -74,7 +74,7 @@
 
                             @foreach($house->facilities as $facility)
                                 <div class="col-2">
-                                    <div><img src="/images/{{ $facility->name }}.png" alt="" class="w-50"></div>
+                                    <div><img src="{{ url($facility->image()) }}" alt="" class="w-50"></div>
                                     <div>{{ $facility->value }}</div>
                                 </div>
                             @endforeach
@@ -89,7 +89,7 @@
 
                             @foreach($house->restrictions as $restriction)
                                 <div class="col-2">
-                                    <div><img src="/images/{{ $restriction->name }}.png" alt="" class="w-50"></div>
+                                    <div><img src="{{ url($restriction->image()) }}" alt="" class="w-50"></div>
                                     <div>{{ $restriction->value }}</div>
                                 </div>
                             @endforeach
