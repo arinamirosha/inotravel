@@ -22,7 +22,7 @@ Route::middleware('admin')->group(function () {
     Route::post('/admin/{user}/update', 'AdminController@update')->name('admin.update');
 });
 
-Route::get('/profile/{user}/edit', 'ProfilesController@edit')->name('profile.edit');
+Route::get('/profile/edit', 'ProfilesController@edit')->name('profile.edit');
 Route::post('/profile/{user}', 'ProfilesController@update')->name('profile.update');
 Route::post('/profile/{user}/update-password', 'ProfilesController@updatePassword')->name('profile.update_password');
 

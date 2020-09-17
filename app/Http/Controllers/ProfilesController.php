@@ -17,8 +17,9 @@ class ProfilesController extends Controller
         $this->middleware('auth'); // if not auth, go to register
     }
 
-    public function edit(User $user)
+    public function edit()
     {
+        $user = Auth::user();
         $this->authorize('update', $user);
         return view('profiles.edit', compact('user'));
     }
@@ -32,7 +33,7 @@ class ProfilesController extends Controller
             $message = "Указанная почта привязана к другому аккаунту";
         }
 
-        return redirect(route('profile.edit', $user->id))->with('message', $message);
+        return redirect(route('profile.edit'))->with('message', $message);
     }
 
     public function updatePassword(PasswordRequest $request, User $user)
@@ -44,7 +45,7 @@ class ProfilesController extends Controller
         }
         else $message = "Старый пароль не соответствует";
 
-        return redirect(route('profile.edit', $user->id))->with('message', $message);
+        return redirect(route('profile.edit'))->with('message', $message);
     }
 
 }
