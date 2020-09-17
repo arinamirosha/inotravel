@@ -23,8 +23,8 @@ Route::middleware('admin')->group(function () {
 });
 
 Route::get('/profile/edit', 'ProfilesController@edit')->name('profile.edit');
-Route::post('/profile/{user}', 'ProfilesController@update')->name('profile.update');
-Route::post('/profile/{user}/update-password', 'ProfilesController@updatePassword')->name('profile.update_password');
+Route::post('/profile/update', 'ProfilesController@update')->name('profile.update');
+Route::post('/profile/update-password', 'ProfilesController@updatePassword')->name('profile.update_password');
 
 Route::get('/house/create', 'HousesController@create')->name('house.create');
 Route::get('/house', 'HousesController@index')->name('house.index');
@@ -42,8 +42,8 @@ Route::post('/booking/{booking}/update', 'BookingController@update')->name('book
 Route::post('/booking/{booking}', 'BookingController@destroy')->name('booking.destroy');
 
 // идет не в post
-Route::get('/profile/{user}', function ($user) { return redirect(route('profile.edit', $user)); });
-Route::get('/profile/{user}/update-password', function ($user) { return redirect(route('profile.edit', $user)); });
+Route::get('/profile/update', function ($user) { return redirect(route('profile.edit', $user)); });
+Route::get('/profile/update-password', function ($user) { return redirect(route('profile.edit', $user)); });
 Route::get('/house/{house}/update', function () { return redirect(route('house.index')); });
 Route::get('/booking/{booking}/update', function () { return redirect(route('booking.index')); });
 Route::get('/booking/{booking}', function () { return redirect(route('booking.index')); });

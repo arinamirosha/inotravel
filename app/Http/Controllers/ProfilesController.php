@@ -14,7 +14,7 @@ class ProfilesController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth'); // if not auth, go to register
+        $this->middleware('auth');
     }
 
     public function edit()
@@ -24,8 +24,9 @@ class ProfilesController extends Controller
         return view('profiles.edit', compact('user'));
     }
 
-    public function update(User $user, ProfileRequest $request)
+    public function update(ProfileRequest $request)
     {
+        $user = Auth::user();
         try {
             $user->update($request->all());
             $message = "Данные успешно обновлены";
@@ -36,8 +37,9 @@ class ProfilesController extends Controller
         return redirect(route('profile.edit'))->with('message', $message);
     }
 
-    public function updatePassword(PasswordRequest $request, User $user)
+    public function updatePassword(PasswordRequest $request)
     {
+        $user = Auth::user();
         if (Hash::check($request->passwordOld, $user->password)) {
             $newPassword = Hash::make($request->password);
             $user->update(['password' => $newPassword]);

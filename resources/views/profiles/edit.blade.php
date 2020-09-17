@@ -12,7 +12,7 @@
                             <div class="col-12 h3 pb-2">Редактировать данные</div>
                         </div>
 
-                        <form method="POST" action="{{ route('profile.update', $user->id) }}">
+                        <form method="POST" action="{{ route('profile.update') }}">
                             @csrf
 
                             <div class="form-group row">
@@ -70,7 +70,7 @@
                             <div class="col-12 h3 pb-2"> Сменить пароль</div>
                         </div>
 
-                        <form method="POST" action="{{ route('profile.update_password', $user->id) }}">
+                        <form method="POST" action="{{ route('profile.update_password') }}">
                             @csrf
 
                             <div class="form-group row">
