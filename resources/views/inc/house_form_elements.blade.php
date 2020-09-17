@@ -58,65 +58,27 @@
     <span class="col-md-2 col-form-label-sm text-md-right">{{ __('Удобства:') }}</span>
 
     <div class="col-md-4">
-        <div class="form-check text-left">
-            <input class="form-check-input" type="checkbox" value="1" id="internet" name="facilities[]" @if(isset($house) && $house->facilities->contains('1')) checked @endif>
-            <label class="form-check-label" for="internet">
-                Интернет
-            </label>
-        </div>
-        <div class="form-check text-left">
-            <input class="form-check-input" type="checkbox" value="2" id="wifi" name="facilities[]" @if(isset($house) && $house->facilities->contains('2')) checked @endif>
-            <label class="form-check-label" for="wifi">
-                Wi-Fi
-            </label>
-        </div>
-        <div class="form-check text-left">
-            <input class="form-check-input" type="checkbox" value="3" id="cable_tv" name="facilities[]" @if(isset($house) && $house->facilities->contains('3')) checked @endif>
-            <label class="form-check-label" for="cable_tv">
-                Кабельное ТВ
-            </label>
-        </div>
-        <div class="form-check text-left">
-            <input class="form-check-input" type="checkbox" value="4" id="conditioner" name="facilities[]"@if(isset($house) && $house->facilities->contains('4')) checked @endif>
-            <label class="form-check-label" for="conditioner">
-                Кондиционер
-            </label>
-        </div>
-        <div class="form-check text-left">
-            <input class="form-check-input" type="checkbox" value="5" id="washer" name="facilities[]" @if(isset($house) && $house->facilities->contains('5')) checked @endif>
-            <label class="form-check-label" for="washer">
-                Стиральная машина
-            </label>
-        </div>
+        @foreach($facilities as $fac)
+            <div class="form-check text-left">
+                <input class="form-check-input" type="checkbox" value="{{ $fac->id }}" id="{{ $fac->name }}" name="facilities[]" @if(isset($house) && $house->facilities->contains($fac->id)) checked @endif>
+                <label class="form-check-label" for="{{ $fac->name }}">
+                    {{ $fac->value }}
+                </label>
+            </div>
+        @endforeach
     </div>
 
     <span class="col-md-2 col-form-label-sm text-md-right">{{ __('Ограничения:') }}</span>
 
     <div class="col-md-4">
-        <div class="form-check text-left">
-            <input class="form-check-input" type="checkbox" value="1" id="animals" name="restrictions[]" @if(isset($house) && $house->restrictions->contains('1')) checked @endif>
-            <label class="form-check-label" for="animals">
-                Животные
-            </label>
-        </div>
-        <div class="form-check text-left">
-            <input class="form-check-input" type="checkbox" value="2" id="houseplants" name="restrictions[]" @if(isset($house) && $house->restrictions->contains('2')) checked @endif>
-            <label class="form-check-label" for="houseplants">
-                Комнатные растения
-            </label>
-        </div>
-        <div class="form-check text-left">
-            <input class="form-check-input" type="checkbox" value="3" id="no_smoke" name="restrictions[]" @if(isset($house) && $house->restrictions->contains('3')) checked @endif>
-            <label class="form-check-label" for="no_smoke">
-                Нельзя курить
-            </label>
-        </div>
-        <div class="form-check text-left">
-            <input class="form-check-input" type="checkbox" value="4" id="no_drink" name="restrictions[]" @if(isset($house) && $house->restrictions->contains('4')) checked @endif>
-            <label class="form-check-label" for="no_drink">
-                Нельзя пить
-            </label>
-        </div>
+        @foreach($restrictions as $res)
+            <div class="form-check text-left">
+                <input class="form-check-input" type="checkbox" value="{{ $res->id }}" id="{{ $res->name }}" name="restrictions[]" @if(isset($house) && $house->restrictions->contains($res->id)) checked @endif>
+                <label class="form-check-label" for="{{ $res->name }}">
+                    {{ $res->value }}
+                </label>
+            </div>
+        @endforeach
     </div>
 </div>
 

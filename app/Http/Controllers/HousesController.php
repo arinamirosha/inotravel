@@ -21,7 +21,9 @@ class HousesController extends Controller
 
     public function create()
     {
-        return view('houses.create');
+        $facilities = Facility::all();
+        $restrictions = Restriction::all();
+        return view('houses.create', compact('facilities', 'restrictions'));
     }
 
     public function store(HouseRequest $request)
@@ -87,7 +89,9 @@ class HousesController extends Controller
     public function edit(House $house)
     {
         $this->authorize('update', $house->user);
-        return view('houses.edit', compact('house'));
+        $facilities = Facility::all();
+        $restrictions = Restriction::all();
+        return view('houses.edit', compact('house','facilities', 'restrictions'));
     }
 
     public function update(House $house, HouseRequest $request)
