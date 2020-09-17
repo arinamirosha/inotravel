@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Restriction extends Model
 {
-    protected $guarded = [];
+    protected $fillable = [];
 
     public function house()
     {

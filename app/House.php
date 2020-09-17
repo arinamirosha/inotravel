@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\Storage;
 
 class House extends Model
 {
-    protected $guarded = ['facilities', 'restrictions'];
+    protected $fillable = [
+        'name', 'city', 'address', 'places', 'info', 'image'
+    ];
 
     public function user()
     {
