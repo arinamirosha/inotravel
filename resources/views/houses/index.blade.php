@@ -37,7 +37,7 @@
                                         Заявка от: {{ $booking->user->name }} {{ $booking->user->surname }}
                                     </div>
                                     <div>
-                                        {{ date_format(date_create($booking->arrival),"d/m/y") }} - {{ date_format(date_create($booking->departure),"d/m/y") }}
+                                        {{ Carbon\Carbon::parse($booking->arrival)->format('d/m/y') }} - {{ Carbon\Carbon::parse($booking->departure)->format('d/m/y') }}
                                     </div>
                                     <div>
                                         Людей: {{ $booking->people }}

@@ -42,7 +42,7 @@
                                 @endif
 
                                 <div>
-                                    (статус заявки {{ date_format(date_create($booking->updated_at),"d/m/y") }})
+                                    (статус заявки {{ Carbon\Carbon::parse($booking->updated_at)->format('d/m/y') }})
                                 </div>
                             </div>
 
