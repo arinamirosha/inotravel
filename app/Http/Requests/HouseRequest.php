@@ -45,6 +45,7 @@ class HouseRequest extends FormRequest
             'address.max' => 'Адрес не может содержать > 255 символов',
             'places.max' => 'Мест не может быть > 100',
             'places.min' => 'Мест не может быть < 1',
+            'places.numeric' => 'Введите число',
             'info.max' => 'Доп.инфо не может содержать > 1000 символов',
             'image.image' => 'Изображение должно быть изображением'
         ];

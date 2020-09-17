@@ -40,6 +40,7 @@ class SearchRequest extends FormRequest
             'people.required' => 'Укажите количество людей',
             'where.max' => 'Город не может содержать > 255 символов',
             'people.max' => 'Людей не может быть > 100',
+            'people.numeric' => 'Введите число',
             'arrival.after' => 'Прибытие может быть c сегодняшнего дня',
             'departure.after' => 'Отъезд должен быть после даты прибытия',
         ];
