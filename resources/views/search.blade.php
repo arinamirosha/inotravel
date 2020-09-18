@@ -17,12 +17,12 @@
                 </form>
 
                 @if(! $houses->isEmpty())
-                    <div class="row float-left mt-2 justify-content-between">
+                    <div class="row mt-3 justify-content-start">
                         @foreach($houses as $house)
-                            <div class="mr-4 ml-4 mb-4">
-                                <div style="width:150px; height: 150px; overflow: hidden">
+                            <div class="mr-3 mb-4 col-2">
+                                <div>
                                     <a href="{{ route('house.show', $house->id) }}">
-                                        <img src="{{ url($house->houseImage()) }}" alt="" class="h-100">
+                                        <img src="{{ url($house->houseImage()) }}" alt="" class="w-100 rounded">
                                     </a>
                                 </div>
                                 <div>

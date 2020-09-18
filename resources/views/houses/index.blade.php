@@ -20,11 +20,9 @@
                         @foreach($bookings as $booking)
                             <div class="row pb-3">
                                 <div class="col-md-2">
-                                    <div style="width:150px; height: 150px; overflow: hidden">
-                                        <a href="{{ route('house.show', $booking->house->id) }}">
-                                            <img src="{{ url($booking->house->houseImage()) }}" alt="" class="h-100">
-                                        </a>
-                                    </div>
+                                    <a href="{{ route('house.show', $booking->house->id) }}">
+                                        <img src="{{ url($booking->house->houseImage()) }}" alt="" class="w-100 rounded">
+                                    </a>
                                 </div>
                                 <div class="col-md-3 text-left h5">
                                     <div>
@@ -105,11 +103,9 @@
                     @foreach($houses as $house)
                         <div class="row pb-3">
                             <div class="col-md-2">
-                                <div style="width:150px; height: 150px; overflow: hidden">
-                                    <a href="{{ route('house.show', $house->id) }}">
-                                        <img src="{{ $house->houseImage() }}" alt="" class="h-100">
-                                    </a>
-                                </div>
+                                <a href="{{ route('house.show', $house->id) }}">
+                                    <img src="{{ $house->houseImage() }}" alt="" class="w-100 rounded">
+                                </a>
                             </div>
                             <div class="col-md-4 text-left h5">
                                 <div>

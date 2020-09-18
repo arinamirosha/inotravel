@@ -12,7 +12,7 @@
                         <div class="col-md-3">
                             <input id="deleteImage" name="deleteImage" type="checkbox" style="display:none">
                             <div id="mydiv" style="word-wrap:break-word"></div>
-                            <img src="{{ url($house->houseImage()) }}" alt="" class="w-100" id="myimage">
+                            <img src="{{ url($house->houseImage()) }}" alt="" class="w-100 rounded" id="myimage">
                             <div>
                                 <upload-image-button></upload-image-button>
                                 @error('image')
