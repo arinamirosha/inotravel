@@ -4,6 +4,8 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class House extends Model
@@ -45,10 +47,15 @@ class House extends Model
         {
             $house->deleteImage();
 
+            // будет использоваться для извлечения пользователей, которым нужно отправить email о том,
+            // что дом, на который была отправлена заявка - удален
             $booksToMail = $house->bookings()
                 ->where('status', Booking::STATUS_BOOKING_ACCEPT)
                 ->where('arrival', '>=', Carbon::now())
                 ->get();
+
+            // здесь еще менять и в \App\Mail\Notification, отправлять, если есть кому
+            Mail::to('arinamirosha@gmail.com')->send(new \App\Mail\Notification(Auth::user())); //почему-то приходит на mailtrap
 
             $house->bookings()->delete();
             $house->facilities()->detach();
