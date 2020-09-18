@@ -102,9 +102,13 @@ class HousesController extends Controller
             $house->deleteImage();
         }
         elseif ($request->hasFile('image')){
-            $house->deleteImage();
-            $imagePath = storeImage($request->image);
-            $requestData['image'] = $imagePath;
+            if ($house->image) {
+                updateImage($request->image, $house->image);
+                unset($requestData['image']);
+            } else {
+                $imagePath = storeImage($request->image);
+                $requestData['image'] = $imagePath;
+            }
         }
 
         $house->update($requestData);
