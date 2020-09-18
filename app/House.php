@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
@@ -43,6 +44,12 @@ class House extends Model
         static::deleted(function($house)
         {
             $house->deleteImage();
+
+            $booksToMail = $house->bookings()
+                ->where('status', Booking::STATUS_BOOKING_ACCEPT)
+                ->where('arrival', '>=', Carbon::now())
+                ->get();
+
             $house->bookings()->delete();
             $house->facilities()->detach();
             $house->restrictions()->detach();
