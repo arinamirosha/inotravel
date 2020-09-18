@@ -10,7 +10,7 @@
                     <div class="row">
 
                         <div class="col-md-3">
-                            <input id="deleteImage" name="deleteImage" type="checkbox" style="display:none">
+                            <input id="deleteImage" name="deleteImage" type="checkbox" class="d-none">
                             <div id="mydiv" style="word-wrap:break-word"></div>
                             <img src="{{ url($house->houseImage()) }}" alt="" class="w-100 rounded" id="myimage">
                             <div>
