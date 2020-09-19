@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Mail\Notification;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -45,19 +46,18 @@ class House extends Model
         parent::boot();
         static::deleted(function($house)
         {
-            $house->deleteImage();
-
-            // будет использоваться для извлечения пользователей, которым нужно отправить email о том,
-            // что дом, на который была отправлена заявка - удален
-            $booksToMail = $house->bookings()
+            $booksToMail =
+                $house->bookings()
                 ->where('status', Booking::STATUS_BOOKING_ACCEPT)
-                ->where('arrival', '>=', Carbon::now())
+                ->where('arrival', '>=', Carbon::now()->format('Y-m-d'))
+                ->with(['house', 'user'])
                 ->get();
 
-            // здесь еще менять и в \App\Mail\Notification, отправлять, если есть кому
-            Mail::to('arinamirosha@gmail.com')->send(new \App\Mail\Notification(Auth::user())); //почему-то приходит на mailtrap
+            foreach ($booksToMail as $booking)
+                Mail::to($booking->user->email)->send(new Notification($booking, $house)); //приходит на mailtrap
 
             $house->bookings()->delete();
+            $house->deleteImage();
             $house->facilities()->detach();
             $house->restrictions()->detach();
         });

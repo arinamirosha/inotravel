@@ -2,6 +2,8 @@
 
 namespace App\Mail;
 
+use App\Booking;
+use App\House;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -17,11 +19,13 @@ class Notification extends Mailable
      * @return void
      */
 
-    public $user;
+    public $booking;
+    public $house;
 
-    public function __construct($user)
+    public function __construct(Booking $booking, House $house)
     {
-        $this->user = $user;
+        $this->booking = $booking;
+        $this->house = $house;
     }
 
     /**
@@ -31,7 +35,7 @@ class Notification extends Mailable
      */
     public function build()
     {
-        return $this->subject('This is Testing Mail')
+        return $this->subject('Заявка удалена')
             ->view('email.notification');
     }
 }
