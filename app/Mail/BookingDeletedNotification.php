@@ -8,6 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class BookingDeletedNotification extends Mailable
 {
@@ -18,14 +19,15 @@ class BookingDeletedNotification extends Mailable
      *
      * @return void
      */
-
-    public $booking;
+    private $arrival;
+    private $departure;
     private $name;
     private $city;
 
-    public function __construct(Booking $booking, $name, $city)
+    public function __construct($arrival, $departure, $name, $city)
     {
-        $this->booking = $booking;
+        $this->arrival = $arrival;
+        $this->departure = $departure;
         $this->name = $name;
         $this->city = $city;
     }
@@ -38,6 +40,11 @@ class BookingDeletedNotification extends Mailable
     public function build()
     {
         return $this->subject('Заявка удалена')
-            ->view('email.booking_deleted_notification');
+            ->view('email.booking_deleted_notification', [
+                'arrival' => $this->arrival,
+                'departure' => $this->departure,
+                'name' => $this->name,
+                'city' => $this->city
+            ]);
     }
 }

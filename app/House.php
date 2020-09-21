@@ -54,7 +54,7 @@ class House extends Model
                 ->addSelect(['email' => User::select('email')->whereColumn('user_id', 'users.id')])
                 ->get();
 
-            SendNotificationEmail::dispatch($booksToMail, $house->name, $house->city)->delay(now()->addSeconds(10));
+            SendNotificationEmail::dispatch($booksToMail, $house->name, $house->city)->delay(now()->addSeconds(5));
 
             $house->bookings()->delete();
             $house->deleteImage();
