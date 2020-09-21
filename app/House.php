@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Jobs\SendNotificationEmail;
 use App\Mail\Notification;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -53,8 +54,7 @@ class House extends Model
                 ->with(['house', 'user'])
                 ->get();
 
-            foreach ($booksToMail as $booking)
-                Mail::to($booking->user->email)->send(new Notification($booking, $house)); //приходит на mailtrap
+            SendNotificationEmail::dispatch($booksToMail, $house)->delay(now()->addMinutes(3));
 
             $house->bookings()->delete();
             $house->deleteImage();
