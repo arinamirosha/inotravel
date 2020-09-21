@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class Notification extends Mailable
+class BookingDeletedNotification extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -38,6 +38,6 @@ class Notification extends Mailable
     public function build()
     {
         return $this->subject('Заявка удалена')
-            ->view('email.notification');
+            ->view('email.booking_deleted_notification');
     }
 }

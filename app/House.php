@@ -3,7 +3,7 @@
 namespace App;
 
 use App\Jobs\SendNotificationEmail;
-use App\Mail\Notification;
+use App\Mail\BookingDeletedNotification;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;

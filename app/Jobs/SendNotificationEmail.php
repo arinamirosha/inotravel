@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\House;
-use App\Mail\Notification;
+use App\Mail\BookingDeletedNotification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -40,8 +40,9 @@ class SendNotificationEmail implements ShouldQueue
      */
     public function handle()
     {
+        Log::info('handle method in SendNotificationEmail');
         foreach ($this->booksToMail as $booking)
-            Mail::to($booking->email)->send(new Notification($booking, $this->name, $this->city));
+            Mail::to($booking->email)->send(new BookingDeletedNotification($booking, $this->name, $this->city));
     }
 
     /**
