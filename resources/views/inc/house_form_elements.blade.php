@@ -61,7 +61,7 @@
         @foreach($facilities as $fac)
             <div class="form-check text-left">
                 <input class="form-check-input" type="checkbox" value="{{ $fac->id }}" id="{{ $fac->name }}" name="facilities[]"
-                       @if((isset($house) && $house->facilities->contains($fac->id) && !old('facilities')) || (old('facilities') && in_array($fac->id, old('facilities')))) checked @endif>
+                       @if((!$errors->any() && isset($house) && $house->facilities->contains($fac->id)) || (old('facilities') && in_array($fac->id, old('facilities')))) checked @endif>
                 <label class="form-check-label" for="{{ $fac->name }}">
                     {{ $fac->value }}
                 </label>
@@ -75,7 +75,7 @@
         @foreach($restrictions as $res)
             <div class="form-check text-left">
                 <input class="form-check-input" type="checkbox" value="{{ $res->id }}" id="{{ $res->name }}" name="restrictions[]"
-                       @if((isset($house) && $house->restrictions->contains($res->id) && !old('restrictions')) || (old('restrictions') && in_array($res->id, old('restrictions')))) checked @endif>
+                       @if((!$errors->any() && isset($house) && $house->restrictions->contains($res->id)) || (old('restrictions') && in_array($res->id, old('restrictions')))) checked @endif>
                 <label class="form-check-label" for="{{ $res->name }}">
                     {{ $res->value }}
                 </label>
