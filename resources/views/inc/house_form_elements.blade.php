@@ -1,3 +1,6 @@
+@php
+    $emptyErrors = !$errors->any();
+@endphp
 <div class="form-group row">
     <label for="name" class="col-md-2 col-form-label-sm text-md-right">{{ __('Название:') }}</label>
 
@@ -61,7 +64,7 @@
         @foreach($facilities as $fac)
             <div class="form-check text-left">
                 <input class="form-check-input" type="checkbox" value="{{ $fac->id }}" id="{{ $fac->name }}" name="facilities[]"
-                       @if((!$errors->any() && isset($house) && $house->facilities->contains($fac->id)) || (old('facilities') && in_array($fac->id, old('facilities')))) checked @endif>
+                       @if(($emptyErrors && isset($house) && $house->facilities->contains($fac->id)) || (old('facilities') && in_array($fac->id, old('facilities')))) checked @endif>
                 <label class="form-check-label" for="{{ $fac->name }}">
                     {{ $fac->value }}
                 </label>
@@ -75,7 +78,7 @@
         @foreach($restrictions as $res)
             <div class="form-check text-left">
                 <input class="form-check-input" type="checkbox" value="{{ $res->id }}" id="{{ $res->name }}" name="restrictions[]"
-                       @if((!$errors->any() && isset($house) && $house->restrictions->contains($res->id)) || (old('restrictions') && in_array($res->id, old('restrictions')))) checked @endif>
+                       @if(($emptyErrors && isset($house) && $house->restrictions->contains($res->id)) || (old('restrictions') && in_array($res->id, old('restrictions')))) checked @endif>
                 <label class="form-check-label" for="{{ $res->name }}">
                     {{ $res->value }}
                 </label>
