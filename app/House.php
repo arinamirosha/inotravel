@@ -51,10 +51,10 @@ class House extends Model
                 $house->bookings()
                 ->where('status', Booking::STATUS_BOOKING_ACCEPT)
                 ->where('arrival', '>=', Carbon::now()->format('Y-m-d'))
-                ->with(['house', 'user'])
+                ->addSelect(['email' => User::select('email')->whereColumn('user_id', 'users.id')])
                 ->get();
 
-            SendNotificationEmail::dispatch($booksToMail, $house)->delay(now()->addMinutes(3));
+            SendNotificationEmail::dispatch($booksToMail, $house->name, $house->city)->delay(now()->addSeconds(10));
 
             $house->bookings()->delete();
             $house->deleteImage();

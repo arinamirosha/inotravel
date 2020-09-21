@@ -20,12 +20,14 @@ class Notification extends Mailable
      */
 
     public $booking;
-    public $house;
+    private $name;
+    private $city;
 
-    public function __construct(Booking $booking, House $house)
+    public function __construct(Booking $booking, $name, $city)
     {
         $this->booking = $booking;
-        $this->house = $house;
+        $this->name = $name;
+        $this->city = $city;
     }
 
     /**

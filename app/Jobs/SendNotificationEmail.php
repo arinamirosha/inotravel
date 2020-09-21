@@ -9,28 +9,28 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class SendNotificationEmail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    const JOB_NAME = 'booking_notifications_job';
     private $booksToMail;
-    /**
-     * @var House
-     */
-    private $house;
+    private $name;
+    private $city;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($booksToMail, House $house)
+    public function __construct($booksToMail, $name, $city)
     {
-        //
         $this->booksToMail = $booksToMail;
-        $this->house = $house;
+        $this->name = $name;
+        $this->city = $city;
     }
 
     /**
@@ -41,6 +41,17 @@ class SendNotificationEmail implements ShouldQueue
     public function handle()
     {
         foreach ($this->booksToMail as $booking)
-            Mail::to($booking->user->email)->send(new Notification($booking, $this->house)); //приходит на mailtrap
+            Mail::to($booking->email)->send(new Notification($booking, $this->name, $this->city));
+    }
+
+    /**
+     * The job failed to process.
+     *
+     * @param  \Exception  $exception
+     * @return void
+     */
+    public function failed(\Exception $exception)
+    {
+        Log::error($exception->getMessage(), ['job_name' => self::JOB_NAME]);
     }
 }
