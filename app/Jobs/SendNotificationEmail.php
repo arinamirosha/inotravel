@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Mail;
 
 class SendNotificationEmail implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable;
 
     const JOB_NAME = 'booking_notifications_job';
     private $booksToMail;
@@ -28,8 +28,6 @@ class SendNotificationEmail implements ShouldQueue
      */
     public function __construct($booksToMail, $name, $city)
     {
-        Log::info('in constructor');
-        Log::info('BtM: '.$booksToMail); // данные есть
         $this->booksToMail = $booksToMail;
         $this->name = $name;
         $this->city = $city;
@@ -42,12 +40,8 @@ class SendNotificationEmail implements ShouldQueue
      */
     public function handle()
     {
-        Log::info('handle method in SendNotificationEmail');
-        Log::info('BtM: '.$this->booksToMail); // данные отсутствуют
-        foreach ($this->booksToMail as $booking){
-            Log::info($booking->arrival.' - '.$booking->departure);
+        foreach ($this->booksToMail as $booking)
             Mail::to($booking->email)->send(new BookingDeletedNotification($booking->arrival, $booking->departure, $this->name, $this->city));
-        }
     }
 
     /**
