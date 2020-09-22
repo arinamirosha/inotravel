@@ -59,26 +59,28 @@ class BookingController extends Controller
     public function update(Booking $booking, Request $request)
     {
         $booking->load('user', 'house', 'house.user');
+        $status = $request->status;
 
-        if ($request->has('answer')) {
-            $newStatus = $request->answer;
-            $booking->update(['status' => $newStatus, 'new' => Booking::STATUS_BOOKING_NEW]);
-            SendBookingChangedEmail::dispatch($booking->user->email, $booking)->delay(now()->addSeconds(10));
-        }
-        elseif ($request->has('cancel')) {
-            $booking->update(['status' => Booking::STATUS_BOOKING_CANCEL]);
-            SendBookingChangedEmail::dispatch($booking->house->user->email, $booking)->delay(now()->addSeconds(10));
-        }
-        else {
-            $booking->update(['new' => Booking::STATUS_BOOKING_VIEWED]);
+        switch ($status){
+            case Booking::STATUS_BOOKING_ACCEPT:
+            case Booking::STATUS_BOOKING_REJECT:
+                $booking->update(['status' => $status, 'new' => Booking::STATUS_BOOKING_NEW]);
+                SendBookingChangedEmail::dispatch($booking->user->email, $booking)->delay(now()->addSeconds(10));
+                break;
+
+            case Booking::STATUS_BOOKING_CANCEL:
+                $booking->update(['status' => $status]);
+                SendBookingChangedEmail::dispatch($booking->house->user->email, $booking)->delay(now()->addSeconds(10));
+                break;
+
+            case Booking::STATUS_BOOKING_DELETE:
+                $booking->delete(); break;
+
+            case Booking::STATUS_BOOKING_VIEWED:
+                $booking->update(['new' => $status]); break;
         }
 
         return redirect()->back();
     }
 
-    public function destroy(Booking $booking)
-    {
-        $booking->delete();
-        return redirect()->back();
-    }
 }

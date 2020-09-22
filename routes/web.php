@@ -39,12 +39,10 @@ Route::get('/search', 'SearchController@index')->name('search');
 Route::get('/booking', 'BookingController@index')->name('booking.index');
 Route::post('/booking', 'BookingController@store')->name('booking.store');
 Route::post('/booking/{booking}/update', 'BookingController@update')->name('booking.update');
-Route::post('/booking/{booking}', 'BookingController@destroy')->name('booking.destroy');
 
 // идет не в post
 Route::get('/profile/update', function ($user) { return redirect(route('profile.edit', $user)); });
 Route::get('/profile/update-password', function ($user) { return redirect(route('profile.edit', $user)); });
 Route::get('/house/{house}/update', function () { return redirect(route('house.index')); });
 Route::get('/booking/{booking}/update', function () { return redirect(route('booking.index')); });
-Route::get('/booking/{booking}', function () { return redirect(route('booking.index')); });
 Route::get('/admin/{user}/update', function () { return redirect(route('admin.index')); });

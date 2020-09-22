@@ -11,10 +11,11 @@ class Booking extends Model
     const STATUS_BOOKING_ACCEPT = 2;
     const STATUS_BOOKING_REJECT = 3;
     const STATUS_BOOKING_CANCEL = 4;
+    const STATUS_BOOKING_DELETE = 5;
 
     //for new indicator
-    const STATUS_BOOKING_NEW = 5;
-    const STATUS_BOOKING_VIEWED = 6;
+    const STATUS_BOOKING_NEW = 6;
+    const STATUS_BOOKING_VIEWED = 7;
 
     protected $guarded = [];
     protected $fillable = [

@@ -48,38 +48,38 @@
                                 <div class="row">
                                     <div class="col-8">
 
-                                        @if($booking->new === \App\Booking::STATUS_BOOKING_NEW)
-                                            <form method="post" action="{{ route('booking.update', $booking->id) }}">
-                                                @csrf
-                                                NEW!!! <button class="btn btn-sm btn-outline-secondary">Ок</button>
-                                            </form>
+                                        <form method="post" action="{{ route('booking.update', $booking->id) }}">
+                                            @csrf
+                                            @switch($booking->status)
 
-                                        @elseif($booking->status === \App\Booking::STATUS_BOOKING_ACCEPT)
-                                            <form method="post" action="{{ route('booking.update', $booking->id) }}">
-                                                @csrf
-                                                <input type="hidden" name="cancel">
-                                                <button class="btn btn-sm btn-outline-secondary btn-block" onclick="return confirm('Вы уверены, что хотите отменить заявку?')">
-                                                    Отменить
-                                                </button>
-                                            </form>
+                                                @case(\App\Booking::STATUS_BOOKING_ACCEPT)
+                                                    @if($booking->new === \App\Booking::STATUS_BOOKING_NEW)
+                                                        <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_VIEWED}}">
+                                                        NEW!!! <button class="btn btn-sm btn-outline-secondary">Ок</button>
+                                                    @else
+                                                        <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_CANCEL}}">
+                                                        <button class="btn btn-sm btn-outline-secondary btn-block" onclick="return confirm('Вы уверены, что хотите отменить заявку?')">
+                                                            Отменить
+                                                        </button>
+                                                    @endif
+                                                @break
 
-                                        @elseif($booking->status === \App\Booking::STATUS_BOOKING_REJECT)
-                                            <form action="{{ route('booking.destroy', $booking->id) }}" method="post">
-                                                @csrf
-                                                <button class="btn btn-sm btn-outline-secondary btn-block" onclick="return confirm('Вы уверены, что хотите удалить заявку?')">
-                                                    Удалить
-                                                </button>
-                                            </form>
-                                        @endif
+                                                @case(\App\Booking::STATUS_BOOKING_SEND)
+                                                @case(\App\Booking::STATUS_BOOKING_REJECT)
+                                                    <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_DELETE}}">
+                                                    @if($booking->new === \App\Booking::STATUS_BOOKING_SEND)
+                                                        <button class="btn btn-sm btn-outline-secondary btn-block" onclick="return confirm('Вы уверены, что хотите отозвать заявку?')">
+                                                            Отозвать
+                                                        </button>
+                                                    @else
+                                                        <button class="btn btn-sm btn-outline-secondary btn-block" onclick="return confirm('Вы уверены, что хотите удалить заявку?')">
+                                                            Удалить
+                                                        </button>
+                                                    @endif
+                                                @break
 
-                                        @if($booking->status === \App\Booking::STATUS_BOOKING_SEND)
-                                            <form action="{{ route('booking.destroy', $booking->id) }}" method="post">
-                                                @csrf
-                                                <button class="btn btn-sm btn-outline-secondary btn-block" onclick="return confirm('Вы уверены, что хотите отозвать заявку?')">
-                                                    Отозвать
-                                                </button>
-                                            </form>
-                                        @endif
+                                            @endswitch
+                                        </form>
 
                                     </div>
                                 </div>

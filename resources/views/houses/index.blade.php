@@ -44,8 +44,8 @@
                                     @if($booking->status === \App\Booking::STATUS_BOOKING_SEND)
                                         <form method="post" action="{{ route('booking.update', $booking->id) }}">
                                             @csrf
-                                            <input type="hidden" name="answer" id="answer{{ $booking->id }}" value="{{ \App\Booking::STATUS_BOOKING_REJECT }}">
-                                            <button class="btn btn-outline-secondary" onclick="$('#answer{{ $booking->id }}').val({{ \App\Booking::STATUS_BOOKING_ACCEPT }})">
+                                            <input type="hidden" name="status" id="status{{ $booking->id }}" value="{{ \App\Booking::STATUS_BOOKING_REJECT }}">
+                                            <button class="btn btn-outline-secondary" onclick="$('#status{{ $booking->id }}').val({{ \App\Booking::STATUS_BOOKING_ACCEPT }})">
                                                 Принять
                                             </button>
                                             <button class="btn btn-outline-secondary">
@@ -65,8 +65,9 @@
                                         <div class="col-8">
 
                                             @if($booking->status === \App\Booking::STATUS_BOOKING_CANCEL)
-                                                <form action="{{ route('booking.destroy', $booking->id) }}" method="post">
+                                                <form action="{{ route('booking.update', $booking->id) }}" method="post">
                                                     @csrf
+                                                    <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_DELETE}}">
                                                     <button class="btn btn-sm btn-outline-secondary btn-block" onclick="return confirm('Вы уверены, что хотите удалить заявку?')">
                                                         Удалить
                                                     </button>
