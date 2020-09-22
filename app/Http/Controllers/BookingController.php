@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Booking;
+use App\Jobs\SendBookingChangedEmail;
 use Illuminate\Support\Facades\Auth;
 use App\House;
 use GuzzleHttp\Psr7\Uri;
@@ -57,16 +58,21 @@ class BookingController extends Controller
 
     public function update(Booking $booking, Request $request)
     {
+        $booking->load('user', 'house', 'house.user');
+
         if ($request->has('answer')) {
             $newStatus = $request->answer;
             $booking->update(['status' => $newStatus, 'new' => Booking::STATUS_BOOKING_NEW]);
+            SendBookingChangedEmail::dispatch($booking->user->email, $booking)->delay(now()->addSeconds(10));
         }
         elseif ($request->has('cancel')) {
             $booking->update(['status' => Booking::STATUS_BOOKING_CANCEL]);
+            SendBookingChangedEmail::dispatch($booking->house->user->email, $booking)->delay(now()->addSeconds(10));
         }
         else {
             $booking->update(['new' => Booking::STATUS_BOOKING_VIEWED]);
         }
+
         return redirect()->back();
     }
 

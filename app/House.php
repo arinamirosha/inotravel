@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Jobs\SendNotificationEmail;
+use App\Jobs\SendBookingDeletedEmail;
 use App\Mail\BookingDeletedNotification;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -54,7 +54,7 @@ class House extends Model
                 ->addSelect(['email' => User::select('email')->whereColumn('user_id', 'users.id')])
                 ->get();
 
-            SendNotificationEmail::dispatch($booksToMail, $house->name, $house->city)->delay(now()->addSeconds(5));
+            SendBookingDeletedEmail::dispatch($booksToMail, $house->name, $house->city)->delay(now()->addSeconds(10));
 
             $house->bookings()->delete();
             $house->deleteImage();
