@@ -16,32 +16,60 @@ class House extends Model
         'name', 'city', 'address', 'places', 'info', 'image'
     ];
 
+    /**
+     * Many houses to one user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Many houses has many facilities
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function facilities()
     {
         return $this->belongsToMany(Facility::class, 'houses_facilities', 'house_id', 'facility_id');
     }
 
+    /**
+     * Many houses has many restrictions
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function restrictions()
     {
         return $this->belongsToMany(Restriction::class, 'houses_restrictions', 'house_id', 'restriction_id');
     }
 
+    /**
+     * One house to many bookings
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function bookings()
     {
         return $this->hasMany(Booking::class);
     }
 
+    /**
+     * Get path to house's image
+     *
+     * @return string
+     */
     public function houseImage()
     {
         $imagePath = ($this->image) ? Storage::url($this->image) : '/images/noImage.svg';
         return $imagePath;
     }
 
+    /**
+     * Delete house and create job to send emails
+     */
     public static function boot()
     {
         parent::boot();
@@ -63,6 +91,9 @@ class House extends Model
         });
     }
 
+    /**
+     * Delete house's image
+     */
     public function deleteImage()
     {
         if ($this->image){
@@ -71,6 +102,13 @@ class House extends Model
         }
     }
 
+    /**
+     * Check if house free for booking
+     *
+     * @param $arrival
+     * @param $departure
+     * @return bool
+     */
     public function isFree($arrival, $departure)
     {
         $isFree = ! $this->bookings()

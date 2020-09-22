@@ -13,11 +13,20 @@ use SebastianBergmann\Comparator\Book;
 
 class BookingController extends Controller
 {
+    /**
+     * BookingController constructor.
+     */
     public function __construct()
     {
-        $this->middleware('auth'); // if not auth, go to register
+        $this->middleware('auth');
     }
 
+    /**
+     * Create a new booking if house exists and free
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function store(Request $request)
     {
         $houseId = $request->houseId;
@@ -47,6 +56,11 @@ class BookingController extends Controller
         return redirect(route('house.show', $houseId));
     }
 
+    /**
+     * Show all sent bookings excluding cancelled
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         $userId = Auth::id();
@@ -60,6 +74,14 @@ class BookingController extends Controller
         return view('booking.index', compact('bookings'));
     }
 
+    /**
+     * Set new status of booking or delete. Create jobs to send emails about changing of the status
+     *
+     * @param Booking $booking
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
     public function update(Booking $booking, Request $request)
     {
         $booking->load('user', 'house', 'house.user');

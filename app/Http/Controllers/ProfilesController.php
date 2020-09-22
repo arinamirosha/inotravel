@@ -12,11 +12,20 @@ use Illuminate\Support\Facades\Hash;
 
 class ProfilesController extends Controller
 {
+    /**
+     * ProfilesController constructor.
+     */
     public function __construct()
     {
         $this->middleware('auth');
     }
 
+    /**
+     * Show page for updating profile
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function edit()
     {
         $user = Auth::user();
@@ -25,6 +34,12 @@ class ProfilesController extends Controller
         return view('profiles.edit', compact('user'));
     }
 
+    /**
+     * Update user, get exception when user trying to change email that another user has
+     *
+     * @param ProfileRequest $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function update(ProfileRequest $request)
     {
         $user = Auth::user();
@@ -38,6 +53,12 @@ class ProfilesController extends Controller
         return redirect(route('profile.edit'))->with('message', $message);
     }
 
+    /**
+     * Change password
+     *
+     * @param PasswordRequest $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function updatePassword(PasswordRequest $request)
     {
         $user = Auth::user();

@@ -12,6 +12,12 @@ use SebastianBergmann\Comparator\Book;
 
 class SearchController extends Controller
 {
+    /**
+     * Search for right houses, show page with results
+     *
+     * @param SearchRequest $request
+     * @return \Illuminate\Http\Response
+     */
     public function index(SearchRequest $request)
     {
         $requestData = $request->all();

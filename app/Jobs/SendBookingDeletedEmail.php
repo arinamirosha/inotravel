@@ -34,7 +34,7 @@ class SendBookingDeletedEmail implements ShouldQueue
     }
 
     /**
-     * Execute the job.
+     * Execute the job. Send emails to users about deleting of house
      *
      * @return void
      */

@@ -33,6 +33,11 @@ class HouseRequest extends FormRequest
         ];
     }
 
+    /**
+     * Change error messages.
+     *
+     * @return array|string[]
+     */
     public function messages()
     {
         return [

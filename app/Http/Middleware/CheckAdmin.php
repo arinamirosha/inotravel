@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 class CheckAdmin
 {
     /**
-     * Handle an incoming request.
+     * Check if user an admin
      *
      * @param \Illuminate\Http\Request $request
      * @param \Closure $next

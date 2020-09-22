@@ -26,7 +26,7 @@ class BookingChangedNotification extends Mailable
     }
 
     /**
-     * Build the message.
+     * Build the message about changing of booking.
      *
      * @return $this
      */

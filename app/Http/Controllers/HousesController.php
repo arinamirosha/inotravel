@@ -14,11 +14,19 @@ use Illuminate\Support\Facades\Cookie;
 
 class HousesController extends Controller
 {
+    /**
+     * HousesController constructor.
+     */
     public function __construct()
     {
-        $this->middleware('auth')->except("show"); // if not auth, go to register
+        $this->middleware('auth')->except("show");
     }
 
+    /**
+     * Open page for creating house
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function create()
     {
         $facilities = Facility::all();
@@ -27,6 +35,13 @@ class HousesController extends Controller
         return view('houses.create', compact('facilities', 'restrictions'));
     }
 
+    /**
+     * Create a new house
+     *
+     * @param HouseRequest $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
     public function store(HouseRequest $request)
     {
         $requestData = $request->all();
@@ -44,6 +59,11 @@ class HousesController extends Controller
         return redirect(route('house.index'));
     }
 
+    /**
+     * Show user's houses and received bookings (except rejected)
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         $userId = Auth::id();
@@ -58,6 +78,12 @@ class HousesController extends Controller
         return view('houses.index', compact('houses', 'bookings'));
     }
 
+    /**
+     * Show one of the houses and check if it's booked and free
+     *
+     * @param House $house
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function show(House $house)
     {
         $house = $house->load(['user', 'facilities', 'restrictions']);
@@ -82,6 +108,13 @@ class HousesController extends Controller
             compact('house', 'isBooked', 'isFree', 'enoughPlaces', 'arrival', 'departure', 'people'));
     }
 
+    /**
+     * Delete house
+     *
+     * @param House $house
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Exception
+     */
     public function destroy(House $house)
     {
         $house->delete();
@@ -89,6 +122,13 @@ class HousesController extends Controller
         return redirect(route('house.index'));
     }
 
+    /**
+     * Show page for editing house
+     *
+     * @param House $house
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function edit(House $house)
     {
         $this->authorize('update', $house->user);
@@ -98,6 +138,14 @@ class HousesController extends Controller
         return view('houses.edit', compact('house', 'facilities', 'restrictions'));
     }
 
+    /**
+     * Update house
+     *
+     * @param House $house
+     * @param HouseRequest $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
     public function update(House $house, HouseRequest $request)
     {
         $requestData = $request->all();

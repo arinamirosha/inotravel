@@ -44,7 +44,7 @@ class UserPolicy
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Determine whether the user can update the model. User can update if on own page
      *
      * @param \App\User $user
      * @param \App\User $model

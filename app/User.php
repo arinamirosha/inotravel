@@ -36,16 +36,31 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * One user to many houses
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function houses()
     {
         return $this->hasMany(House::class)->orderBy('created_at', 'DESC');
     }
 
+    /**
+     * One user to many bookings
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function bookings()
     {
         return $this->hasMany(Booking::class)->orderBy('created_at', 'DESC');
     }
 
+    /**
+     * Get count of income bookings
+     *
+     * @return string
+     */
     public function newInBooks()
     {
         $newInBooks = Booking::join('houses', 'houses.id', '=', 'house_id')
@@ -60,6 +75,11 @@ class User extends Authenticatable
         }
     }
 
+    /**
+     * Get count of new bookings with answer (accepted or rejected)
+     *
+     * @return string
+     */
     public function unreadOutBooks()
     {
         $unreadOutBooks = Booking::where('user_id', '=', $this->id)
