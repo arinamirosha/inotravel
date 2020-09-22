@@ -41,11 +41,13 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function logout(Request $request) {
+    public function logout(Request $request)
+    {
         Auth::logout();
         Cookie::queue(Cookie::forget('arrival'));
         Cookie::queue(Cookie::forget('departure'));
         Cookie::queue(Cookie::forget('people'));
+
         return redirect('/login');
     }
 }

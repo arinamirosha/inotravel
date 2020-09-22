@@ -32,6 +32,7 @@ class BookingChangedNotification extends Mailable
      */
     public function build()
     {
-        return $this->subject('Заявка обновлена')->view('email.booking_changed_notification', [ 'booking' => $this->booking]);
+        return $this->subject('Заявка обновлена')->view('email.booking_changed_notification',
+            ['booking' => $this->booking]);
     }
 }

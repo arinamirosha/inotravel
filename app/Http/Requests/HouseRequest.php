@@ -47,7 +47,7 @@ class HouseRequest extends FormRequest
             'places.min' => 'Мест не может быть < 1',
             'places.numeric' => 'Введите число',
             'info.max' => 'Доп.инфо не может содержать > 1000 символов',
-            'image.image' => 'Изображение должно быть изображением'
+            'image.image' => 'Изображение должно быть изображением',
         ];
     }
 }

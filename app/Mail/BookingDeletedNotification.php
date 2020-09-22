@@ -44,7 +44,7 @@ class BookingDeletedNotification extends Mailable
                 'arrival' => $this->arrival,
                 'departure' => $this->departure,
                 'name' => $this->name,
-                'city' => $this->city
+                'city' => $this->city,
             ]);
     }
 }

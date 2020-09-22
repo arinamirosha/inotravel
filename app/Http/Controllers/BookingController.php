@@ -22,7 +22,10 @@ class BookingController extends Controller
     {
         $houseId = $request->houseId;
         $house = House::find($houseId);
-        if (! $house) return redirect(route('welcome'));
+
+        if ( ! $house) {
+            return redirect(route('welcome'));
+        }
 
         $arrival = $request->arrival;
         $departure = $request->departure;
@@ -37,7 +40,7 @@ class BookingController extends Controller
                 'arrival' => $arrival,
                 'departure' => $departure,
                 'people' => $people,
-                'status' => Booking::STATUS_BOOKING_SEND
+                'status' => Booking::STATUS_BOOKING_SEND,
             ]);
         }
 
@@ -49,10 +52,11 @@ class BookingController extends Controller
         $userId = Auth::id();
         $bookings = Booking::where('user_id', '=', $userId)
             ->where('status', '<>', Booking::STATUS_BOOKING_CANCEL)
-            ->orderBy('updated_at','desc')
-            ->orderBy('created_at','desc')
+            ->orderBy('updated_at', 'desc')
+            ->orderBy('created_at', 'desc')
             ->with(['house', 'house.user'])
             ->get();
+
         return view('booking.index', compact('bookings'));
     }
 
@@ -61,7 +65,7 @@ class BookingController extends Controller
         $booking->load('user', 'house', 'house.user');
         $status = $request->status;
 
-        switch ($status){
+        switch ($status) {
             case Booking::STATUS_BOOKING_ACCEPT:
             case Booking::STATUS_BOOKING_REJECT:
                 $booking->update(['status' => $status, 'new' => Booking::STATUS_BOOKING_NEW]);
@@ -74,10 +78,12 @@ class BookingController extends Controller
                 break;
 
             case Booking::STATUS_BOOKING_DELETE:
-                $booking->delete(); break;
+                $booking->delete();
+                break;
 
             case Booking::STATUS_BOOKING_VIEWED:
-                $booking->update(['new' => $status]); break;
+                $booking->update(['new' => $status]);
+                break;
         }
 
         return redirect()->back();

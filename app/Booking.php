@@ -18,9 +18,7 @@ class Booking extends Model
     const STATUS_BOOKING_VIEWED = 7;
 
     protected $guarded = [];
-    protected $fillable = [
-        'house_id', 'status', 'new', 'arrival', 'departure', 'people'
-    ];
+    protected $fillable = ['house_id', 'status', 'new', 'arrival', 'departure', 'people'];
 
     public function user()
     {

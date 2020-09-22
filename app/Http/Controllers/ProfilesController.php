@@ -21,6 +21,7 @@ class ProfilesController extends Controller
     {
         $user = Auth::user();
         $this->authorize('update', $user);
+
         return view('profiles.edit', compact('user'));
     }
 
@@ -30,7 +31,7 @@ class ProfilesController extends Controller
         try {
             $user->update($request->all());
             $message = "Данные успешно обновлены";
-        } catch(QueryException $e) {
+        } catch (QueryException $e) {
             $message = "Указанная почта привязана к другому аккаунту";
         }
 
@@ -44,8 +45,9 @@ class ProfilesController extends Controller
             $newPassword = Hash::make($request->password);
             $user->update(['password' => $newPassword]);
             $message = "Пароль успешно обновлен";
+        } else {
+            $message = "Старый пароль не соответствует";
         }
-        else $message = "Старый пароль не соответствует";
 
         return redirect(route('profile.edit'))->with('message', $message);
     }

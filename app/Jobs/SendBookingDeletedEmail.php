@@ -40,14 +40,20 @@ class SendBookingDeletedEmail implements ShouldQueue
      */
     public function handle()
     {
-        foreach ($this->booksToMail as $booking)
-            Mail::to($booking->email)->send(new BookingDeletedNotification($booking->arrival, $booking->departure, $this->name, $this->city));
+        foreach ($this->booksToMail as $booking) {
+            Mail::to($booking->email)->send(new BookingDeletedNotification(
+                $booking->arrival,
+                $booking->departure,
+                $this->name,
+                $this->city
+            ));
+        }
     }
 
     /**
      * The job failed to process.
      *
-     * @param  \Exception  $exception
+     * @param \Exception $exception
      * @return void
      */
     public function failed(\Exception $exception)

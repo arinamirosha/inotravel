@@ -15,9 +15,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'surname', 'email', 'password', 'admin'
-    ];
+    protected $fillable = ['name', 'surname', 'email', 'password', 'admin'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -25,7 +23,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**
@@ -54,8 +53,11 @@ class User extends Authenticatable
             ->where('status', '=', Booking::STATUS_BOOKING_SEND)
             ->select('bookings.*')
             ->count();
-        if ($newInBooks != 0 ) return "(+$newInBooks)";
-        else return '';
+        if ($newInBooks != 0) {
+            return "(+$newInBooks)";
+        } else {
+            return '';
+        }
     }
 
     public function unreadOutBooks()
@@ -63,7 +65,10 @@ class User extends Authenticatable
         $unreadOutBooks = Booking::where('user_id', '=', $this->id)
             ->where('new', '=', Booking::STATUS_BOOKING_NEW)
             ->count();
-        if ($unreadOutBooks != 0 ) return "(+$unreadOutBooks)";
-        else return '';
+        if ($unreadOutBooks != 0) {
+            return "(+$unreadOutBooks)";
+        } else {
+            return '';
+        }
     }
 }

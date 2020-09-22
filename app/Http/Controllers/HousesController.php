@@ -23,6 +23,7 @@ class HousesController extends Controller
     {
         $facilities = Facility::all();
         $restrictions = Restriction::all();
+
         return view('houses.create', compact('facilities', 'restrictions'));
     }
 
@@ -30,7 +31,7 @@ class HousesController extends Controller
     {
         $requestData = $request->all();
 
-        if ($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             $imagePath = storeImage($request->image);
             $requestData['image'] = $imagePath;
         }
@@ -67,22 +68,24 @@ class HousesController extends Controller
 
         $isBooked = Auth::check() ?
             $house->bookings()
-            ->where('arrival', '=', $arrival)
-            ->where('departure', '=', $departure)
-            ->where('user_id', '=', Auth::id())
-            ->exists()
+                ->where('arrival', '=', $arrival)
+                ->where('departure', '=', $departure)
+                ->where('user_id', '=', Auth::id())
+                ->exists()
             : null;
 
         $isFree = $house->isFree($arrival, $departure);
 
         $enoughPlaces = $house->places >= $people;
 
-        return view('houses.show', compact('house', 'isBooked', 'isFree', 'enoughPlaces', 'arrival', 'departure', 'people'));
+        return view('houses.show',
+            compact('house', 'isBooked', 'isFree', 'enoughPlaces', 'arrival', 'departure', 'people'));
     }
 
     public function destroy(House $house)
     {
         $house->delete();
+
         return redirect(route('house.index'));
     }
 
@@ -91,17 +94,17 @@ class HousesController extends Controller
         $this->authorize('update', $house->user);
         $facilities = Facility::all();
         $restrictions = Restriction::all();
-        return view('houses.edit', compact('house','facilities', 'restrictions'));
+
+        return view('houses.edit', compact('house', 'facilities', 'restrictions'));
     }
 
     public function update(House $house, HouseRequest $request)
     {
         $requestData = $request->all();
 
-        if ($request->filled('deleteImage')){
+        if ($request->filled('deleteImage')) {
             $house->deleteImage();
-        }
-        elseif ($request->hasFile('image')){
+        } elseif ($request->hasFile('image')) {
             if ($house->image) {
                 updateImage($request->image, $house->image);
                 unset($requestData['image']);
