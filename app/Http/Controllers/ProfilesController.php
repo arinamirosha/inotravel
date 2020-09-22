@@ -43,6 +43,7 @@ class ProfilesController extends Controller
     public function update(ProfileRequest $request)
     {
         $user = Auth::user();
+
         try {
             $user->update($request->all());
             $message = "Данные успешно обновлены";
@@ -62,6 +63,7 @@ class ProfilesController extends Controller
     public function updatePassword(PasswordRequest $request)
     {
         $user = Auth::user();
+
         if (Hash::check($request->passwordOld, $user->password)) {
             $newPassword = Hash::make($request->password);
             $user->update(['password' => $newPassword]);
