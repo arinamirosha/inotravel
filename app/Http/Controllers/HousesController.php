@@ -100,7 +100,7 @@ class HousesController extends Controller
                 ->exists()
             : null;
 
-        $isFree = $house->isFree($arrival, $departure);
+        $isFree = $house->isFree($arrival, $departure, $people);
 
         $enoughPlaces = $house->places >= $people;
 

@@ -67,7 +67,7 @@
                                                 @case(\App\Booking::STATUS_BOOKING_SEND)
                                                 @case(\App\Booking::STATUS_BOOKING_REJECT)
                                                     <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_DELETE}}">
-                                                    @if($booking->new === \App\Booking::STATUS_BOOKING_SEND)
+                                                    @if($booking->status === \App\Booking::STATUS_BOOKING_SEND)
                                                         <button class="btn btn-sm btn-outline-secondary btn-block" onclick="return confirm('Вы уверены, что хотите отозвать заявку?')">
                                                             Отозвать
                                                         </button>

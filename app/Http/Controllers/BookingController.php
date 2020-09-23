@@ -41,7 +41,7 @@ class BookingController extends Controller
         $people = $request->people;
         $user = Auth::user();
 
-        $isFree = $house->isFree($arrival, $departure);
+        $isFree = $house->isFree($arrival, $departure, $people);
 
         if ($isFree) {
             $user->bookings()->create([

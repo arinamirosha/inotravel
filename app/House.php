@@ -13,7 +13,12 @@ use Illuminate\Support\Facades\Storage;
 class House extends Model
 {
     protected $fillable = [
-        'name', 'city', 'address', 'places', 'info', 'image'
+        'name',
+        'city',
+        'address',
+        'places',
+        'info',
+        'image',
     ];
 
     /**
@@ -64,6 +69,7 @@ class House extends Model
     public function houseImage()
     {
         $imagePath = ($this->image) ? Storage::url($this->image) : '/images/noImage.svg';
+
         return $imagePath;
     }
 
@@ -73,14 +79,13 @@ class House extends Model
     public static function boot()
     {
         parent::boot();
-        static::deleted(function($house)
-        {
+        static::deleted(function ($house) {
             $booksToMail =
                 $house->bookings()
-                ->where('status', Booking::STATUS_BOOKING_ACCEPT)
-                ->where('arrival', '>=', Carbon::now()->format('Y-m-d'))
-                ->addSelect(['email' => User::select('email')->whereColumn('user_id', 'users.id')])
-                ->get();
+                    ->where('status', Booking::STATUS_BOOKING_ACCEPT)
+                    ->where('arrival', '>=', Carbon::now()->format('Y-m-d'))
+                    ->addSelect(['email' => User::select('email')->whereColumn('user_id', 'users.id')])
+                    ->get();
 
             SendBookingDeletedEmail::dispatch($booksToMail, $house->name, $house->city)->delay(now()->addSeconds(10));
 
@@ -96,9 +101,9 @@ class House extends Model
      */
     public function deleteImage()
     {
-        if ($this->image){
+        if ($this->image) {
             Storage::delete("public/$this->image");
-            $this->image=null;
+            $this->image = null;
         }
     }
 
@@ -109,16 +114,36 @@ class House extends Model
      * @param $departure
      * @return bool
      */
-    public function isFree($arrival, $departure)
+    public function isFree($arrival, $departure, $people)
     {
-        $isFree = ! $this->bookings()
-        ->where('status', '=', Booking::STATUS_BOOKING_ACCEPT)
-        ->where(function ($query) use ($arrival, $departure) {
-            $query
-                ->whereBetween('departure', [$arrival, $departure])
-                ->orWhereBetween('arrival', [$arrival, $departure]);
-        })
-        ->exists();
+//        $isFree = ! $this->bookings()
+//        ->where('status', '=', Booking::STATUS_BOOKING_ACCEPT)
+//        ->where(function ($query) use ($arrival, $departure) {
+//            $query
+//                ->whereBetween('departure', [$arrival, $departure])
+//                ->orWhereBetween('arrival', [$arrival, $departure]);
+//        })
+//        ->exists();
+
+        $isFree = true;
+        for ($i = Carbon::parse($arrival); $i <= Carbon::parse($departure); $i = $i->add(1, 'day')) {
+
+            $date = $i->format('Y-m-d');
+
+            $full = (
+                    $this->bookings()
+                        ->where('status', '=', Booking::STATUS_BOOKING_ACCEPT)
+                        ->where('arrival', '<=', $date)
+                        ->where('departure', '>=', $date)
+                        ->sum('people')
+                    + $people
+                ) > $this->places;
+
+            if ($full) {
+                $isFree = false;
+                break;
+            }
+        }
 
         return $isFree;
     }
