@@ -56,6 +56,7 @@ class SearchController extends Controller
             ->get();
 
         $houses = House::where('city', 'like', "%{$where}%")
+            ->where('places', '>=', $people)
             ->get()
             ->diff($exceptHouses);
 
