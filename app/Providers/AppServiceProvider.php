@@ -13,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        require_once __DIR__ . '/../Helpers/DataHelper.php';
+        require_once __DIR__.'/../Helpers/DataHelper.php';
     }
 
     /**
@@ -23,6 +23,24 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        \Illuminate\Database\Query\Builder::macro('toFullSql', function () {
+            return array_reduce($this->getBindings(), function ($sql, $binding) {
+                if (is_numeric($binding)) {
+                    $replace = $binding;
+                } else {
+                    if (is_bool($binding)) {
+                        $replace = $binding ? 'true' : 'false';
+                    } else {
+                        $replace = "'".$binding."'";
+                    }
+                }
+
+                return preg_replace('/\?/', $replace, $sql, 1);
+            }, $this->toSql());
+        });
+
+        \Illuminate\Database\Eloquent\Builder::macro('toFullSql', function () {
+            return ($this->getQuery()->toFullSql());
+        });
     }
 }
