@@ -2,6 +2,7 @@
 
 use App\Booking;
 use App\House;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
@@ -34,42 +35,52 @@ function updateImage($file, $path)
     Storage::disk('public')->put($path, $image);
 }
 
-/**
- * Get houses that have at least one day that doesn't suit search parameters
- *
- * @param $arrival
- * @param $departure
- * @param $people
- * @return mixed
- */
-function getFullHouses($arrival, $departure, $people)
-{
-    $exceptHouses = DB::table(DB::raw('(select * from
-		 (select adddate(\''.$arrival.'\',t1*10 + t0) gen_date from
-		 (select 0 t0 union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t0,
-		 (select 0 t1 union select 1 union select 2 union select 3 union select 4 union select 5) t1) v
-		 where gen_date between \''.$arrival.'\' and \''.$departure.'\') as t'))
-        ->select([
-            DB::raw('SUM(people) AS summa'),
-            't.gen_date',
-            'bookings.house_id',
-        ])
-        ->leftJoin('bookings', function ($query) {
-            $query->on(DB::raw('1'), '=', DB::raw('1'));
-        })
-        ->addSelect(['places' => House::select('places')->whereColumn('house_id', 'houses.id')])
-        ->whereColumn('arrival', '<=', 't.gen_date')
-        ->whereColumn('departure', '>=', 't.gen_date')
-        ->where('status', Booking::STATUS_BOOKING_ACCEPT)
-        ->groupBy(DB::raw('bookings.house_id, t.gen_date'))
-        ->having(DB::raw('places-summa'), '<', $people)
-        ->toFullSql();
-
-    $exceptHouses = DB::table((DB::raw("($exceptHouses) AS result")))
-        ->select('house_id')->distinct()->toFullSql();
-
-    $exceptHouses = House::rightJoin((DB::raw("($exceptHouses) AS ex")), 'houses.id', '=', 'ex.house_id')
-        ->get();
-
-    return $exceptHouses;
-}
+//function getSqlFreeHouse($arrival, $departure, $people, $whereOrId, $whatToGet)
+//{
+//    $countDays = Carbon::parse($departure)->diffInDays(Carbon::parse($arrival)) + 1;
+//
+//    $genDate = DB::table(DB::raw("(SELECT ADDDATE('" . $arrival . "', t1 * 10 + t0) gen_date FROM
+//                (SELECT 0 t0 UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9) t0,
+//                (SELECT 0 t1 UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5) t1) AS v"))
+//        ->whereBetween('gen_date', [$arrival, $departure])
+//        ->toFullSql();
+//
+//    $result = DB::table(DB::raw("($genDate) AS t"))
+//        ->select(DB::raw('SUM(people) AS summa'), 't.gen_date', 'houses.id', 'houses.places')
+//        ->leftJoin('houses', function ($query) use ($whereOrId, $whatToGet) {
+//
+//            switch ($whatToGet) {
+//                case House::ALL_HOUSES:
+//                    $query->on(DB::raw(1), '=', DB::raw(1))
+//                        ->where('city', 'like', "%$whereOrId%");
+//                    break;
+//                case House::ONE_HOUSE:
+//                    $query->on(DB::raw(1), '=', DB::raw(1))
+//                        ->where('id', '=', $whereOrId);
+//                    break;
+//            }
+//
+//        })
+//        ->leftJoin('bookings', function ($query) {
+//            $query->on('houses.id', '=', 'bookings.house_id')
+//                ->whereColumn('arrival', '<=', "t.gen_date")
+//                ->whereColumn('departure', '>=', "t.gen_date")
+//                ->where('bookings.status', '=', Booking::STATUS_BOOKING_ACCEPT);
+//        })
+//        ->groupBy('houses.id', 't.gen_date', 'houses.places')
+//        ->havingRaw("summa <= `houses`.`places` - $people")
+//        ->orHavingRaw("(summa IS NULL AND houses.places >= $people)")
+//        ->orderByRaw('id, summa DESC')
+//        ->toFullSql();
+//
+//    $finish = DB::table(DB::raw("($result) AS result"))
+//        ->selectRaw('result.id AS house_id, count(result.id) as count_days')
+//        ->groupBy('result.id')
+//        ->toFullSql();
+//
+//    $housesResult = DB::table(DB::raw("($finish) AS finish"))
+//        ->where('count_days', '=', $countDays)
+//        ->toFullSql();
+//
+//    return $housesResult;
+//}
