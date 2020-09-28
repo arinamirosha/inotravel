@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Jobs\SendBookingDeletedEmail;
+use App\Libraries\House\Facades\HouseManager;
 use App\Mail\BookingDeletedNotification;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +14,9 @@ use Illuminate\Support\Facades\Storage;
 
 class House extends Model
 {
+    const ALL_HOUSES = 'all houses';
+    const ONE_HOUSE = 'one house';
+
     protected $fillable = [
         'name',
         'city',
@@ -119,40 +123,13 @@ class House extends Model
     public function isFree($arrival, $departure, $people)
     {
         $houseId = $this->id;
-        $countDays = Carbon::parse($departure)->diffInDays(Carbon::parse($arrival)) + 1;
+        $housesResult = HouseManager::getSqlFreeHouse($arrival, $departure, $people, $houseId, House::ONE_HOUSE);
 
-        $genDate = DB::table(DB::raw("(SELECT ADDDATE('" . $arrival . "', t1 * 10 + t0) gen_date FROM
-                (SELECT 0 t0 UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9) t0,
-                (SELECT 0 t1 UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5) t1) AS v"))
-            ->whereBetween('gen_date', [$arrival, $departure])
-            ->toFullSql();
-
-        $result = DB::table(DB::raw("($genDate) AS t"))
-            ->select(DB::raw('SUM(people) AS summa'), 't.gen_date', 'houses.id', 'houses.places')
-            ->leftJoin('houses', function ($query) use ($houseId) {
-                $query->on(DB::raw(1), '=', DB::raw(1))
-                    ->where('id', '=', $houseId);
-            })
-            ->leftJoin('bookings', function ($query) {
-                $query->on('houses.id', '=', 'bookings.house_id')
-                    ->whereColumn('arrival', '<=', "t.gen_date")
-                    ->whereColumn('departure', '>=', "t.gen_date")
-                    ->where('bookings.status', '=', Booking::STATUS_BOOKING_ACCEPT);
-            })
-            ->groupBy('houses.id', 't.gen_date', 'houses.places')
-            ->havingRaw("summa <= `houses`.`places` - $people")
-            ->orHavingRaw("(summa IS NULL AND houses.places >= $people)")
-            ->orderByRaw('id, summa DESC')
-            ->toFullSql();
-
-        $finish = DB::table(DB::raw("($result) AS result"))
-            ->selectRaw('result.id AS house_id, count(result.id) as count_days')
-            ->groupBy('result.id')
-            ->toFullSql();
-
-        $isFree = DB::table(DB::raw("($finish) AS finish"))
-            ->where('count_days', '=', $countDays)
-            ->exists();
+        if (DB::table(DB::raw("($housesResult) x"))->exists()) {
+            $isFree = true;
+        } else {
+            $isFree = false;
+        }
 
         return $isFree;
     }
