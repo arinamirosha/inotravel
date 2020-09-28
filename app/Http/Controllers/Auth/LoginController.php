@@ -50,4 +50,15 @@ class LoginController extends Controller
 
         return redirect('/login');
     }
+
+    protected function validateLogin(Request $request)
+    {
+        $this->validate($request, [
+            $this->username() => 'required|string',
+            'password' => 'required|string',
+        ], [
+            'email.required' => 'Поле email является обязательным',
+            'password.required' => 'Поле пароль является обязательным',
+        ]);
+    }
 }
