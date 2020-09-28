@@ -50,6 +50,7 @@ class BookingController extends Controller
                 'departure' => $departure,
                 'people' => $people,
                 'status' => Booking::STATUS_BOOKING_SEND,
+                'new' => Booking::STATUS_BOOKING_VIEWED
             ]);
         }
 
