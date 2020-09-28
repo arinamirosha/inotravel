@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\TwoMonths;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SearchRequest extends FormRequest
@@ -26,7 +27,7 @@ class SearchRequest extends FormRequest
         return [
             'where' => ['required', 'string', 'max:255'],
             'arrival' => ['required', 'date', 'after:yesterday'],
-            'departure' => ['required', 'date', 'after:arrival'],
+            'departure' => ['required', 'date', 'after:arrival', new TwoMonths($this->input('arrival'))],
             'people' => ['required', 'numeric', 'max:100'],
         ];
     }
