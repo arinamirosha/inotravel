@@ -97,6 +97,7 @@ class HousesController extends Controller
                 ->where('arrival', '=', $arrival)
                 ->where('departure', '=', $departure)
                 ->where('user_id', '=', Auth::id())
+                ->where('status', '<>', Booking::STATUS_BOOKING_CANCEL)
                 ->exists()
             : null;
 
