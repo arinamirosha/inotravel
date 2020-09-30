@@ -88,6 +88,12 @@
                         </div>
                     @endforeach
 
+                        <div class="row offset-1">
+                            <div class="col-6">
+                                {{$bookings->links()}}
+                            </div>
+                        </div>
+
                 @else
                     <div class="row justify-content-center">
                         <div class="col-md-12 p-3 h2">

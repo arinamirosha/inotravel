@@ -70,7 +70,7 @@ class BookingController extends Controller
             ->orderBy('updated_at', 'desc')
             ->orderBy('created_at', 'desc')
             ->with(['house', 'house.user'])
-            ->get();
+            ->paginate(15);
 
         return view('booking.index', compact('bookings'));
     }
