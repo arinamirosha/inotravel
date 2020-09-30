@@ -32,6 +32,16 @@ class HouseManager
         }
     }
 
+    /**
+     * Get sql query for getting free houses or check only one
+     *
+     * @param $arrival
+     * @param $departure
+     * @param $people
+     * @param $whereOrId
+     * @param $whatToGet
+     * @return mixed
+     */
     public function getSqlFreeHouse($arrival, $departure, $people, $whereOrId, $whatToGet)
     {
         $countDays = Carbon::parse($departure)->diffInDays(Carbon::parse($arrival)) + 1;
