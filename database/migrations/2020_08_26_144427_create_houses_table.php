@@ -19,7 +19,7 @@ class CreateHousesTable extends Migration
             $table->string('name');
             $table->string('city');
             $table->string('address');
-            $table->unsignedSmallInteger('places');
+            $table->smallInteger('places');
             $table->text('info')->nullable();
             $table->string('image')->nullable();
             $table->timestamps();
