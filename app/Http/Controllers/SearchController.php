@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Booking;
 use App\House;
 use App\Http\Requests\SearchRequest;
+use App\Libraries\House\Facades\HouseManager;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -28,12 +29,8 @@ class SearchController extends Controller
         $where = $requestData['where'];
         $people = $requestData['people'];
 
-        $exceptHouses = getFullHouses($arrival, $departure, $people);
-
-        $houses = House::where('city', 'like', "%{$where}%")
-            ->where('places', '>=', $people)
-            ->get()
-            ->diff($exceptHouses);
+        $housesResult = HouseManager::getSqlFreeHouse($arrival, $departure, $people, $where, House::ALL_HOUSES);
+        $houses = House::rightJoin((DB::raw("($housesResult) AS h")), 'houses.id', '=', 'h.house_id')->get();
 
         Cookie::queue('arrival', $arrival, 60);
         Cookie::queue('departure', $departure, 60);

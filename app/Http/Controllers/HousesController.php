@@ -73,7 +73,8 @@ class HousesController extends Controller
             ->where('status', '<>', Booking::STATUS_BOOKING_REJECT)
             ->select('bookings.*')
             ->with(['house', 'user'])
-            ->latest()->get();
+            ->latest()
+            ->paginate(10);
 
         return view('houses.index', compact('houses', 'bookings'));
     }
@@ -97,6 +98,7 @@ class HousesController extends Controller
                 ->where('arrival', '=', $arrival)
                 ->where('departure', '=', $departure)
                 ->where('user_id', '=', Auth::id())
+                ->where('status', '<>', Booking::STATUS_BOOKING_CANCEL)
                 ->exists()
             : null;
 

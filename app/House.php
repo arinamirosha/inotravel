@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Jobs\SendBookingDeletedEmail;
+use App\Libraries\House\Facades\HouseManager;
 use App\Mail\BookingDeletedNotification;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +14,9 @@ use Illuminate\Support\Facades\Storage;
 
 class House extends Model
 {
+    const ALL_HOUSES = 'all houses';
+    const ONE_HOUSE = 'one house';
+
     protected $fillable = [
         'name',
         'city',
@@ -113,16 +117,18 @@ class House extends Model
      *
      * @param $arrival
      * @param $departure
+     * @param $people
      * @return bool
      */
     public function isFree($arrival, $departure, $people)
     {
-        $exceptHouses = getFullHouses($arrival, $departure, $people);
+        $houseId = $this->id;
+        $housesResult = HouseManager::getSqlFreeHouse($arrival, $departure, $people, $houseId, House::ONE_HOUSE);
 
-        if (sizeof($exceptHouses->where('id', '=', $this->id)) > 0) {
-            $isFree = false;
-        } else {
+        if (DB::table(DB::raw("($housesResult) x"))->exists()) {
             $isFree = true;
+        } else {
+            $isFree = false;
         }
 
         return $isFree;
