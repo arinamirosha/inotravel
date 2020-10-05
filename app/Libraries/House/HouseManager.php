@@ -19,17 +19,8 @@ class HouseManager
      */
     public function attachToHouse($reqFac, $reqRest, $house)
     {
-        if ($reqFac) {
-            foreach ($reqFac as $facility) {
-                $house->facilities()->attach($facility);
-            }
-        }
-
-        if ($reqRest) {
-            foreach ($reqRest as $restriction) {
-                $house->restrictions()->attach($restriction);
-            }
-        }
+        $house->facilities()->sync($reqFac);
+        $house->restrictions()->sync($reqRest);
     }
 
     /**

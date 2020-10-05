@@ -170,9 +170,6 @@ class HousesController extends Controller
 
         $house->update($requestData);
 
-        $house->facilities()->detach();
-        $house->restrictions()->detach();
-
         HouseManager::attachToHouse($request->facilities, $request->restrictions, $house);
 
         return redirect(route('house.show', $house->id));
