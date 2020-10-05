@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container light-bg">
         <div class="row text-center">
             <div class="col-md-11">
                 <form method="POST" action="{{ route('house.store') }}" enctype="multipart/form-data">

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container light-bg">
         <div class="row text-center">
             <div class="col-md-5">
                 <img src="{{ url($house->houseImage()) }}" alt="" class="w-100 rounded mb-3">
