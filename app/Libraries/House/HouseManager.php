@@ -13,20 +13,20 @@ class HouseManager
     /**
      * Attach facilities and restrictions to the house
      *
-     * @param $req_fac
-     * @param $req_rest
+     * @param $reqFac
+     * @param $reqRest
      * @param $house
      */
-    public function attachToHouse($req_fac, $req_rest, $house)
+    public function attachToHouse($reqFac, $reqRest, $house)
     {
-        if ($req_fac) {
-            foreach ($req_fac as $facility) {
+        if ($reqFac) {
+            foreach ($reqFac as $facility) {
                 $house->facilities()->attach($facility);
             }
         }
 
-        if ($req_rest) {
-            foreach ($req_rest as $restriction) {
+        if ($reqRest) {
+            foreach ($reqRest as $restriction) {
                 $house->restrictions()->attach($restriction);
             }
         }
