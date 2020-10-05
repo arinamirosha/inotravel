@@ -19,10 +19,10 @@
                     </div>
                     <div class="col-4">
                         @can('update', $house->user)
-                            <a href="{{ route('house.edit', $house->id) }}" class="btn btn-outline-dark btn-block">Редактировать</a>
+                            <a href="{{ route('house.edit', $house->id) }}" class="btn btn-outline-primary btn-block">Редактировать</a>
                             <form action="{{ route('house.destroy', $house->id) }}" method="post" class="pt-2">
                                 @csrf
-                                <button class="btn btn-outline-secondary btn-block" onclick="return confirm('Вы уверены, что хотите удалить?')">Удалить</button>
+                                <button class="btn btn-outline-danger btn-block" onclick="return confirm('Вы уверены, что хотите удалить?')">Удалить</button>
                             </form>
                         @else
 

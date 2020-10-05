@@ -52,10 +52,10 @@
 
                                             @case(\App\Booking::STATUS_BOOKING_SEND)
                                             <input type="hidden" name="status" id="status{{ $booking->id }}" value="{{ \App\Booking::STATUS_BOOKING_REJECT }}">
-                                            <button class="btn btn-outline-secondary" onclick="$('#status{{ $booking->id }}').val({{ \App\Booking::STATUS_BOOKING_ACCEPT }})">
+                                            <button class="btn btn-outline-success" onclick="$('#status{{ $booking->id }}').val({{ \App\Booking::STATUS_BOOKING_ACCEPT }})">
                                                 Принять
                                             </button>
-                                            <button class="btn btn-outline-secondary">
+                                            <button class="btn btn-outline-danger">
                                                 Отказать
                                             </button>
                                             @break
@@ -64,7 +64,7 @@
                                                 <div class="text-right">
                                                     <span class="text-danger">Отмена заявки!</span>
                                                     <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_DELETE}}">
-                                                    <button class="btn btn-sm btn-outline-secondary w-25 ml-4" onclick="return confirm('Вы уверены, что хотите удалить заявку?')">
+                                                    <button class="btn btn-sm btn-outline-danger w-25 ml-4" onclick="return confirm('Вы уверены, что хотите удалить заявку?')">
                                                         Удалить
                                                     </button>
                                                 </div>

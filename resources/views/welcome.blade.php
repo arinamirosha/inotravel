@@ -17,18 +17,14 @@
 
                 @include('inc.search_form_elements')
 
-                <div class="row justify-content-center pb-4 text-center">
-                    <div class="col-md-3">
-                        <button class="btn btn-secondary">Поиск</button>
-                    </div>
+                <div class="row justify-content-center pb-4 pt-3 text-center">
+                    <button class="btn btn-secondary btn-block w-25">Поиск</button>
                 </div>
 
                 <div class="row justify-content-center text-center">
-                    <div class="col-md-5">
-                        @if(! Auth::check() || ! Auth::user()->houses()->exists())
-                            <a href="{{ route('house.create') }}" class="btn btn-primary">Приму гостей!</a>
-                        @endif
-                    </div>
+                    @if(! Auth::check() || ! Auth::user()->houses()->exists())
+                        <a href="{{ route('house.create') }}" class="btn btn-dark btn-block w-25">Приму гостей!</a>
+                    @endif
                 </div>
 
             </form>

@@ -15,7 +15,7 @@
                             @include('inc.search_form_elements')
                         </div>
                         <div class="col-3 pt-4">
-                            <button class="btn btn-outline-secondary">Новый поиск</button>
+                            <button class="btn btn-secondary">Новый поиск</button>
                         </div>
                     </div>
                 </form>
