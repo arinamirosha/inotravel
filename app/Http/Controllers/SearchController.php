@@ -39,6 +39,7 @@ class SearchController extends Controller
         return response()->view('search', [
             'houses' => $houses,
             'searchData' => $requestData,
+            'isSearch' => true,
         ]);
     }
 }

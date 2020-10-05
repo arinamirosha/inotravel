@@ -54,6 +54,13 @@
                         @else
                             <div class="d-flex">
 
+                                @if(! isset($isSearch))
+                                    <div class="pr-3">
+                                        <a class="navbar-item" href="{{ route('welcome') }}">
+                                            Поиск
+                                        </a>
+                                    </div>
+                                @endif
 
                                 @if(Auth::user()->admin)
                                 <div class="pr-3">
