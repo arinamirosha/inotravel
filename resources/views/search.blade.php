@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    Поиск
+@endsection
+
 @section('content')
     <div class="container light-bg">
         <div class="row">

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    Просмотр жилья &ndash; {{ $house->name }}
+@endsection
+
 @section('content')
     <div class="container light-bg">
         <div class="row text-center">

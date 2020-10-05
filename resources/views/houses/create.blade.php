@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    Создание жилья
+@endsection
+
 @section('content')
     <div class="container light-bg">
         <div class="row text-center">

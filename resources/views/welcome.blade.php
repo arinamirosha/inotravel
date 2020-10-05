@@ -1,7 +1,11 @@
 @extends('layouts.app')
 
+@section('title')
+    Главная &ndash; поиск
+@endsection
+
 @section('content')
-<div class="container light-bg">
+<div class="container light-bg p-5">
     <div class="row justify-content-center">
         <div class="col-md-12 text-center p-3 h1">
             Искать жилье

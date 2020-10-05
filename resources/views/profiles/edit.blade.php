@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    {{ $user->name }} {{ $user->surname }}
+@endsection
+
 @section('content')
 <div class="container light-bg">
     <div class="row justify-content-center">
