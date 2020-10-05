@@ -18,13 +18,15 @@
                     @if(! $bookings->isEmpty())
 
                         @foreach($bookings as $booking)
-                            <div class="row pb-3">
+                            <div class="row pb-3 h5">
+
                                 <div class="col-md-2">
                                     <a href="{{ route('house.show', $booking->house->id) }}">
                                         <img src="{{ url($booking->house->houseImage()) }}" alt="" class="w-100 rounded">
                                     </a>
                                 </div>
-                                <div class="col-md-3 text-left h5">
+
+                                <div class="col-md-3 text-left">
                                     <div>
                                         <a href="{{ route('house.show', $booking->house->id) }}">{{ $booking->house->name }}</a>
                                     </div>
@@ -37,13 +39,14 @@
                                     <div>
                                         {{ Carbon\Carbon::parse($booking->arrival)->format('d/m/y') }} - {{ Carbon\Carbon::parse($booking->departure)->format('d/m/y') }}
                                     </div>
-                                    <div>
-                                        Людей: {{ $booking->people }}
-                                    </div>
+                                </div>
 
-                                    @if($booking->status === \App\Booking::STATUS_BOOKING_SEND)
-                                        <form method="post" action="{{ route('booking.update', $booking->id) }}">
-                                            @csrf
+                                <div class="col-md-4">
+                                    <form method="post" action="{{ route('booking.update', $booking->id) }}">
+                                        @csrf
+                                        @switch($booking->status)
+
+                                            @case(\App\Booking::STATUS_BOOKING_SEND)
                                             <input type="hidden" name="status" id="status{{ $booking->id }}" value="{{ \App\Booking::STATUS_BOOKING_REJECT }}">
                                             <button class="btn btn-outline-secondary" onclick="$('#status{{ $booking->id }}').val({{ \App\Booking::STATUS_BOOKING_ACCEPT }})">
                                                 Принять
@@ -51,31 +54,27 @@
                                             <button class="btn btn-outline-secondary">
                                                 Отказать
                                             </button>
-                                        </form>
-                                    @elseif($booking->status === \App\Booking::STATUS_BOOKING_CANCEL)
-                                        <div class="text-danger">Пользователь отменил заявку!</div>
-                                    @else
-                                        <div class="text-success">Заявка принята!</div>
-                                    @endif
+                                            @break
 
-                                </div>
-
-                                <div class="col-md-2 text-right">
-                                    <div class="row">
-                                        <div class="col-8">
-
-                                            @if($booking->status === \App\Booking::STATUS_BOOKING_CANCEL)
-                                                <form action="{{ route('booking.update', $booking->id) }}" method="post">
-                                                    @csrf
+                                            @case(\App\Booking::STATUS_BOOKING_CANCEL)
+                                                <div class="text-right">
+                                                    <span class="text-danger">Отмена заявки!</span>
                                                     <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_DELETE}}">
-                                                    <button class="btn btn-sm btn-outline-secondary btn-block" onclick="return confirm('Вы уверены, что хотите удалить заявку?')">
+                                                    <button class="btn btn-sm btn-outline-secondary w-25 ml-4" onclick="return confirm('Вы уверены, что хотите удалить заявку?')">
                                                         Удалить
                                                     </button>
-                                                </form>
-                                            @endif
+                                                </div>
+                                            @break
 
-                                        </div>
-                                    </div>
+                                            @default
+                                            <div class="text-success">Заявка принята!</div>
+
+                                        @endswitch
+                                    </form>
+                                </div>
+
+                                <div class="col-3">
+                                    Людей: {{ $booking->people }}
                                 </div>
 
                             </div>
