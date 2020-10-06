@@ -112,7 +112,7 @@
 
     </div>
 
-    <footer class="text-center small py-3">
+    <footer class="text-center small py-3 bg-white">
         <div class="container">
             © {{ date('Y') }} Copyright: {{ config('app.name') }}
         </div>

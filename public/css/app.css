@@ -10906,7 +10906,7 @@ a.text-dark:focus {
 
 body {
   background: url(/images/bg2.jpg) no-repeat;
-  background-size: 100%;
+  background-size: cover;
   background-attachment: fixed;
 }
 
@@ -10924,10 +10924,6 @@ body {
 
 #app {
   min-height: 100%;
-}
-
-footer {
-  background-color: #f5f5f5;
 }
 
 main {
