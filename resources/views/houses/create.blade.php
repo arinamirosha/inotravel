@@ -8,27 +8,41 @@
     <div class="container light-bg">
         <div class="row text-center">
             <div class="col-md-11">
-                <form method="POST" action="{{ route('house.store') }}" enctype="multipart/form-data">
-                    @csrf
 
-                    <div class="row">
+                <div class="row">
 
-                        <div class="col-md-3">
-                            <div id="mydiv" style="word-wrap:break-word">Нет фото</div>
-                            <div>
-                                <upload-image-button></upload-image-button>
-                                @error('image')
-                                <strong>{{ $message }}</strong>
-                                @enderror
-                            </div>
-                            <div class="pt-3">
-                                <delete-image-button></delete-image-button>
-                            </div>
+                    <div class="col-md-3">
+
+                        <form method="POST" enctype="multipart/form-data" id="form-file-ajax" action="{{ route('house.upload-image') }}">
+                            @csrf
+                            <img id="photo" src="{{ url('/images/noImage.svg') }}" alt="Image" width="400" class="w-100">
+                            <input type="file" id="file" name="file" class="d-none" required><br/>
+                            <label for="file" class="col-form-label btn btn-outline-dark btn-block mt-3">Выбрать фото</label>
+                        </form>
+                        <div id="process" class="pt-3 text-center">
+                            <img src="{{ url('/images/preloader.gif') }}" alt="Loading">
                         </div>
 
-                        <div class="col-md-9">
+                        {{--<div id="mydiv" style="word-wrap:break-word">Нет фото</div>
+                        <div>
+                            <upload-image-button></upload-image-button>
+                            @error('image')
+                            <strong>{{ $message }}</strong>
+                            @enderror
+                        </div>
+                        <div class="pt-3">
+                            <delete-image-button></delete-image-button>
+                        </div>--}}
+
+                    </div>
+
+                    <div class="col-md-9">
+                        <form method="POST" action="{{ route('house.store') }}" id="my-form">
+                            @csrf
 
                             @include('inc.house_form_elements')
+
+                            <input id="image" type="text" class="d-none" name="image">
 
                             <div class="row">
                                 <div class="col-md-12 text-right">
@@ -36,10 +50,11 @@
                                 </div>
                             </div>
 
-                        </div>
-
+                        </form>
                     </div>
-                </form>
+
+                </div>
+
             </div>
         </div>
     </div>

@@ -33,6 +33,7 @@ Route::get('/house/{house}/edit', 'HousesController@edit')->name('house.edit');
 Route::post('/house', 'HousesController@store')->name('house.store');
 Route::post('/house/{house}/update', 'HousesController@update')->name('house.update');
 Route::post('/house/{house}', 'HousesController@destroy')->name('house.destroy');
+Route::post('/upload-image', 'HousesController@uploadImage')->name('house.upload-image');
 
 Route::get('/search', 'SearchController@index')->name('search');
 
@@ -46,3 +47,4 @@ Route::get('/profile/update-password', function ($user) { return redirect(route(
 Route::get('/house/{house}/update', function () { return redirect(route('house.index')); });
 Route::get('/booking/{booking}/update', function () { return redirect(route('booking.index')); });
 Route::get('/admin/{user}/update', function () { return redirect(route('admin.index')); });
+Route::get('/upload-image', function () { return redirect(route('house.index')); });

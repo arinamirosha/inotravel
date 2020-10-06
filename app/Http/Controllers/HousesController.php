@@ -11,6 +11,7 @@ use ArrayObject;
 use Illuminate\Support\Facades\Auth;
 use App\Libraries\House\Facades\HouseManager;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Http\Request;
 
 class HousesController extends Controller
 {
@@ -45,11 +46,6 @@ class HousesController extends Controller
     public function store(HouseRequest $request)
     {
         $requestData = $request->all();
-
-        if ($request->hasFile('image')) {
-            $imagePath = storeImage($request->image);
-            $requestData['image'] = $imagePath;
-        }
 
         $user = Auth::user();
         $house = $user->houses()->create($requestData);
@@ -175,4 +171,9 @@ class HousesController extends Controller
         return redirect(route('house.show', $house->id));
     }
 
+    public function uploadImage(Request $request)
+    {
+        $imgPath = storeImage($request->file);
+        return $imgPath;
+    }
 }
