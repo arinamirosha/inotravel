@@ -9,8 +9,7 @@
     <div class="row justify-content-center">
         <div class="col-md-10 text-center">
 
-
-                <div class="row">
+                <div class="row mt-4">
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-12 h3 pb-2">Редактировать данные</div>
@@ -71,7 +70,7 @@
 
                     <div class="col-md-6">
                         <div class="row">
-                            <div class="col-12 h3 pb-2"> Сменить пароль</div>
+                            <div class="col-12 h3 pb-2 pt-4 pt-md-0">Сменить пароль</div>
                         </div>
 
                         <form method="POST" action="{{ route('profile.update_password') }}">
@@ -121,8 +120,6 @@
                         </form>
                     </div>
                 </div>
-
-
 
             @if(session('message'))
                 <div class="row justify-content-center pt-5">

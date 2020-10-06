@@ -129,7 +129,7 @@
                         @endforeach
                     @else
                         <div class="row justify-content-center">
-                            <div class="col-md-12 p-3 h2">
+                            <div class="col-md-12 p-5 h2">
                                 Вы еще не создали ни одного профиля жилья!
                             </div>
                             <div>

@@ -110,12 +110,13 @@
             @yield('content')
         </main>
 
-        <footer class="text-center small bg-white py-3">
-            <div class="container">
-                © {{ date('Y') }} Copyright: {{ config('app.name') }}
-            </div>
-        </footer>
-
     </div>
+
+    <footer class="text-center small py-3">
+        <div class="container">
+            © {{ date('Y') }} Copyright: {{ config('app.name') }}
+        </div>
+    </footer>
+
 </body>
 </html>
