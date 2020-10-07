@@ -48,7 +48,7 @@ class HousesController extends Controller
     {
         $requestData = $request->all();
         if ($requestData['imgId']) {
-            $requestData['image'] = TemporaryImage::find($requestData['imgId'])->image;
+            $requestData['image'] = getImgFromTempById($requestData['imgId']);
         }
 
         $user = Auth::user();
@@ -159,7 +159,7 @@ class HousesController extends Controller
         if ($request->filled('deleteImage')) {
             $house->deleteImage();
         } elseif ($requestData['imgId']) {
-            $requestData['image'] = TemporaryImage::find($requestData['imgId'])->image;
+            $requestData['image'] = getImgFromTempById($requestData['imgId']);
         }
 
         $house->update($requestData);
@@ -169,6 +169,13 @@ class HousesController extends Controller
         return redirect(route('house.show', $house->id));
     }
 
+    /**
+     * Upload image by ajax
+     *
+     * @param Request $request
+     * @return TemporaryImage
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
     public function uploadImage(Request $request)
     {
         $imgPath = storeImage($request->file);

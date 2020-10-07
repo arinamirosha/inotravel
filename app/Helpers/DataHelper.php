@@ -2,6 +2,7 @@
 
 use App\Booking;
 use App\House;
+use App\TemporaryImage;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -24,13 +25,15 @@ function storeImage($file)
 }
 
 /**
- * Replace existing image
+ * Get image path from temporary table and then delete
  *
- * @param $file
- * @param $path
+ * @param $id
+ * @return mixed
  */
-function updateImage($file, $path)
+function getImgFromTempById($id)
 {
-    $image = Image::make($file->getPathname())->resize(300, 300)->encode();
-    Storage::disk('public')->put($path, $image);
+    $img = TemporaryImage::find($id);
+    $path = $img->image;
+    $img->delete();
+    return $path;
 }
