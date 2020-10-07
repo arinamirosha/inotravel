@@ -50025,17 +50025,19 @@ $('document').ready(function () {
         data = JSON.parse(data);
         $('#photo').attr('src', window.location.origin + '/storage/' + data.image);
         $('#imgId').val(data.id);
-        $('#delete-photo').fadeIn();
+        $('#deletePhoto').fadeIn();
+        $('#deleteImage').prop('checked', false);
       },
       error: function error(data) {
         console.log(data);
       }
     });
   });
-  $('#delete-photo').click(function () {
+  $('#deletePhoto').click(function () {
     $('#photo').attr('src', window.location.origin + '/images/noImage.svg');
     $('#imgId').val('');
-    $('#delete-photo').fadeOut();
+    $('#deletePhoto').fadeOut();
+    $('#deleteImage').prop('checked', true);
   });
 });
 

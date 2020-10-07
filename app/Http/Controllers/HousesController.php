@@ -158,14 +158,8 @@ class HousesController extends Controller
 
         if ($request->filled('deleteImage')) {
             $house->deleteImage();
-        } elseif ($request->hasFile('image')) {
-            if ($house->image) {
-                updateImage($request->image, $house->image);
-                unset($requestData['image']);
-            } else {
-                $imagePath = storeImage($request->image);
-                $requestData['image'] = $imagePath;
-            }
+        } elseif ($requestData['imgId']) {
+            $requestData['image'] = TemporaryImage::find($requestData['imgId'])->image;
         }
 
         $house->update($requestData);

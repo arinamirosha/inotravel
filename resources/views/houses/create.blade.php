@@ -18,7 +18,7 @@
                             <img id="photo" src="{{ url('/images/noImage.svg') }}" alt="Image" width="400" class="w-100">
                             <input type="file" id="file" name="file" class="d-none" required><br/>
                             <label for="file" class="col-form-label btn btn-outline-dark btn-block mt-3">Выбрать фото</label>
-                            <div id="delete-photo" class="btn btn-outline-secondary btn-block">Удалить фото</div>
+                            <div id="deletePhoto" class="btn btn-outline-secondary btn-block">Удалить фото</div>
                         </form>
 
                         <div id="process" class="pt-3 text-center">
