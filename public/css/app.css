@@ -10930,7 +10930,8 @@ main {
   min-height: calc(100vh - 50px);
 }
 
-#process {
+#process,
+#delete-photo {
   display: none;
 }
 

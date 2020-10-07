@@ -29,7 +29,7 @@ class HouseRequest extends FormRequest
             'address' => ['required', 'string', 'max:255'],
             'places' => ['required', 'numeric', 'max:100', 'min:1'],
             'info' => ['max:1000'],
-            'image' => ['string', 'nullable'],
+            'imgId' => ['numeric', 'nullable'],
         ];
     }
 
@@ -52,7 +52,6 @@ class HouseRequest extends FormRequest
             'places.min' => 'Мест не может быть < 1',
             'places.numeric' => 'Введите число',
             'info.max' => 'Доп.инфо не может содержать > 1000 символов',
-            'image.string' => 'Нужно указать строку - путь к изображению',
         ];
     }
 }

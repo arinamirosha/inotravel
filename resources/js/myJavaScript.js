@@ -26,14 +26,21 @@ $('document').ready(function() {
                 $('#process').fadeOut();
             },
             success: function(data){
-                var src = window.location.origin+'/storage/'+data;
-                $('#photo').attr('src', src);
-                $('#image').val(data);
+                data = JSON.parse(data);
+                $('#photo').attr('src', window.location.origin+'/storage/'+data.image);
+                $('#imgId').val(data.id);
+                $('#delete-photo').fadeIn();
             },
             error: function(data){
                 console.log(data);
             }
         });
+    });
+
+    $('#delete-photo').click(function() {
+        $('#photo').attr('src', window.location.origin+'/images/noImage.svg');
+        $('#imgId').val('');
+        $('#delete-photo').fadeOut();
     });
 
 });

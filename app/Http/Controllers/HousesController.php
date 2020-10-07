@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Booking;
 use App\Facility;
 use App\House;
+use App\TemporaryImage;
 use App\Http\Requests\HouseRequest;
 use App\Restriction;
 use ArrayObject;
@@ -46,6 +47,9 @@ class HousesController extends Controller
     public function store(HouseRequest $request)
     {
         $requestData = $request->all();
+        if ($requestData['imgId']) {
+            $requestData['image'] = TemporaryImage::find($requestData['imgId'])->image;
+        }
 
         $user = Auth::user();
         $house = $user->houses()->create($requestData);
@@ -174,6 +178,11 @@ class HousesController extends Controller
     public function uploadImage(Request $request)
     {
         $imgPath = storeImage($request->file);
-        return $imgPath;
+
+        $img = new TemporaryImage();
+        $img->image = $imgPath;
+        $img->save();
+
+        return $img;
     }
 }
