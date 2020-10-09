@@ -16,14 +16,16 @@ class CleanImages implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    private $data;
+
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param $data
      */
-    public function __construct()
+    public function __construct($data)
     {
-        //
+        $this->data = $data;
     }
 
     /**
@@ -33,7 +35,32 @@ class CleanImages implements ShouldQueue
      */
     public function handle()
     {
-        $imagesToDelete = TemporaryImage::where('created_at', '<', Carbon::now()->subDay())->get();
+        $data = $this->data;
+
+        if ( ! $data) {
+            Log::info('no data');
+            $imagesToDelete = TemporaryImage::where('created_at', '<', Carbon::now()->subDay())->get();
+
+        } else {
+            $from = isset($data['from']) ? $data['from'] : null;
+            $to = isset($data['to']) ? $data['to'] : null;
+            $userId = isset($data['userId']) ? $data['userId'] : null;
+
+            if ($from && $to && ! $userId) {
+                Log::info('only from and to');
+                $imagesToDelete = TemporaryImage::whereBetween('created_at', [$from, $to])->get();
+
+            } elseif ($from && $to && $userId) {
+                Log::info('from, to, user_id');
+                $imagesToDelete = TemporaryImage::whereBetween('created_at', [$from, $to])
+                    ->where('user_id', '=', $userId)->get();
+
+            } elseif ( ! ($from || $to) && $userId) {
+                Log::info('only user_id');
+                $imagesToDelete = TemporaryImage::where('user_id', '=', $userId)->get();
+            }
+        }
+
         foreach ($imagesToDelete as $img) {
             Storage::disk('public')->delete($img->image);
             $img->delete();

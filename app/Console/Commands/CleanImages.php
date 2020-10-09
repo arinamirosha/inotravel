@@ -14,7 +14,7 @@ class CleanImages extends Command
      *
      * @var string
      */
-    protected $signature = 'command:cleanImages';
+    protected $signature = 'command:cleanImages {--from=} {--to=} {--user_id=}';
 
     /**
      * The console command description.
@@ -40,6 +40,25 @@ class CleanImages extends Command
      */
     public function handle()
     {
-        \App\Jobs\CleanImages::dispatch();
+        $from = $this->option('from');
+        $to = $this->option('to');
+        $userId = $this->option('user_id');
+
+        // Сделать валидацию
+
+        if ((!$from && $to && $userId) ||
+            ($from && !$to && $userId) ||
+            ($from && !($to || $userId)) ||
+            ($to && !($from || $userId))) {
+            echo 'Wrong parameters';
+            return 0;
+        }
+
+        $data = [];
+        if ($from) $data['from']=$from;
+        if ($to) $data['to']=$to;
+        if ($userId) $data['userId']=$userId;
+
+        \App\Jobs\CleanImages::dispatch($data);
     }
 }
