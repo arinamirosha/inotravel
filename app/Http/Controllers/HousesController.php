@@ -180,9 +180,8 @@ class HousesController extends Controller
     {
         $imgPath = storeImage($request->file);
 
-        $img = new TemporaryImage();
-        $img->image = $imgPath;
-        $img->save();
+        $user = Auth::user();
+        $img = $user->temporaryImages()->create(['image' => $imgPath]);
 
         return $img;
     }

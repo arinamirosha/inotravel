@@ -57,6 +57,16 @@ class User extends Authenticatable
     }
 
     /**
+     * One user to many temorary images
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function temporaryImages()
+    {
+        return $this->hasMany(TemporaryImage::class)->orderBy('created_at', 'DESC');
+    }
+
+    /**
      * Get count of income bookings
      *
      * @return string
