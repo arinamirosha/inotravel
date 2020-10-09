@@ -6,6 +6,8 @@ use App\TemporaryImage;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Throwable;
 
 class CleanImages extends Command
 {
@@ -60,6 +62,25 @@ class CleanImages extends Command
             $data['from'] = $from;
             $data['to'] = $to;
             $data['userId'] = $userId;
+        }
+
+        $validator = Validator::make($data, [
+            'from' => 'date',
+            'to' => 'date',
+            'userId' => 'numeric',
+        ], [
+            'from.date' => 'Неправильно введена дата from. Шаблон: yyyy-mm-dd',
+            'to.date' => 'Неправильно введена дата to. Шаблон: yyyy-mm-dd',
+            'userId.numeric' => 'В user_id необходимо ввести число',
+        ]);
+
+        if ($validator->fails()) {
+            $messages = $validator->errors()->getMessages();
+            foreach ($messages as $message) {
+                echo $message[0]."\n";
+            }
+
+            return 0;
         }
 
         \App\Jobs\CleanImages::dispatch($data);
