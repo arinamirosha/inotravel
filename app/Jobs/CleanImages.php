@@ -38,7 +38,6 @@ class CleanImages implements ShouldQueue
         $data = $this->data;
 
         if ( ! $data) {
-            Log::info('no data');
             $imagesToDelete = TemporaryImage::where('created_at', '<', Carbon::now()->subDay())->get();
 
         } else {
@@ -47,16 +46,13 @@ class CleanImages implements ShouldQueue
             $userId = isset($data['userId']) ? $data['userId'] : null;
 
             if ($from && $to && ! $userId) {
-                Log::info('only from and to');
                 $imagesToDelete = TemporaryImage::whereBetween('created_at', [$from, $to])->get();
 
             } elseif ($from && $to && $userId) {
-                Log::info('from, to, user_id');
                 $imagesToDelete = TemporaryImage::whereBetween('created_at', [$from, $to])
                     ->where('user_id', '=', $userId)->get();
 
             } elseif ( ! ($from || $to) && $userId) {
-                Log::info('only user_id');
                 $imagesToDelete = TemporaryImage::where('user_id', '=', $userId)->get();
             }
         }

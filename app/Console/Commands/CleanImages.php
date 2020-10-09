@@ -44,21 +44,26 @@ class CleanImages extends Command
         $to = $this->option('to');
         $userId = $this->option('user_id');
 
-        // Сделать валидацию
-
-        if ((!$from && $to && $userId) ||
-            ($from && !$to && $userId) ||
-            ($from && !($to || $userId)) ||
-            ($to && !($from || $userId))) {
+        if (( ! $from && $to && $userId) ||
+            ($from && ! $to && $userId) ||
+            ($from && ! ($to || $userId)) ||
+            ($to && ! ($from || $userId))) {
             echo 'Wrong parameters';
+
             return 0;
         }
 
+        // Сделать валидацию
+
         $data = [];
-        if ($from) $data['from']=$from;
-        if ($to) $data['to']=$to;
-        if ($userId) $data['userId']=$userId;
+        if ($from || $to || $userId) {
+            $data['from'] = $from;
+            $data['to'] = $to;
+            $data['userId'] = $userId;
+        }
 
         \App\Jobs\CleanImages::dispatch($data);
+
+        return 0;
     }
 }
