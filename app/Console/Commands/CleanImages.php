@@ -55,8 +55,6 @@ class CleanImages extends Command
             return 0;
         }
 
-        // Сделать валидацию
-
         $data = [];
         if ($from || $to || $userId) {
             $data['from'] = $from;
