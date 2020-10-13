@@ -195,7 +195,6 @@ class HousesController extends Controller
 
         $user = Auth::user();
         $img = $user->temporaryImages()->create(['image' => $imgPath]);
-        $img->hi = true;
 
         return $img;
     }
