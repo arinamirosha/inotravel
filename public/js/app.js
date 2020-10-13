@@ -49616,6 +49616,7 @@ $('document').ready(function () {
       dataType: 'text',
       data: formData,
       beforeSend: function beforeSend() {
+        $('#message').fadeOut();
         $('#process').fadeIn();
       },
       complete: function complete() {
@@ -49629,7 +49630,11 @@ $('document').ready(function () {
         $('#deleteImage').prop('checked', false);
       },
       error: function error(data) {
-        console.log(data);
+        var response = JSON.parse(data.responseText);
+        var errorMessage = response.errors['file'][0];
+        var $msg = $('#message');
+        $msg.html(errorMessage);
+        $msg.fadeIn();
       }
     });
   });

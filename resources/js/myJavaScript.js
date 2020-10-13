@@ -20,6 +20,7 @@ $('document').ready(function() {
             dataType : 'text',
             data: formData,
             beforeSend: function(){
+                $('#message').fadeOut();
                 $('#process').fadeIn();
             },
             complete: function () {
@@ -33,7 +34,11 @@ $('document').ready(function() {
                 $('#deleteImage').prop('checked', false);
             },
             error: function(data){
-                console.log(data);
+                var response = JSON.parse(data.responseText);
+                var errorMessage = response.errors['file'][0];
+                var $msg = $('#message');
+                $msg.html(errorMessage);
+                $msg.fadeIn();
             }
         });
     });

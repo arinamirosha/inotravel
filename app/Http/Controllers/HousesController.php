@@ -5,14 +5,17 @@ namespace App\Http\Controllers;
 use App\Booking;
 use App\Facility;
 use App\House;
+use App\Http\Requests\ImageRequest;
 use App\TemporaryImage;
 use App\Http\Requests\HouseRequest;
 use App\Restriction;
 use ArrayObject;
+use http\Env\Response;
 use Illuminate\Support\Facades\Auth;
 use App\Libraries\House\Facades\HouseManager;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class HousesController extends Controller
 {
@@ -178,10 +181,21 @@ class HousesController extends Controller
      */
     public function uploadImage(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'file' => ['image'],
+        ], [
+            'file.image' => 'Выберите изображение',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->getMessageBag()], 422);
+        }
+
         $imgPath = storeImage($request->file);
 
         $user = Auth::user();
         $img = $user->temporaryImages()->create(['image' => $imgPath]);
+        $img->hi = true;
 
         return $img;
     }

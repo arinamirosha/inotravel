@@ -16,10 +16,18 @@
                         <form method="POST" enctype="multipart/form-data" id="form-file-ajax" action="{{ route('house.upload-image') }}">
                             @csrf
                             <img id="photo" src="{{ url('/images/noImage.svg') }}" alt="Image" width="400" class="w-100">
-                            <input type="file" id="file" name="file" class="d-none" required><br/>
+                            <input type="file" id="file" name="file" class="d-none"><br/>
                             <label for="file" class="col-form-label btn btn-outline-dark btn-block mt-3">Выбрать фото</label>
                             <div id="deletePhoto" class="btn btn-outline-secondary btn-block">Удалить фото</div>
                         </form>
+
+                        <div id="message" class="text-danger font-weight-bold small mt-2"></div>
+
+{{--                        @error('file')
+                        <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror--}}
 
                         <div id="process" class="pt-3 text-center">
                             <img src="{{ url('/images/preloader.gif') }}" alt="Loading">
@@ -32,8 +40,8 @@
                             @csrf
 
                             @include('inc.house_form_elements')
-
-                            <input id="imgId" type="text" class="d-none" name="imgId">
+{{--                            class="d-none"--}}
+                            <input id="imgId" type="text" name="imgId">
 
                             <div class="row">
                                 <div class="col-md-12 text-right">
