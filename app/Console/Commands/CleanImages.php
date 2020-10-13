@@ -52,7 +52,7 @@ class CleanImages extends Command
             ($to && ! ($from || $userId))) {
             echo 'Wrong parameters';
 
-            return 0;
+            return false;
         }
 
         $data = [];
@@ -78,11 +78,11 @@ class CleanImages extends Command
                 echo $message[0]."\n";
             }
 
-            return 0;
+            return false;
         }
 
         \App\Jobs\CleanImages::dispatch($data);
 
-        return 0;
+        return false;
     }
 }
