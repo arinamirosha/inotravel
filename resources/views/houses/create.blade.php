@@ -16,7 +16,7 @@
                         <form method="POST" enctype="multipart/form-data" id="form-file-ajax" action="{{ route('house.upload-image') }}">
                             @csrf
                             <img id="photo" src="{{url(old('imgId')?\App\TemporaryImage::find(old('imgId'))->tempImage():'/images/noImage.svg')}}" alt="Image" width="400" class="w-100">
-                            <input type="file" id="file" name="file" class="d-none"><br/>
+                            <input type="file" id="file" name="file" class="d-none">
                             <label for="file" class="col-form-label btn btn-outline-dark btn-block mt-3">Выбрать фото</label>
                             <div id="deletePhoto" class="btn btn-outline-secondary btn-block @if(old('imgId')) d-block @endif">Удалить фото</div>
                         </form>
@@ -34,8 +34,8 @@
                             @csrf
 
                             @include('inc.house_form_elements')
-{{--                            class="d-none"--}}
-                            <input id="imgId" type="text" name="imgId" value="{{old('imgId')}}">
+
+                            <input id="imgId" type="text" name="imgId" class="d-none" value="{{old('imgId')}}">
 
                             <div class="row">
                                 <div class="col-md-12 text-right">
