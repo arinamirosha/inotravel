@@ -63,9 +63,9 @@ class CleanImages extends Command
         }
 
         $validator = Validator::make($data, [
-            'from' => 'date',
-            'to' => 'date',
-            'userId' => 'numeric',
+            'from' => ['date', 'nullable'],
+            'to' => ['date', 'nullable'],
+            'userId' => ['numeric', 'nullable'],
         ], [
             'from.date' => 'Неправильно введена дата from. Шаблон: yyyy-mm-dd',
             'to.date' => 'Неправильно введена дата to. Шаблон: yyyy-mm-dd',
