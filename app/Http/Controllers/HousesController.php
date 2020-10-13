@@ -184,7 +184,7 @@ class HousesController extends Controller
         $validator = Validator::make($request->all(), [
             'file' => ['image'],
         ], [
-            'file.image' => 'Выберите изображение',
+            'file.image' => 'Вы выбрали не изображение',
         ]);
 
         if ($validator->fails()) {

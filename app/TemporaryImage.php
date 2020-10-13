@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class TemporaryImage extends Model
 {
@@ -16,5 +17,15 @@ class TemporaryImage extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get path of temporary image
+     *
+     * @return string
+     */
+    public function tempImage()
+    {
+        return Storage::url($this->image);
     }
 }
