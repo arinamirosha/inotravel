@@ -12,6 +12,7 @@ $('document').ready(function() {
 
         var msg = $('#message');
         msg.fadeOut();
+        $('#imgError').fadeOut();
 
         if (file) {
             formData.append('file', file);

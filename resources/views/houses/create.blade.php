@@ -13,12 +13,16 @@
 
                     <div class="col-md-3">
 
+                        @php
+                            $imgFailed = $errors->get('imgId') ? true : false;
+                        @endphp
+
                         <form method="POST" enctype="multipart/form-data" id="form-file-ajax" action="{{ route('house.upload-image') }}">
                             @csrf
-                            <img id="photo" src="{{url(old('imgId')?\App\TemporaryImage::find(old('imgId'))->tempImage():'/images/noImage.svg')}}" alt="Image" width="400" class="w-100">
+                            <img id="photo" src="{{url(old('imgId')&&!$imgFailed?\App\TemporaryImage::find(old('imgId'))->tempImage():'/images/noImage.svg')}}" alt="Image" width="400" class="w-100">
                             <input type="file" id="file" name="file" class="d-none">
                             <label for="file" class="col-form-label btn btn-outline-dark btn-block mt-3">Выбрать фото</label>
-                            <div id="deletePhoto" class="btn btn-outline-secondary btn-block @if(old('imgId')) d-block @endif">Удалить фото</div>
+                            <div id="deletePhoto" class="btn btn-outline-secondary btn-block @if(old('imgId') && !$imgFailed) d-block @endif">Удалить фото</div>
                         </form>
 
                         <div id="message" class="text-danger font-weight-bold small mt-2"></div>
@@ -35,7 +39,13 @@
 
                             @include('inc.house_form_elements')
 
-                            <input id="imgId" type="text" name="imgId" class="d-none" value="{{old('imgId')}}">
+                            <input id="imgId" type="text" name="imgId" class="d-none @error('imgId') is-invalid @enderror" @if(!$imgFailed) value="{{old('imgId')}}" @endif>
+
+                            @error('imgId')
+                            <span class="invalid-feedback" role="alert" id="imgError">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
 
                             <div class="row">
                                 <div class="col-md-12 text-right">

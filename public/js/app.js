@@ -49608,6 +49608,7 @@ $('document').ready(function () {
     var file = $(this).prop('files')[0];
     var msg = $('#message');
     msg.fadeOut();
+    $('#imgError').fadeOut();
 
     if (file) {
       formData.append('file', file);
