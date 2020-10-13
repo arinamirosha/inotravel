@@ -38,7 +38,7 @@
 
                             @include('inc.house_form_elements')
 
-                            <input id="deleteImage" name="deleteImage" type="checkbox" @if(old('deleteImage')) checked @endif>
+                            <input id="deleteImage" name="deleteImage" class="d-none" type="checkbox" @if(old('deleteImage')) checked @endif>
                             <input id="imgId" type="text" name="imgId" class="d-none" value="{{old('imgId')}}">
 
                             <div class="row">
