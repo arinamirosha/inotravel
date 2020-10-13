@@ -21,7 +21,7 @@
                                  alt="Image" width="400" class="w-100">
                             <input type="file" id="file" name="file" class="d-none">
                             <label for="file" class="col-form-label btn btn-outline-dark btn-block mt-3">Выбрать фото</label>
-                            <div id="deletePhoto" class="btn btn-outline-secondary btn-block @if($house->image || old('imgId')) d-block @endif">Удалить фото</div>
+                            <div id="deletePhoto" class="btn btn-outline-secondary btn-block @if(($house->image || old('imgId')) && !old('deleteImage')) d-block @endif">Удалить фото</div>
                         </form>
 
                         <div id="message" class="text-danger font-weight-bold small mt-2"></div>
@@ -38,7 +38,7 @@
 
                             @include('inc.house_form_elements')
 
-                            <input id="deleteImage" name="deleteImage" class="d-none" type="checkbox" @if(old('deleteImage')) checked @endif>
+                            <input id="deleteImage" name="deleteImage" type="checkbox" @if(old('deleteImage')) checked @endif>
                             <input id="imgId" type="text" name="imgId" class="d-none" value="{{old('imgId')}}">
 
                             <div class="row">
