@@ -175,22 +175,12 @@ class HousesController extends Controller
     /**
      * Upload image by ajax
      *
-     * @param Request $request
+     * @param ImageRequest $request
      * @return TemporaryImage
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function uploadImage(Request $request)
+    public function uploadImage(ImageRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'file' => ['image'],
-        ], [
-            'file.image' => 'Вы выбрали не изображение',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->getMessageBag()], 422);
-        }
-
         $imgPath = storeImage($request->file);
 
         $user = Auth::user();

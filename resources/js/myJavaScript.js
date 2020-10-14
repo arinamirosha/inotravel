@@ -24,7 +24,7 @@ $('document').ready(function() {
                 processData: false,
                 contentType: false,
                 cache:false,
-                dataType : 'text',
+                dataType : 'json',
                 data: formData,
                 beforeSend: function(){
                     $('#process').fadeIn();
@@ -33,7 +33,6 @@ $('document').ready(function() {
                     $('#process').fadeOut();
                 },
                 success: function(data){
-                    data = JSON.parse(data);
                     $('#photo').attr('src', window.location.origin+'/storage/'+data.image);
                     $('#imgId').val(data.id);
                     $('#deletePhoto').fadeIn();
