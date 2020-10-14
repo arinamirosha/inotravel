@@ -28,20 +28,4 @@ class PasswordRequest extends FormRequest
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ];
     }
-
-    /**
-     * Change error messages.
-     *
-     * @return array|string[]
-     */
-    public function messages()
-    {
-        return [
-            'passwordOld.required' => 'Укажите старый пароль',
-            'password.required' => 'Укажите новый пароль',
-            'passwordOld.min' => 'Введите не менее 8 символов',
-            'password.min' => 'Введите не менее 8 символов',
-            'password.confirmed' => 'Пароли не совпадают',
-        ];
-    }
 }

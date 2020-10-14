@@ -29,22 +29,4 @@ class ProfileRequest extends FormRequest
             'email' => ['required', 'string', 'email', 'max:255'],
         ];
     }
-
-    /**
-     * Change error messages.
-     *
-     * @return array|string[]
-     */
-    public function messages()
-    {
-        return [
-            'name.required' => 'Поле имя является обязательным',
-            'surname.required' => 'Поле фамилия является обязательным',
-            'email.required' => 'Поле email является обязательным',
-            'name.max' => 'Имя не может содержать > 255 символов',
-            'surname.max' => 'Фамилия не может содержать > 255 символов',
-            'email.max' => 'Email не может содержать > 255 символов',
-            'email.email' => 'Укажите действующий email',
-        ];
-    }
 }

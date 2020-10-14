@@ -41,18 +41,7 @@ class HouseRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Поле имя является обязательным',
-            'city.required' => 'Поле город является обязательным',
-            'address.required' => 'Поле адрес является обязательным',
-            'places.required' => 'Укажите количество спальных мест',
-            'name.max' => 'Имя не может содержать > 255 символов',
-            'city.max' => 'Город не может содержать > 255 символов',
-            'address.max' => 'Адрес не может содержать > 255 символов',
-            'places.max' => 'Мест не может быть > 100',
-            'places.min' => 'Мест не может быть < 1',
-            'places.numeric' => 'Введите число',
-            'info.max' => 'Доп.инфо не может содержать > 1000 символов',
-            'imgId.exists' => 'Изображение было удалено. Пожалуйста, загрузите снова',
+            'imgId.exists' => trans('messages.imageDeleted'),
         ];
     }
 }

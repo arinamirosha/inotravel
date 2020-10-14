@@ -38,6 +38,6 @@ class TwoMonths implements Rule
      */
     public function message()
     {
-        return 'Бронь максимум на 60 дней';
+        return trans('messages.maxSixtyDays');
     }
 }

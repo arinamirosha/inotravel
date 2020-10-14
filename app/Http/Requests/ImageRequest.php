@@ -27,16 +27,4 @@ class ImageRequest extends FormRequest
             'file' => ['image'],
         ];
     }
-
-    /**
-     * Change error messages.
-     *
-     * @return array|string[]
-     */
-    public function messages()
-    {
-        return [
-            'file.image' => 'Вы выбрали не изображение',
-        ];
-    }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Rules\TwoMonths;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\App;
 
 class SearchRequest extends FormRequest
 {
@@ -39,17 +40,12 @@ class SearchRequest extends FormRequest
      */
     public function messages()
     {
-        return [
-            'where.required' => 'Укажите город',
-            'arrival.required' => 'Укажите дату прибытия',
-            'departure.required' => 'Укажите дату отъезда',
-            'people.required' => 'Укажите количество людей',
-            'where.max' => 'Город не может содержать > 255 символов',
-            'people.max' => 'Людей не может быть > 100',
-            'people.min' => 'Укажите хотя бы 1 человека',
-            'people.numeric' => 'Введите число',
-            'arrival.after' => 'Прибытие может быть c сегодняшнего дня',
-            'departure.after' => 'Отъезд должен быть после даты прибытия',
-        ];
+        if (App::isLocale('ru')) {
+            return [
+                'arrival.after' => 'Прибытие может быть c сегодняшнего дня',
+                'departure.after' => 'Отъезд должен быть после даты прибытия',
+            ];
+        }
+        return [];
     }
 }

@@ -7,6 +7,7 @@ use App\Providers\RouteServiceProvider;
 use App\User;
 use http\Env\Request;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -50,24 +51,16 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        $messages = App::isLocale('ru') ? [
+            'email.unique' => 'Указанная почта привязана к другому аккаунту',
+        ] : [];
+
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'surname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ], [
-            'name.required' => 'Поле имя является обязательным',
-            'surname.required' => 'Поле фамилия является обязательным',
-            'email.required' => 'Поле email является обязательным',
-            'password.required' => 'Поле пароль является обязательным',
-            'name.max' => 'Имя не может содержать > 255 символов',
-            'surname.max' => 'Фамилия не может содержать > 255 символов',
-            'email.max' => 'Email не может содержать > 255 символов',
-            'password.min' => 'Пароль должен иметь хотя бы 8 символов',
-            'email.email' => 'Укажите полный email через @',
-            'email.unique' => 'Указанная почта привязана к другому аккаунту',
-            'password.confirmed' => 'Пароли не совпадают',
-        ]);
+        ], $messages);
     }
 
     /**

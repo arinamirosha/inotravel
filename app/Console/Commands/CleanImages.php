@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\TemporaryImage;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Throwable;
@@ -62,15 +63,17 @@ class CleanImages extends Command
             $data['userId'] = $userId;
         }
 
+        $messages = App::isLocale('ru') ? [
+            'from.date' => 'Неправильно введена дата from. Шаблон: yyyy-mm-dd',
+            'to.date' => 'Неправильно введена дата to. Шаблон: yyyy-mm-dd',
+            'userId.numeric' => 'В user_id необходимо ввести число',
+        ] : [];
+
         $validator = Validator::make($data, [
             'from' => ['date', 'nullable'],
             'to' => ['date', 'nullable'],
             'userId' => ['numeric', 'nullable'],
-        ], [
-            'from.date' => 'Неправильно введена дата from. Шаблон: yyyy-mm-dd',
-            'to.date' => 'Неправильно введена дата to. Шаблон: yyyy-mm-dd',
-            'userId.numeric' => 'В user_id необходимо ввести число',
-        ]);
+        ], $messages);
 
         if ($validator->fails()) {
             $messages = $validator->errors()->getMessages();
