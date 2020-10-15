@@ -2,7 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\OldPassword;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class PasswordRequest extends FormRequest
 {
@@ -24,7 +28,7 @@ class PasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'passwordOld' => ['required', 'string', 'min:8'],
+            'passwordOld' => ['required', 'string', 'min:8', new OldPassword($this->input('passwordOld'))],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ];
     }

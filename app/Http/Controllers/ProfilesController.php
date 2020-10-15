@@ -44,7 +44,6 @@ class ProfilesController extends Controller
     public function update(ProfileRequest $request)
     {
         $user = Auth::user();
-
         $user->update($request->all());
 
         return redirect(route('profile.edit'))->with('message', __('Profile updated successfully'));
@@ -59,16 +58,10 @@ class ProfilesController extends Controller
     public function updatePassword(PasswordRequest $request)
     {
         $user = Auth::user();
+        $newPassword = Hash::make($request->password);
+        $user->update(['password' => $newPassword]);
 
-        if (Hash::check($request->passwordOld, $user->password)) {
-            $newPassword = Hash::make($request->password);
-            $user->update(['password' => $newPassword]);
-            $message = __('Password updated successfully');
-        } else {
-            $message = __('Old password does not match');
-        }
-
-        return redirect(route('profile.edit'))->with('message', $message);
+        return redirect(route('profile.edit'))->with('message', __('Password updated successfully'));
     }
 
 }
