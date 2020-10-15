@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class ProfileRequest extends FormRequest
 {
@@ -26,7 +29,22 @@ class ProfileRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'surname' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore(Auth::id()),],
         ];
+    }
+
+    /**
+     * Change error messages.
+     *
+     * @return array|string[]
+     */
+    public function messages()
+    {
+        if (App::isLocale('ru')) {
+            return [
+                'email.unique' => __('messages.email_busy'),
+            ];
+        }
+        return [];
     }
 }

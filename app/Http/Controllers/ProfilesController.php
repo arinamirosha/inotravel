@@ -45,16 +45,9 @@ class ProfilesController extends Controller
     {
         $user = Auth::user();
 
-        try {
-            $user->update($request->all());
-            $message = __('Profile updated successfully');
-        } catch (QueryException $e) {
-            $message = App::isLocale('ru') ?
-                __('messages.email_busy') :
-                __('validation.unique', ['attribute' => 'email']);
-        }
+        $user->update($request->all());
 
-        return redirect(route('profile.edit'))->with('message', $message);
+        return redirect(route('profile.edit'))->with('message', __('Profile updated successfully'));
     }
 
     /**
