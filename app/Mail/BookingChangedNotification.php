@@ -32,7 +32,7 @@ class BookingChangedNotification extends Mailable
      */
     public function build()
     {
-        return $this->subject('Заявка обновлена')->markdown('email.booking_changed_notification',
+        return $this->subject(__('Application updated'))->markdown('email.booking_changed_notification',
             ['booking' => $this->booking]);
     }
 }

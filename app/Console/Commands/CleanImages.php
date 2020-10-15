@@ -51,7 +51,7 @@ class CleanImages extends Command
             ($from && ! $to && $userId) ||
             ($from && ! ($to || $userId)) ||
             ($to && ! ($from || $userId))) {
-            echo 'Wrong parameters';
+            echo __('Wrong parameters');
 
             return false;
         }
@@ -64,9 +64,9 @@ class CleanImages extends Command
         }
 
         $messages = App::isLocale('ru') ? [
-            'from.date' => 'Неправильно введена дата from. Шаблон: yyyy-mm-dd',
-            'to.date' => 'Неправильно введена дата to. Шаблон: yyyy-mm-dd',
-            'userId.numeric' => 'В user_id необходимо ввести число',
+            'from.date' => __('messages.wrong_date', ['name' => 'from']),
+            'to.date' => __('messages.wrong_date', ['name' => 'to']),
+            'userId.numeric' => __('messages.id_not_number'),
         ] : [];
 
         $validator = Validator::make($data, [

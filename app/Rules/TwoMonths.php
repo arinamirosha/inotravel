@@ -38,6 +38,6 @@ class TwoMonths implements Rule
      */
     public function message()
     {
-        return trans('messages.maxSixtyDays');
+        return __('Reservation maximum 60 days');
     }
 }

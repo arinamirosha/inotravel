@@ -42,8 +42,8 @@ class SearchRequest extends FormRequest
     {
         if (App::isLocale('ru')) {
             return [
-                'arrival.after' => 'Прибытие может быть c сегодняшнего дня',
-                'departure.after' => 'Отъезд должен быть после даты прибытия',
+                'arrival.after' => __('messages.from_today'),
+                'departure.after' => __('messages.after_arrival'),
             ];
         }
         return [];

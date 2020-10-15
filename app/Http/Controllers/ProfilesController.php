@@ -7,6 +7,7 @@ use App\Http\Requests\ProfileRequest;
 use App\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -46,9 +47,11 @@ class ProfilesController extends Controller
 
         try {
             $user->update($request->all());
-            $message = "Данные успешно обновлены";
+            $message = __('Profile updated successfully');
         } catch (QueryException $e) {
-            $message = "Указанная почта привязана к другому аккаунту";
+            $message = App::isLocale('ru') ?
+                __('messages.email_busy') :
+                __('validation.unique', ['attribute' => 'email']);
         }
 
         return redirect(route('profile.edit'))->with('message', $message);
@@ -67,9 +70,9 @@ class ProfilesController extends Controller
         if (Hash::check($request->passwordOld, $user->password)) {
             $newPassword = Hash::make($request->password);
             $user->update(['password' => $newPassword]);
-            $message = "Пароль успешно обновлен";
+            $message = __('Password updated successfully');
         } else {
-            $message = "Старый пароль не соответствует";
+            $message = __('Old password does not match');
         }
 
         return redirect(route('profile.edit'))->with('message', $message);

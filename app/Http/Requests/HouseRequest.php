@@ -41,7 +41,7 @@ class HouseRequest extends FormRequest
     public function messages()
     {
         return [
-            'imgId.exists' => trans('messages.imageDeleted'),
+            'imgId.exists' => __('The image has been deleted. Please upload again.'),
         ];
     }
 }

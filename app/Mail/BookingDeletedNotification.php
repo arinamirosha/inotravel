@@ -39,7 +39,7 @@ class BookingDeletedNotification extends Mailable
      */
     public function build()
     {
-        return $this->subject('Заявка удалена')
+        return $this->subject(__('Application deleted'))
             ->view('email.booking_deleted_notification', [
                 'arrival' => $this->arrival,
                 'departure' => $this->departure,
