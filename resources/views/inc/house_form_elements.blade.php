@@ -2,7 +2,7 @@
     $emptyErrors = !$errors->any();
 @endphp
 <div class="form-group row">
-    <label for="name" class="col-md-2 col-form-label-sm text-md-right">{{ __('Название:') }}</label>
+    <label for="name" class="col-md-2 col-form-label-sm text-md-right">{{ __('Accommodation name') }}</label>
 
     <div class="col-md-4">
         <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name"
@@ -15,7 +15,7 @@
         @enderror
     </div>
 
-    <label for="city" class="col-md-2 col-form-label-sm text-md-right">{{ __('Город:') }}</label>
+    <label for="city" class="col-md-2 col-form-label-sm text-md-right">{{ __('City') }}</label>
 
     <div class="col-md-4">
         <input id="city" type="text" class="form-control @error('city') is-invalid @enderror" name="city"
@@ -30,7 +30,7 @@
 </div>
 
 <div class="form-group row">
-    <label for="places" class="col-md-2 col-form-label-sm text-md-right">{{ __('Спальных мест:') }}</label>
+    <label for="places" class="col-md-2 col-form-label-sm text-md-right">{{ __('Sleeping places') }}</label>
 
     <div class="col-md-4">
         <input id="places" type="number" class="form-control @error('places') is-invalid @enderror" name="places"
@@ -43,7 +43,7 @@
         @enderror
     </div>
 
-    <label for="address" class="col-md-2 col-form-label-sm text-md-right">{{ __('Адрес:') }}</label>
+    <label for="address" class="col-md-2 col-form-label-sm text-md-right">{{ __('Address') }}</label>
 
     <div class="col-md-4">
         <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address"
@@ -58,7 +58,7 @@
 </div>
 
 <div class="form-group row">
-    <span class="col-md-2 col-form-label-sm text-md-right">{{ __('Удобства:') }}</span>
+    <span class="col-md-2 col-form-label-sm text-md-right">{{ __('Facilities') }}</span>
 
     <div class="col-md-4">
         @foreach($facilities as $fac)
@@ -72,7 +72,7 @@
         @endforeach
     </div>
 
-    <span class="col-md-2 col-form-label-sm text-md-right">{{ __('Ограничения:') }}</span>
+    <span class="col-md-2 col-form-label-sm text-md-right">{{ __('Restrictions') }}</span>
 
     <div class="col-md-4">
         @foreach($restrictions as $res)
@@ -88,7 +88,7 @@
 </div>
 
 <div class="form-group row">
-    <label for="info" class="col-md-2 col-form-label-sm text-md-right">{{ __('Доп. инфо:') }}</label>
+    <label for="info" class="col-md-2 col-form-label-sm text-md-right">{{ __('Add. info') }}</label>
 
     <div class="col-md-10">
         <textarea id="info" type="text" rows="5" class="form-control @error('info') is-invalid @enderror" name="info" autocomplete="info" autofocus>{{$house->info??old('info')}}</textarea>

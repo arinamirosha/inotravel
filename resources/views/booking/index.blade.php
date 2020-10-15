@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Заявки
+    {{ __('Applications') }}
 @endsection
 
 @section('content')
@@ -34,15 +34,15 @@
                                     {{ Carbon\Carbon::parse($booking->arrival)->format('d/m/y') }} - {{ Carbon\Carbon::parse($booking->departure)->format('d/m/y') }}
                                 </div>
                                 <div>
-                                    (статус заявки {{ Carbon\Carbon::parse($booking->updated_at)->format('d/m/y') }})
+                                    ({{ __('status') }} {{ Carbon\Carbon::parse($booking->updated_at)->format('d/m/y') }})
                                 </div>
                             </div>
 
                             <div class="col-md-3">
                                 @switch($booking->status)
-                                    @case(\App\Booking::STATUS_BOOKING_ACCEPT)<div class="text-success">Заявка принята!</div>@break
-                                    @case(\App\Booking::STATUS_BOOKING_SEND)<div class="text-secondary">Заявка отправлена!</div>@break
-                                    @case(\App\Booking::STATUS_BOOKING_REJECT)<div class="text-danger">Заявка отклонена!</div>@break
+                                    @case(\App\Booking::STATUS_BOOKING_ACCEPT)<div class="text-success">{{ __('Application accepted!') }}</div>@break
+                                    @case(\App\Booking::STATUS_BOOKING_SEND)<div class="text-secondary">{{ __('Application has been sent!') }}</div>@break
+                                    @case(\App\Booking::STATUS_BOOKING_REJECT)<div class="text-danger">{{ __('Application declined!') }}</div>@break
                                 @endswitch
                             </div>
 
@@ -52,14 +52,14 @@
 
                                     @if($booking->new === \App\Booking::STATUS_BOOKING_NEW)
                                         <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_VIEWED}}">
-                                        <button class="btn btn-sm btn-outline-primary ml-5">Ок (новое)</button>
+                                        <button class="btn btn-sm btn-outline-primary ml-5">{{ __('Ok (new)') }}</button>
                                     @else
                                         @switch($booking->status)
 
                                             @case(\App\Booking::STATUS_BOOKING_ACCEPT)
                                                 <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_CANCEL}}">
-                                                <button class="btn btn-sm btn-outline-danger ml-5" onclick="return confirm('Вы уверены, что хотите отменить заявку?')">
-                                                    Отменить
+                                                <button class="btn btn-sm btn-outline-danger ml-5" onclick="return confirm('{{ __('Are you sure you want to cancel the application?') }}')">
+                                                    {{ __('Cancel') }}
                                                 </button>
                                             @break
 
@@ -67,12 +67,12 @@
                                             @case(\App\Booking::STATUS_BOOKING_REJECT)
                                             <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_DELETE}}">
                                             @if($booking->status === \App\Booking::STATUS_BOOKING_SEND)
-                                                <button class="btn btn-sm btn-outline-danger ml-5" onclick="return confirm('Вы уверены, что хотите отозвать заявку?')">
-                                                    Отозвать
+                                                <button class="btn btn-sm btn-outline-danger ml-5" onclick="return confirm('{{ __('Are you sure you want to withdraw your application?') }}')">
+                                                    {{ __('Withdraw') }}
                                                 </button>
                                             @else
-                                                <button class="btn btn-sm btn-outline-danger ml-5" onclick="return confirm('Вы уверены, что хотите удалить заявку?')">
-                                                    Удалить
+                                                <button class="btn btn-sm btn-outline-danger ml-5" onclick="return confirm('{{ __('Are you sure you want to delete the application?') }}')">
+                                                    {{ __('Delete') }}
                                                 </button>
                                             @endif
                                             @break
@@ -83,7 +83,7 @@
                             </div>
 
                             <div class="col-2">
-                                Людей: {{ $booking->people }}
+                                {{ __('People') }}: {{ $booking->people }}
                             </div>
 
                         </div>
@@ -98,7 +98,7 @@
                 @else
                     <div class="row justify-content-center">
                         <div class="col-md-12 p-5 h2">
-                            Вы еще не отправляли ни одной заявки!
+                            {{ __('You have not sent any applications yet!') }}
                         </div>
                     </div>
                 @endif

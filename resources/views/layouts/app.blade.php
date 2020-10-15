@@ -44,11 +44,11 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">Вход</a>
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">Регистрация</a>
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
                         @else
@@ -57,7 +57,7 @@
                                 @if(! isset($isSearch))
                                     <div class="pr-3">
                                         <a class="navbar-item" href="{{ route('welcome') }}">
-                                            Поиск
+                                            {{ __('Search') }}
                                         </a>
                                     </div>
                                 @endif
@@ -65,7 +65,7 @@
                                 @if(Auth::user()->admin)
                                 <div class="pr-3">
                                     <a class="navbar-item" href="{{ route('admin.index') }}">
-                                        Пользователи
+                                        {{ __('Users') }}
                                     </a>
                                 </div>
                                 @endif
@@ -77,13 +77,13 @@
                                 </div>
 
                                 <div class="pr-3">
-                                    <a class="navbar-item" href="{{ route('house.index') }}">Мое жилье
+                                    <a class="navbar-item" href="{{ route('house.index') }}">{{ __('My accommodation') }}
                                         {{ Auth::user()->newInBooks() }}
                                     </a>
                                 </div>
 
                                 <div class="pr-3">
-                                    <a class="navbar-item" href="{{ route('booking.index') }}">Заявки
+                                    <a class="navbar-item" href="{{ route('booking.index') }}">{{ __('Applications') }}
                                         {{ Auth::user()->unreadOutBooks() }}
                                     </a>
                                 </div>
@@ -92,7 +92,7 @@
                                     <a class="navbar-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Выход') }}
+                                        {{ __('Logout') }}
                                     </a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf

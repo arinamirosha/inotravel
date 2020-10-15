@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Просмотр жилья &ndash; {{ $house->name }}
+    {{ __('Viewing housing') }} &ndash; {{ $house->name }}
 @endsection
 
 @section('content')
@@ -19,22 +19,21 @@
                     </div>
                     <div class="col-4">
                         @can('update', $house->user)
-                            <a href="{{ route('house.edit', $house->id) }}" class="btn btn-outline-primary btn-block">Редактировать</a>
+                            <a href="{{ route('house.edit', $house->id) }}" class="btn btn-outline-primary btn-block">{{ __('Edit') }}</a>
                             <form action="{{ route('house.destroy', $house->id) }}" method="post" class="pt-2">
                                 @csrf
-                                <button class="btn btn-outline-danger btn-block" onclick="return confirm('Вы уверены, что хотите удалить?')">Удалить</button>
+                                <button class="btn btn-outline-danger btn-block" onclick="return confirm('{{ __('Are you sure you want to delete?') }}')">{{ __('Delete') }}</button>
                             </form>
                         @else
 
                             @if ($isBooked)
-                                <div class="mb-1 btn btn-outline-secondary btn-block disabled">Заявка отправлена!</div>
+                                <div class="mb-1 btn btn-outline-secondary btn-block disabled">{{ __('Application has been sent!') }}</div>
                             @else
                                 @if($arrival)
                                     @if ($enoughPlaces)
                                         <div>
                                             @if ($isFree)
-                                                <div class="alert alert-info text-center">Свободно
-                                                    {{--                                                    .. мест--}}
+                                                <div class="alert alert-info text-center">{{ __('Free') }}
                                                 </div>
                                                 <div class="mb-1">
                                                     <form action="{{ route('booking.store') }}" method="post">
@@ -43,23 +42,22 @@
                                                         <input type="hidden" value="{{ $arrival }}" name="arrival">
                                                         <input type="hidden" value="{{ $departure }}" name="departure">
                                                         <input type="hidden" value="{{ $people }}" name="people">
-                                                        <button class="btn btn-outline-secondary btn-block">Забронировать</button>
+                                                        <button class="btn btn-outline-secondary btn-block">{{ __('Book now') }}</button>
                                                     </form>
                                                 </div>
                                             @else
-                                                <div class="alert alert-info">Даты заняты
-{{--                                                    / нет мест--}}
+                                                <div class="alert alert-info">{{ __('Dates are busy') }}
                                                 </div>
                                             @endif
                                         </div>
-                                        <div>c {{ $arrival }}</div>
-                                        <div>по {{ $departure }}</div>
-                                        <div>людей: {{ $people }}</div>
+                                        <div>{{ __('from') }} {{ $arrival }}</div>
+                                        <div>{{ __('to') }} {{ $departure }}</div>
+                                        <div>{{ __('People') }}: {{ $people }}</div>
                                     @else
-                                        <div class="alert alert-info">Недостаточно спальных мест</div>
+                                        <div class="alert alert-info">{{ __('Not enough sleeping places') }}</div>
                                     @endif
                                 @else
-                                    <div class="alert alert-info">Используйте поиск, чтобы задать даты прибытия и отъезда</div>
+                                    <div class="alert alert-info">{{ __('Use search to set arrival and departure dates') }}</div>
                                 @endif
                             @endif
 
@@ -67,11 +65,11 @@
                     </div>
                 </div>
                 <div class="pt-3">
-                    <strong class="pr-2">Спальных мест </strong>{{ $house->places }}
+                    <strong class="pr-2">{{ __('Sleeping places') }} </strong>{{ $house->places }}
                 </div>
                 <div class="pt-3">
                     @if($house->facilities()->exists())
-                        <strong>Удобства</strong>
+                        <strong>{{ __('Facilities') }}</strong>
                         <div class="row text-center h6 pt-3">
 
                             @foreach($house->facilities as $facility)
@@ -86,7 +84,7 @@
                 </div>
                 <div class="pt-3">
                     @if($house->restrictions()->exists())
-                        <strong>Ограничения</strong>
+                        <strong>{{ __('Restrictions') }}</strong>
                         <div class="row text-center h6 pt-3">
 
                             @foreach($house->restrictions as $restriction)
@@ -101,7 +99,7 @@
                 </div>
                 @if($house->info)
                     <div class="pt-3">
-                        <strong>Дополнительная информация</strong>
+                        <strong>{{ __('Additional information') }}</strong>
                         <div class="pt-1">
                             {{ $house->info }}
                         </div>

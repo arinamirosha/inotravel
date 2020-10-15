@@ -2,23 +2,23 @@
 {{-- Body --}}
 @component('mail::panel')
     <div>
-        Новый статус заявки
+        {{ __('New application status') }}
     </div>
     <div>
-        с <b>{{$booking->arrival}}</b> по <b>{{$booking->departure}}</b>:
+        {{ __('from') }} <b>{{$booking->arrival}}</b> {{ __('to') }} <b>{{$booking->departure}}</b>:
     </div>
     <div class="font-weight-bold m-3">
         @switch($booking->status)
-            @case(\App\Booking::STATUS_BOOKING_ACCEPT)ОДОБРЕНО@break
-            @case(\App\Booking::STATUS_BOOKING_REJECT)ОТКАЗ@break
-            @case(\App\Booking::STATUS_BOOKING_CANCEL)ОТМЕНА@break
+            @case(\App\Booking::STATUS_BOOKING_ACCEPT){{ __('ACCEPTED') }}@break
+            @case(\App\Booking::STATUS_BOOKING_REJECT){{ __('DECLINED') }}@break
+            @case(\App\Booking::STATUS_BOOKING_CANCEL){{ __('CANCELLED') }}@break
         @endswitch
     </div>
 @endcomponent
 @component('mail::panel')
-    Название: <b>{{$booking->house->name}}</b>
+    {{ __('Accommodation name') }}: <b>{{$booking->house->name}}</b>
 @endcomponent
 @component('mail::panel')
-    Город: <b>{{$booking->house->city}}</b>
+    {{ __('City') }}: <b>{{$booking->house->city}}</b>
 @endcomponent
 @endcomponent

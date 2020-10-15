@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Редактирование жилья &ndash; {{ $house->name }}
+    {{ __('Editing housing') }} &ndash; {{ $house->name }}
 @endsection
 
 @section('content')
@@ -24,8 +24,8 @@
                                  src="@if(old('deleteImage') || $imgFailed) {{url('/images/noImage.svg')}} @else {{url(old('imgId')?\App\TemporaryImage::find(old('imgId'))->tempImage():$house->houseImage())}} @endif"
                                  alt="Image" width="400" class="w-100">
                             <input type="file" id="file" name="file" class="d-none">
-                            <label for="file" class="col-form-label btn btn-outline-dark btn-block mt-3">Выбрать фото</label>
-                            <div id="deletePhoto" class="btn btn-outline-secondary btn-block @if(($house->image || old('imgId')) && !(old('deleteImage') || $imgFailed)) d-block @endif">Удалить фото</div>
+                            <label for="file" class="col-form-label btn btn-outline-dark btn-block mt-3">{{ __('Select A New Photo') }}</label>
+                            <div id="deletePhoto" class="btn btn-outline-secondary btn-block @if(($house->image || old('imgId')) && !(old('deleteImage') || $imgFailed)) d-block @endif">{{ __('Remove Photo') }}</div>
                         </form>
 
                         <div id="message" class="text-danger font-weight-bold small mt-2"></div>
@@ -53,7 +53,7 @@
 
                             <div class="row">
                                 <div class="col-md-12 text-right">
-                                    <button type="submit" class="btn btn-primary">Обновить</button>
+                                    <button type="submit" class="btn btn-primary w-25">{{ __('Update') }}</button>
                                 </div>
                             </div>
 

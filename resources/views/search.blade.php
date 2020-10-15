@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Поиск
+    {{ __('Search') }}
 @endsection
 
 @section('content')
@@ -15,7 +15,7 @@
                             @include('inc.search_form_elements')
                         </div>
                         <div class="col-3 pt-4">
-                            <button class="btn btn-secondary">Новый поиск</button>
+                            <button class="btn btn-secondary">{{ __('New search') }}</button>
                         </div>
                     </div>
                 </form>
@@ -44,7 +44,7 @@
                 @else
                     <div class="row justify-content-center">
                         <div class="col-md-12 p-3 h5 text-center">
-                            Не найдено
+                            {{ __('Not Found') }}
                         </div>
                     </div>
                 @endif

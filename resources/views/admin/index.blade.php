@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Пользователи
+    {{ __('Users') }}
 @endsection
 
 @section('content')
@@ -18,13 +18,13 @@
                         <div class="col-4 h5">
                             {{ $user->email }}
                         </div>
-                        <div class="col-4 h5">
+                        <div class="col-4 h5 text-center">
                             @if($user->admin)
-                                Администратор
+                                {{ __('Administrator') }}
                             @else
                                 <form action="{{ route('admin.update', $user->id) }}" method="post">
                                     @csrf
-                                    <button class="btn btn-outline-secondary btn-sm">Сделать админом</button>
+                                    <button class="btn btn-outline-secondary btn-sm">{{ __('Make admin') }}</button>
                                 </form>
                             @endif
                         </div>

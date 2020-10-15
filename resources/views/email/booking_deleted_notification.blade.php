@@ -5,24 +5,24 @@
     <div class="row text-center mt-4">
         <div class="col-12 h3">
             <div>
-                Одобренная заявка
+                {{ __('Approved application') }}
             </div>
             <div>
-                с <b>{{$arrival}}</b> по <b>{{$departure}}</b>
+                {{ __('from') }} <b>{{$arrival}}</b> {{ __('to') }} <b>{{$departure}}</b>
             </div>
             <div class="m-3">
                 <div class="font-weight-bold h2">
-                    удалена
+                    {{ __('deleted') }}
                 </div>
                 <div>
-                    в связи с тем, что хозяин удалил свое жилье
+                    {{ __('due to the fact that the owner has removed his home') }}
                 </div>
             </div>
             <div>
-                Название: <b>{{$name}}</b>
+                {{ __('Accommodation name') }}: <b>{{$name}}</b>
             </div>
             <div>
-                Город: <b>{{$city}}</b>
+                {{ __('City') }}: <b>{{$city}}</b>
             </div>
         </div>
     </div>
