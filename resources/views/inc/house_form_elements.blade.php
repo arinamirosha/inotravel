@@ -66,7 +66,7 @@
                 <input class="form-check-input" type="checkbox" value="{{ $fac->id }}" id="{{ $fac->name }}" name="facilities[]"
                        @if(($emptyErrors && isset($house) && $house->facilities->contains($fac->id)) || (old('facilities') && in_array($fac->id, old('facilities')))) checked @endif>
                 <label class="form-check-label" for="{{ $fac->name }}">
-                    {{ $fac->value }}
+                    {{ __($fac->value) }}
                 </label>
             </div>
         @endforeach
@@ -80,7 +80,7 @@
                 <input class="form-check-input" type="checkbox" value="{{ $res->id }}" id="{{ $res->name }}" name="restrictions[]"
                        @if(($emptyErrors && isset($house) && $house->restrictions->contains($res->id)) || (old('restrictions') && in_array($res->id, old('restrictions')))) checked @endif>
                 <label class="form-check-label" for="{{ $res->name }}">
-                    {{ $res->value }}
+                    {{ __($res->value) }}
                 </label>
             </div>
         @endforeach
