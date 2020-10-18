@@ -82,6 +82,8 @@ return [
 
     'locale' => 'ru',
 
+    'locales' => ['ru', 'en'],
+
     /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale
@@ -175,6 +177,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\HouseManagerServiceProvider::class,
+        App\Providers\LocalizationServiceProvider::class,
 
     ],
 
@@ -228,7 +231,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'HouseManager' => App\Libraries\House\Facades\HouseManager::class,
-
+        'Localization' => App\Libraries\Localization\Facades\Localization::class,
     ],
 
 ];
