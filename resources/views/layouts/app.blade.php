@@ -30,6 +30,30 @@
                 <a class="navbar-brand" href="{{ route('welcome') }}">
                     <h4>{{ config('app.name', 'Laravel') }}</h4>
                 </a>
+                @php
+                    $seg = request()->segment(1, '');
+                    $url = Request::fullUrl();
+
+                    if (! $seg) {
+                        $urlRu = $url.'/ru';
+                        $urlEn = $url.'/en';
+                    } elseif (in_array($seg, config('app.locales'))) {
+                        $urlRu = str_replace($seg, 'ru', $url);
+                        $urlEn = str_replace($seg, 'en', $url);
+                    } else {
+                        $urlRu = str_replace($seg, 'ru/'.$seg, $url);
+                        $urlEn = str_replace($seg, 'en/'.$seg, $url);
+                    }
+                @endphp
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ __('Language') }}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{$urlRu}}">Русский</a>
+                        <a class="dropdown-item" href="{{$urlEn}}">English</a>
+                    </div>
+                </div>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
