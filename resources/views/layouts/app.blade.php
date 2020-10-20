@@ -87,11 +87,16 @@
                                 @endif
 
                                 @if(Auth::user()->admin)
-                                <div class="pr-3">
-                                    <a class="navbar-item" href="{{ route('admin.index') }}">
-                                        {{ __('Users') }}
-                                    </a>
-                                </div>
+                                    <div class="pr-3">
+                                        <a class="navbar-item" href="{{ route('languages.index') }}">
+                                            {{ __('Translations') }}
+                                        </a>
+                                    </div>
+                                    <div class="pr-3">
+                                        <a class="navbar-item" href="{{ route('admin.index') }}">
+                                            {{ __('Users') }}
+                                        </a>
+                                    </div>
                                 @endif
 
                                 <div class="pr-3">

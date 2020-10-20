@@ -16,8 +16,12 @@ class CheckAdmin
      */
     public function handle($request, Closure $next)
     {
-        if ( ! Auth::user()->admin) {
-            return redirect(route('welcome'));
+        if ( ! Auth::user()) {
+            return abort(401);
+        }
+
+        if (! Auth::user()->admin) {
+            return abort(403);
         }
 
         return $next($request);
