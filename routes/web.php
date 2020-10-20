@@ -19,7 +19,7 @@ Route::group([
     'middleware' => 'setLocale',
 ],
     function () {
-        Route::get('/', 'HomeController@welcome')->name('welcome');
+        Route::get('/', 'HomeController')->name('welcome');
 
         Auth::routes();
 
@@ -41,7 +41,7 @@ Route::group([
         Route::post('/house/{house}', 'HousesController@destroy')->name('house.destroy');
         Route::post('/upload-image', 'HousesController@uploadImage')->name('house.upload-image');
 
-        Route::get('/search', 'SearchController@index')->name('search');
+        Route::get('/search', 'SearchController')->name('search');
 
         Route::get('/booking', 'BookingController@index')->name('booking.index');
         Route::post('/booking', 'BookingController@store')->name('booking.store');

@@ -11,7 +11,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function welcome()
+    public function __invoke()
     {
         return view('welcome', ['isSearch' => true]);
     }

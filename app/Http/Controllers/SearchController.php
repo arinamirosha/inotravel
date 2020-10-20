@@ -21,7 +21,7 @@ class SearchController extends Controller
      * @param SearchRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function index(SearchRequest $request)
+    public function __invoke(SearchRequest $request)
     {
         $requestData = $request->all();
         $arrival = $requestData['arrival'];
