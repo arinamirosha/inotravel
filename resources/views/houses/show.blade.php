@@ -97,14 +97,14 @@
                         </div>
                     @endif
                 </div>
-                @if($house->info)
+                @isset($house->info)
                     <div class="pt-3">
                         <strong>{{ __('Additional information') }}</strong>
                         <div class="pt-1">
                             {{ $house->info }}
                         </div>
                     </div>
-                @endif
+                @endisset
             </div>
         </div>
     </div>
