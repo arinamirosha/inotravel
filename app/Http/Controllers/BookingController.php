@@ -109,7 +109,7 @@ class BookingController extends Controller
                 break;
         }
 
-        return redirect()->back();
+        return back();
     }
 
 }
