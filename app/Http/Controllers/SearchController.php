@@ -30,7 +30,11 @@ class SearchController extends Controller
         $people = $requestData['people'];
 
         $housesResult = HouseManager::getSqlFreeHouse($arrival, $departure, $people, $where, House::ALL_HOUSES);
-        $houses = House::rightJoin((DB::raw("($housesResult) AS h")), 'houses.id', '=', 'h.house_id')->get();
+        $houses = House::rightJoin((DB::raw("($housesResult) AS h")), 'houses.id', '=', 'h.house_id')
+            ->addSelect(['user_name' => User::select('name')->whereColumn('user_id', 'users.id')])
+            ->orderBy('name')
+            ->orderBy('user_name')
+            ->get();
 
         Cookie::queue('arrival', $arrival, 60);
         Cookie::queue('departure', $departure, 60);
