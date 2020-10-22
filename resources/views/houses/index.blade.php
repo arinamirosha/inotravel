@@ -9,7 +9,7 @@
         <div class="row text-center">
             <div class="col-md-12">
 
-                @forelse($houses as $house)
+                @if(!$houses->isEmpty())
 
                     <div class="row pb-2">
                         <div class="col-1 mt-1 h5">
@@ -124,7 +124,7 @@
                         </div>
                     @endforeach
 
-                @empty
+                @else
                     <div class="row justify-content-center">
                         <div class="col-md-12 p-5 h2">
                             {{ __('You have not created any housing profiles yet!') }}
@@ -133,7 +133,7 @@
                             <a href="{{ route('house.create') }}" class="btn btn-primary btn-lg">{{ __('Create') }}</a>
                         </div>
                     </div>
-                @endforelse
+                @endif
 
             </div>
         </div>
