@@ -26,3 +26,13 @@ main {
 #deletePhoto {
     display: none;
 }
+
+.outgoing {
+    background: rgba(240, 240, 240, 0.4);
+    border-radius: 10px;
+}
+
+.incoming {
+    background: rgba(240, 240, 240, 0.9);
+    border-radius: 10px;
+}

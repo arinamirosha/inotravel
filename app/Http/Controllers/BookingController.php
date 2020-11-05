@@ -76,6 +76,26 @@ class BookingController extends Controller
     }
 
     /**
+     * Show all sent (or received) bookings
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function history()
+    {
+        $userId = Auth::id();
+        $bookings = Booking::withTrashed()
+            ->where('bookings.user_id', '=', $userId)
+            ->orWhereHas('house', function ($query) use ($userId) {
+                $query->where('user_id', '=', $userId);
+            })
+//            ->orderBy('updated_at', 'desc')
+            ->with(['house', 'house.user'])
+            ->paginate(15);
+
+        return view('booking.history', compact('bookings'));
+    }
+
+    /**
      * Set new status of booking or delete. Create jobs to send emails about changing of the status
      *
      * @param Booking $booking

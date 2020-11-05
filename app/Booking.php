@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Booking extends Model
 {
+    use SoftDeletes;
+
     // for status
     const STATUS_BOOKING_SEND = 1;
     const STATUS_BOOKING_ACCEPT = 2;

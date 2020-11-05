@@ -117,6 +117,10 @@
                                     </a>
                                 </div>
 
+                                <div class="pr-3">
+                                    <a class="navbar-item" href="{{ route('booking.history') }}">{{ __('History') }}</a>
+                                </div>
+
                                 <div>
                                     <a class="navbar-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();

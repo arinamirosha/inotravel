@@ -44,6 +44,7 @@ Route::group([
         Route::get('/search', 'SearchController')->name('search');
 
         Route::get('/booking', 'BookingController@index')->name('booking.index');
+        Route::get('/booking/history', 'BookingController@history')->name('booking.history');
         Route::post('/booking', 'BookingController@store')->name('booking.store');
         Route::post('/booking/{booking}/update', 'BookingController@update')->name('booking.update');
 
