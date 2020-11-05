@@ -94,7 +94,7 @@ class House extends Model
 
             SendBookingDeletedEmail::dispatch($booksToMail, $house->name, $house->city)->delay(now()->addSeconds(10));
 
-            $house->bookings()->delete();
+            $house->bookings()->forceDelete();
             $house->deleteImage();
             $house->facilities()->detach();
             $house->restrictions()->detach();
