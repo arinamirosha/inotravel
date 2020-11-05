@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Mail;
 
 class SendBookingChangedEmail implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable;
 
     const JOB_NAME = 'booking_changed_notifications_job';
     private $booking;
