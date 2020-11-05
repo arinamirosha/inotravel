@@ -37,27 +37,16 @@
                         </div>
 
                         <div class="col-md-3">
-                            @if($booking->trashed())
-                                {{ __('Deleted') }}
-                            @else
-                                @switch($booking->status)
-                                    @case(\App\Booking::STATUS_BOOKING_ACCEPT)<div class="text-success">{{ __('Application accepted!') }}</div>@break
-                                    @case(\App\Booking::STATUS_BOOKING_SEND)<div class="text-secondary">{{ __('Waiting for an answer!') }}</div>@break
-                                    @case(\App\Booking::STATUS_BOOKING_REJECT)<div class="text-danger">{{ __('Application declined!') }}</div>@break
-                                    @case(\App\Booking::STATUS_BOOKING_CANCEL)<div class="text-danger">{{ __('Application canceled!') }}</div>@break
-                                @endswitch
-                            @endif
+                            @switch($booking->status)
+                                @case(\App\Booking::STATUS_BOOKING_ACCEPT)<div class="text-success">{{ __('Application accepted!') }}</div>@break
+                                @case(\App\Booking::STATUS_BOOKING_SEND)<div class="text-secondary">{{ __('Waiting for an answer!') }}</div>@break
+                                @case(\App\Booking::STATUS_BOOKING_REJECT)<div class="text-danger">{{ __('Application declined!') }}</div>@break
+                                @case(\App\Booking::STATUS_BOOKING_CANCEL)<div class="text-danger">{{ __('Application canceled!') }}</div>@break
+                                @case(\App\Booking::STATUS_BOOKING_DELETE){{ __('Deleted') }}@break
+                            @endswitch
                         </div>
 
                         <div class="col-md-2">
-{{--                            <form method="post" action="{{ route('booking.update', $booking->id) }}">--}}
-{{--                                @csrf--}}
-{{--                                <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_DELETE}}">--}}
-{{--                                <button class="btn btn-sm btn-outline-danger ml-5" onclick="return confirm('{{ __('Are you sure you want to delete the application?') }}')">--}}
-{{--                                    {{ __('Delete') }}--}}
-{{--                                </button>--}}
-{{--                            </form>--}}
-
                             @if($booking->user_id == \Illuminate\Support\Facades\Auth::id())
                                 {{ __('Outgoing') }}
                             @else

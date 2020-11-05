@@ -76,7 +76,7 @@ class BookingController extends Controller
     }
 
     /**
-     * Show all sent (or received) bookings
+     * Show history of booking's events
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -121,6 +121,7 @@ class BookingController extends Controller
                 break;
 
             case Booking::STATUS_BOOKING_DELETE:
+                $booking->update(['status' => $status]);
                 $booking->delete();
                 break;
 
