@@ -57,7 +57,17 @@ class User extends Authenticatable
     }
 
     /**
-     * One user to many temorary images
+     * One user to many history
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function histories()
+    {
+        return $this->hasMany(BookingHistory::class)->orderBy('created_at', 'DESC');
+    }
+
+    /**
+     * One user to many temporary images
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

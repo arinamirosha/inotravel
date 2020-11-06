@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    {{ __('Applications') }}
+    {{ __('History') }}
 @endsection
 
 @section('content')
@@ -9,68 +9,86 @@
         <div class="row text-center">
             <div class="col-md-12">
 
-                @forelse($bookings as $booking)
-                    <div class="row p-1 h5 @if($booking->user_id == \Illuminate\Support\Facades\Auth::id()) outgoing @else incoming @endif">
+                @forelse($histories as $history)
+                    <div class="row p-1 h6">
 
-                        <div class="col-md-2">
-                            <a href="{{ route('house.show', $booking->house->id) }}">
-                                <img src="{{ url($booking->house->houseImage()) }}" alt="" class="w-100 rounded">
+                        <div class="col-md-1">
+                            <a href="{{ route('house.show', $history->booking->house->id) }}">
+                                <img src="{{ url($history->booking->house->houseImage()) }}" alt="" class="w-100 rounded">
                             </a>
                         </div>
 
-                        <div class="col-md-3 text-left">
+                        <div class="col-md-4 text-left">
                             <div>
-                                <a href="{{ route('house.show', $booking->house->id) }}">{{ $booking->house->name }}</a>
+                                <a href="{{ route('house.show', $history->booking->house->id) }}">{{ $history->booking->house->name }}</a>
                             </div>
                             <div>
-                                {{ $booking->house->city }}
+                                {{ $history->booking->house->city }}
                             </div>
                             <div>
-                                {{ $booking->house->user->name }} {{ $booking->house->user->surname }}
-                            </div>
-                            <div>
-                                {{ Carbon\Carbon::parse($booking->arrival)->format('d/m/y') }} - {{ Carbon\Carbon::parse($booking->departure)->format('d/m/y') }}
-                            </div>
-                            <div>
-                                ({{ __('status') }} {{ Carbon\Carbon::parse($booking->updated_at)->format('d/m/y') }})
+                                {{ Carbon\Carbon::parse($history->booking->arrival)->format('d/m/y') }} - {{ Carbon\Carbon::parse($history->booking->departure)->format('d/m/y') }}
                             </div>
                         </div>
 
-                        <div class="col-md-3">
-                            @switch($booking->status)
-                                @case(\App\Booking::STATUS_BOOKING_ACCEPT)<div class="text-success">{{ __('Application accepted!') }}</div>@break
-                                @case(\App\Booking::STATUS_BOOKING_SEND)<div class="text-secondary">{{ __('Waiting for an answer!') }}</div>@break
-                                @case(\App\Booking::STATUS_BOOKING_REJECT)<div class="text-danger">{{ __('Application declined!') }}</div>@break
-                                @case(\App\Booking::STATUS_BOOKING_CANCEL)<div class="text-danger">{{ __('Application canceled!') }}</div>@break
-                                @case(\App\Booking::STATUS_BOOKING_DELETE){{ __('Deleted') }}@break
+                        <div class="col-md-5">
+                            @switch($history->type)
+                                @case(\App\BookingHistory::TYPE_SENT)
+                                    <div class="text-secondary">
+                                        {{ __('Under consideration by') }} {{ $history->booking->house->user->name }} {{ $history->booking->house->user->surname }}
+                                    </div>
+                                @break
+                                @case(\App\BookingHistory::TYPE_RECEIVED)
+                                    <div class="text-secondary">
+                                        {{ __('Received from') }} {{ $history->booking->user->name }} {{ $history->booking->user->surname }}
+                                    </div>
+                                @break
+                                @case(\App\BookingHistory::TYPE_ACCEPTED)
+                                <div class="text-success">
+                                    {{ __('Accepted by me to') }} {{ $history->booking->user->name }} {{ $history->booking->user->surname }}
+                                </div>
+                                @break
+                                @case(\App\BookingHistory::TYPE_ACCEPTED_ANSWER)
+                                <div class="text-success">
+                                    {{ __('Accepted by') }} {{ $history->booking->house->user->name }} {{ $history->booking->house->user->surname }}
+                                </div>
+                                @break
+                                @case(\App\BookingHistory::TYPE_REJECTED)
+                                <div class="text-danger">
+                                    {{ __('Rejected by me to') }} {{ $history->booking->user->name }} {{ $history->booking->user->surname }}
+                                </div>
+                                @break
+                                @case(\App\BookingHistory::TYPE_REJECTED_ANSWER)
+                                <div class="text-danger">
+                                    {{ __('Rejected by') }} {{ $history->booking->user->name }} {{ $history->booking->user->surname }}
+                                </div>
+                                @break
+                                @case(\App\BookingHistory::TYPE_CANCELLED)
+                                <div class="text-danger">
+                                    {{ __('Cancelled by me to') }} {{ $history->booking->house->user->name }} {{ $history->booking->house->user->surname }}
+                                </div>
+                                @break
+                                @case(\App\BookingHistory::TYPE_CANCELLED_INFO)
+                                <div class="text-danger">
+                                    {{ __('Cancelled by') }} {{ $history->booking->user->name }} {{ $history->booking->user->surname }}
+                                </div>
+                                @break
                             @endswitch
                         </div>
 
-                        <div class="col-md-2">
-                            @if($booking->user_id == \Illuminate\Support\Facades\Auth::id())
-                                {{ __('Outgoing') }}
-                            @else
-                                {{ __('Incoming') }}
-                            @endif
-                        </div>
-
-                        <div class="col-2">
-                            {{ __('People') }}: {{ $booking->people }}
-                        </div>
+                        <div class="col-md-2">{{ Carbon\Carbon::parse($history->created_at)->format('d/m/y h:m:s')  }}</div>
 
                     </div>
-
                 @empty
                     <div class="row justify-content-center">
                         <div class="col-md-12 p-5 h2">
-                            {{ __('You have not sent any applications yet!') }}
+                            {{ __('History is empty') }}
                         </div>
                     </div>
                 @endforelse
 
                 <div class="row offset-1">
                     <div class="col-6">
-                        {{$bookings->links()}}
+                        {{$histories->links()}}
                     </div>
                 </div>
 

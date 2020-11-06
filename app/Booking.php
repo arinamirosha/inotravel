@@ -42,4 +42,15 @@ class Booking extends Model
     {
         return $this->belongsTo(House::class);
     }
+
+    /**
+     * One booking to many history
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function histories()
+    {
+        return $this->hasMany(BookingHistory::class)->orderBy('created_at', 'DESC');
+    }
+
 }

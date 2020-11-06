@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Booking;
+use App\BookingHistory;
+use App\Events\BookingAnswerEvent;
+use App\Events\BookingCancelledEvent;
+use App\Events\BookingSentEvent;
+use App\Events\BookingStatusChangedEvent;
 use App\Jobs\SendBookingChangedEmail;
 use Illuminate\Support\Facades\Auth;
 use App\House;
@@ -44,7 +49,7 @@ class BookingController extends Controller
         $isFree = $house->isFree($arrival, $departure, $people);
 
         if ($isFree) {
-            $user->bookings()->create([
+            $booking = $user->bookings()->create([
                 'house_id' => $houseId,
                 'arrival' => $arrival,
                 'departure' => $departure,
@@ -52,6 +57,8 @@ class BookingController extends Controller
                 'status' => Booking::STATUS_BOOKING_SEND,
                 'new' => Booking::STATUS_BOOKING_VIEWED,
             ]);
+            event(new BookingSentEvent($booking));
+//            Booking...Event::dispatch($booking);
         }
 
         return redirect(route('house.show', $houseId));
@@ -83,16 +90,14 @@ class BookingController extends Controller
     public function history()
     {
         $userId = Auth::id();
-        $bookings = Booking::withTrashed()
-            ->where('bookings.user_id', '=', $userId)
-            ->orWhereHas('house', function ($query) use ($userId) {
-                $query->where('user_id', '=', $userId);
-            })
-//            ->orderBy('updated_at', 'desc')
-            ->with(['house', 'house.user'])
+
+        $histories = BookingHistory::where('user_id', '=', $userId)
+            ->orderBy('created_at', 'desc')
+            ->with(['booking', 'user', 'booking.user', 'booking.house', 'booking.house.user'])
             ->paginate(15);
 
-        return view('booking.history', compact('bookings'));
+        return view('booking.history', compact('histories'));
+
     }
 
     /**
@@ -113,11 +118,13 @@ class BookingController extends Controller
             case Booking::STATUS_BOOKING_REJECT:
                 $booking->update(['status' => $status, 'new' => Booking::STATUS_BOOKING_NEW]);
                 SendBookingChangedEmail::dispatch($booking->user->email, $booking)->delay(now()->addSeconds(10));
+                event(new BookingAnswerEvent($booking, $status == Booking::STATUS_BOOKING_ACCEPT));
                 break;
 
             case Booking::STATUS_BOOKING_CANCEL:
                 $booking->update(['status' => $status]);
                 SendBookingChangedEmail::dispatch($booking->house->user->email, $booking)->delay(now()->addSeconds(10));
+                event(new BookingCancelledEvent($booking));
                 break;
 
             case Booking::STATUS_BOOKING_DELETE:
