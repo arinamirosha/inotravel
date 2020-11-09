@@ -27,6 +27,14 @@ main {
     display: none;
 }
 
+.bg-title {
+    background: rgba(95, 178, 178, 0.8);
+}
+
 .my-house {
     background: rgba(95, 178, 178, 0.1);
+}
+
+.my-house:hover, .not-my-house:hover {
+    font-weight: bold;
 }
