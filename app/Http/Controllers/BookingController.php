@@ -6,6 +6,8 @@ use App\Booking;
 use App\BookingHistory;
 use App\Events\BookingAnswerEvent;
 use App\Events\BookingCancelledEvent;
+use App\Events\BookingDeletedEvent;
+use App\Events\BookingSentBackEvent;
 use App\Events\BookingSentEvent;
 use App\Events\BookingStatusChangedEvent;
 use App\Jobs\SendBookingChangedEmail;
@@ -127,7 +129,14 @@ class BookingController extends Controller
                 event(new BookingCancelledEvent($booking));
                 break;
 
+            case Booking::STATUS_BOOKING_SEND_BACK:
+                event(new BookingSentBackEvent($booking));
+                $booking->update(['status' => $status]);
+                $booking->delete();
+                break;
+
             case Booking::STATUS_BOOKING_DELETE:
+                event(new BookingDeletedEvent($booking));
                 $booking->update(['status' => $status]);
                 $booking->delete();
                 break;

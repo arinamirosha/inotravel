@@ -11,14 +11,15 @@ class Booking extends Model
 
     // for status
     const STATUS_BOOKING_SEND = 1;
-    const STATUS_BOOKING_ACCEPT = 2;
-    const STATUS_BOOKING_REJECT = 3;
-    const STATUS_BOOKING_CANCEL = 4;
-    const STATUS_BOOKING_DELETE = 5;
+    const STATUS_BOOKING_SEND_BACK = 2;
+    const STATUS_BOOKING_ACCEPT = 3;
+    const STATUS_BOOKING_REJECT = 4;
+    const STATUS_BOOKING_CANCEL = 5;
+    const STATUS_BOOKING_DELETE = 6;
 
     //for new indicator
-    const STATUS_BOOKING_NEW = 6;
-    const STATUS_BOOKING_VIEWED = 7;
+    const STATUS_BOOKING_NEW = 7;
+    const STATUS_BOOKING_VIEWED = 8;
 
     protected $guarded = [];
     protected $fillable = ['house_id', 'status', 'new', 'arrival', 'departure', 'people'];

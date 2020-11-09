@@ -62,17 +62,17 @@
                                         @break
 
                                         @case(\App\Booking::STATUS_BOOKING_SEND)
+                                        <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_SEND_BACK}}">
+                                        <button class="btn btn-sm btn-outline-danger ml-5" onclick="return confirm('{{ __('Are you sure you want to withdraw your application?') }}')">
+                                            {{ __('Withdraw') }}
+                                        </button>
+                                        @break
+
                                         @case(\App\Booking::STATUS_BOOKING_REJECT)
                                         <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_DELETE}}">
-                                        @if($booking->status === \App\Booking::STATUS_BOOKING_SEND)
-                                            <button class="btn btn-sm btn-outline-danger ml-5" onclick="return confirm('{{ __('Are you sure you want to withdraw your application?') }}')">
-                                                {{ __('Withdraw') }}
-                                            </button>
-                                        @else
-                                            <button class="btn btn-sm btn-outline-danger ml-5" onclick="return confirm('{{ __('Are you sure you want to delete the application?') }}')">
-                                                {{ __('Delete') }}
-                                            </button>
-                                        @endif
+                                        <button class="btn btn-sm btn-outline-danger ml-5" onclick="return confirm('{{ __('Are you sure you want to delete the application?') }}')">
+                                            {{ __('Delete') }}
+                                        </button>
                                         @break
 
                                     @endswitch

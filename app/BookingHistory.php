@@ -18,7 +18,9 @@ class BookingHistory extends Model
     const TYPE_CANCELLED_INFO = 8;
 
     const TYPE_SENT_BACK = 9;
-    const TYPE_DELETED = 10;
+    const TYPE_SENT_BACK_INFO = 10;
+
+    const TYPE_DELETED = 11;
 
     protected $fillable = ['user_id', 'booking_id', 'type'];
 
@@ -39,7 +41,7 @@ class BookingHistory extends Model
      */
     public function booking()
     {
-        return $this->belongsTo(Booking::class);
+        return $this->belongsTo(Booking::class)->withTrashed();
     }
 
 }
