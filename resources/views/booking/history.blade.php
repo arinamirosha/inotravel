@@ -10,38 +10,12 @@
             <div class="col-md-12">
 
                 <div class="row p-1 h6 bg-info rounded">
-
-                    <div class="col-md-4">
-                        <div class="row">
-                            <div class="col-2 p-0">
-                                {{ __('Image') }}
-                            </div>
-                            <div class="col-10">
-                                {{ __('Accommodation/application') }}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-2">
-                        {{ __('Who did it') }}
-                    </div>
-
-                    <div class="col-md-1">
-                        {{ __('Event') }}
-                    </div>
-
-                    <div class="col-md-2">
-                        {{ __('For whom') }}
-                    </div>
-
-                    <div class="col-md-1">
-                        {{ __('Type') }}
-                    </div>
-
-                    <div class="col-md-2">
-                        {{ __('Date') }}
-                    </div>
-
+                    <div class="col-md-4">{{ __('Accommodation/application') }}</div>
+                    <div class="col-md-2">{{ __('Who') }}</div>
+                    <div class="col-md-1">{{ __('Action') }}</div>
+                    <div class="col-md-2">{{ __('To whom') }}</div>
+                    <div class="col-md-1">{{ __('Type') }}</div>
+                    <div class="col-md-2">{{ __('Date') }}</div>
                 </div>
 
                 @forelse($histories as $history)
@@ -77,7 +51,7 @@
                                 @case(\App\BookingHistory::TYPE_CANCELLED)
                                 @case(\App\BookingHistory::TYPE_SENT_BACK)
                                 @case(\App\BookingHistory::TYPE_DELETED)
-                                {{ __('Me') }}
+                                    &ndash;
                                 @break
                                 @case(\App\BookingHistory::TYPE_RECEIVED)
                                 @case(\App\BookingHistory::TYPE_CANCELLED_INFO)
@@ -105,7 +79,7 @@
 
                                 @case(\App\BookingHistory::TYPE_REJECTED)
                                 @case(\App\BookingHistory::TYPE_REJECTED_ANSWER)
-                                <div class="text-danger">{{ __('Rejected') }}</div>
+                                <div class="text-danger">{{ __('Declined') }}</div>
                                 @break
 
                                 @case(\App\BookingHistory::TYPE_CANCELLED)
@@ -134,7 +108,7 @@
                                 @case(\App\BookingHistory::TYPE_REJECTED_ANSWER)
                                 @case(\App\BookingHistory::TYPE_CANCELLED_INFO)
                                 @case(\App\BookingHistory::TYPE_SENT_BACK_INFO)
-                                    {{ __('Me') }}
+                                    &ndash;
                                 @break
                                 @case(\App\BookingHistory::TYPE_ACCEPTED)
                                 @case(\App\BookingHistory::TYPE_REJECTED)
