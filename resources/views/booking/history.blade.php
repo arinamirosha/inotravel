@@ -9,7 +9,7 @@
         <div class="row text-center">
             <div class="col-md-12">
 
-                <div class="row p-1 h6 bg-info rounded">
+                <div class="row p-2 h6 bg-info rounded">
                     <div class="col-md-4">{{ __('Accommodation/application') }}</div>
                     <div class="col-md-2">{{ __('Who') }}</div>
                     <div class="col-md-1">{{ __('Action') }}</div>
