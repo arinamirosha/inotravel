@@ -19,6 +19,8 @@ class CreateBookingHistoriesTable extends Migration
             $table->bigInteger('booking_id');
             $table->tinyInteger('type');
             $table->timestamps();
+
+            $table->index(['user_id', 'created_at']);
         });
     }
 
