@@ -76,7 +76,7 @@ class HousesController extends Controller
             ->where('status', '<>', Booking::STATUS_BOOKING_REJECT)
             ->select('bookings.*')
             ->with(['house', 'user'])
-            ->latest()
+            ->orderBy('updated_at', 'desc')
             ->paginate(10);
 
         return view('houses.index', compact('houses', 'bookings'));

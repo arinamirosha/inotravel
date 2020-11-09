@@ -10939,7 +10939,8 @@ main {
   background: rgba(95, 178, 178, 0.8);
 }
 
-.my-house {
+.my-house,
+.bg-new {
   background: rgba(95, 178, 178, 0.1);
 }
 

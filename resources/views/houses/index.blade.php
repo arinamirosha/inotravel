@@ -20,7 +20,7 @@
                     </div>
 
                     @forelse($bookings as $booking)
-                        <div class="row pb-3 h5">
+                        <div class="row pb-1 pt-2 h5 @if ($booking->new == \App\Booking::STATUS_BOOKING_NEW && $booking->status <> \App\Booking::STATUS_BOOKING_ACCEPT || $booking->status == \App\Booking::STATUS_BOOKING_SEND) bg-new @endif">
 
                             <div class="col-md-2">
                                 <a href="{{ route('house.show', $booking->house->id) }}">
@@ -43,12 +43,12 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
-                                <form method="post" action="{{ route('booking.update', $booking->id) }}">
-                                    @csrf
-                                    @switch($booking->status)
+                            <div class="col-md-3">
+                                @switch($booking->status)
 
-                                        @case(\App\Booking::STATUS_BOOKING_SEND)
+                                    @case(\App\Booking::STATUS_BOOKING_SEND)
+                                    <form method="post" action="{{ route('booking.update', $booking->id) }}">
+                                        @csrf
                                         <input type="hidden" name="status" id="status{{ $booking->id }}" value="{{ \App\Booking::STATUS_BOOKING_REJECT }}">
                                         <button class="btn btn-outline-success" onclick="$('#status{{ $booking->id }}').val({{ \App\Booking::STATUS_BOOKING_ACCEPT }})">
                                             {{ __('Accept') }}
@@ -56,26 +56,32 @@
                                         <button class="btn btn-outline-danger">
                                             {{ __('Refuse') }}
                                         </button>
-                                        @break
+                                    </form>
+                                    @break
 
-                                        @case(\App\Booking::STATUS_BOOKING_CANCEL)
-                                        <div class="text-right">
-                                            <span class="text-danger">{{ __('Application canceled!') }}</span>
-                                            <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_DELETE}}">
-                                            <button class="btn btn-sm btn-outline-danger w-25 ml-4" onclick="return confirm('{{ __('Are you sure you want to delete the application?') }}')">
-                                                {{ __('Delete') }}
-                                            </button>
-                                        </div>
-                                        @break
+                                    @case(\App\Booking::STATUS_BOOKING_CANCEL)<div class="text-danger">{{ __('Application canceled!') }}</div>@break
+                                    @case(\App\Booking::STATUS_BOOKING_SEND_BACK)<div class="text-secondary">{{ __('Application sent back!') }}</div>@break
+                                    @case(\App\Booking::STATUS_BOOKING_ACCEPT)<div class="text-success">{{ __('Application accepted!') }}</div>@break
 
-                                        @default
-                                        <div class="text-success">{{ __('Application accepted!') }}</div>
+                                @endswitch
+                            </div>
 
-                                    @endswitch
+                            <div class="col-md-2">
+                                <form method="post" action="{{ route('booking.update', $booking->id) }}">
+                                    @csrf
+                                    @if ($booking->new == \App\Booking::STATUS_BOOKING_NEW && $booking->status <> \App\Booking::STATUS_BOOKING_ACCEPT)
+                                        <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_VIEWED}}">
+                                        <button class="btn btn-sm btn-outline-primary ml-5">{{ __('Ok (new)') }}</button>
+                                    @elseif($booking->status <> \App\Booking::STATUS_BOOKING_SEND && $booking->status <> \App\Booking::STATUS_BOOKING_ACCEPT)
+                                        <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_DELETE}}">
+                                        <button class="btn btn-sm btn-outline-secondary ml-5">
+                                            {{ __('Hide') }}
+                                        </button>
+                                    @endif
                                 </form>
                             </div>
 
-                            <div class="col-3">
+                            <div class="col-2">
                                 {{ __('People') }}: {{ $booking->people }}
                             </div>
 

@@ -39,7 +39,7 @@ class BookingController extends Controller
         $houseId = $request->houseId;
         $house = House::find($houseId);
 
-        if ( ! $house) {
+        if (!$house) {
             return redirect(route('welcome'));
         }
 
@@ -76,8 +76,8 @@ class BookingController extends Controller
         $userId = Auth::id();
         $bookings = Booking::where('user_id', '=', $userId)
             ->where('status', '<>', Booking::STATUS_BOOKING_CANCEL)
+            ->where('status', '<>', Booking::STATUS_BOOKING_SEND_BACK)
             ->orderBy('updated_at', 'desc')
-            ->orderBy('created_at', 'desc')
             ->with(['house', 'house.user'])
             ->paginate(15);
 
@@ -124,18 +124,17 @@ class BookingController extends Controller
                 break;
 
             case Booking::STATUS_BOOKING_CANCEL:
-                $booking->update(['status' => $status]);
+                $booking->update(['status' => $status, 'new' => Booking::STATUS_BOOKING_NEW]);
                 SendBookingChangedEmail::dispatch($booking->house->user->email, $booking)->delay(now()->addSeconds(10));
                 event(new BookingCancelledEvent($booking));
                 break;
 
             case Booking::STATUS_BOOKING_SEND_BACK:
+                $booking->update(['status' => $status, 'new' => Booking::STATUS_BOOKING_NEW]);
                 event(new BookingSentBackEvent($booking));
-                $booking->delete();
                 break;
 
             case Booking::STATUS_BOOKING_DELETE:
-                event(new BookingDeletedEvent($booking));
                 $booking->delete();
                 break;
 

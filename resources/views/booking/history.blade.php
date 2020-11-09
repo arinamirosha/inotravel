@@ -9,6 +9,7 @@
         <div class="row text-center">
             <div class="col-md-12">
 
+                @if($histories->count() > 0)
                 <div class="row p-2 h6 font-weight-bold rounded bg-title">
                     <div class="col-md-4">{{ __('Accommodation/application') }}</div>
                     <div class="col-md-2">{{ __('Who') }}</div>
@@ -17,6 +18,7 @@
                     <div class="col-md-1">{{ __('Type') }}</div>
                     <div class="col-md-2">{{ __('Date') }}</div>
                 </div>
+                @endif
 
                 @forelse($histories as $history)
                     <div class="row p-1 h6 rounded @if ($history->booking->house->user->id == Auth::id()) my-house @else not-my-house @endif">

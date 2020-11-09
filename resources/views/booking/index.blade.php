@@ -10,7 +10,7 @@
             <div class="col-md-12">
 
                 @forelse($bookings as $booking)
-                    <div class="row pb-3 h5">
+                    <div class="row h5 pb-1 pt-2 @if ($booking->new == \App\Booking::STATUS_BOOKING_NEW) bg-new @endif">
 
                         <div class="col-md-2">
                             <a href="{{ route('house.show', $booking->house->id) }}">
@@ -70,8 +70,8 @@
 
                                         @case(\App\Booking::STATUS_BOOKING_REJECT)
                                         <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_DELETE}}">
-                                        <button class="btn btn-sm btn-outline-danger ml-5" onclick="return confirm('{{ __('Are you sure you want to delete the application?') }}')">
-                                            {{ __('Delete') }}
+                                        <button class="btn btn-sm btn-outline-secondary ml-5">
+                                            {{ __('Hide') }}
                                         </button>
                                         @break
 
