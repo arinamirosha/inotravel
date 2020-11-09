@@ -129,23 +129,18 @@
                         </div>
 
                         <div class="col-md-1">
-                            @switch($history->type)
-                                @case(\App\BookingHistory::TYPE_SENT)
-                                @case(\App\BookingHistory::TYPE_ACCEPTED)
-                                @case(\App\BookingHistory::TYPE_REJECTED)
-                                @case(\App\BookingHistory::TYPE_CANCELLED)
-                                @case(\App\BookingHistory::TYPE_SENT_BACK)
-                                @case(\App\BookingHistory::TYPE_DELETED)
+                            @if(in_array($history->type, [
+                                \App\BookingHistory::TYPE_SENT,
+                                \App\BookingHistory::TYPE_ACCEPTED,
+                                \App\BookingHistory::TYPE_REJECTED,
+                                \App\BookingHistory::TYPE_CANCELLED,
+                                \App\BookingHistory::TYPE_CANCELLED,
+                                \App\BookingHistory::TYPE_SENT_BACK,
+                                \App\BookingHistory::TYPE_DELETED]))
                                 {{ __('Outgoing') }}
-                                @break
-                                @case(\App\BookingHistory::TYPE_RECEIVED)
-                                @case(\App\BookingHistory::TYPE_ACCEPTED_ANSWER)
-                                @case(\App\BookingHistory::TYPE_REJECTED_ANSWER)
-                                @case(\App\BookingHistory::TYPE_CANCELLED_INFO)
-                                @case(\App\BookingHistory::TYPE_SENT_BACK_INFO)
+                            @else
                                 {{ __('Incoming') }}
-                                @break
-                            @endswitch
+                            @endif
                         </div>
 
                         <div class="col-md-2">
