@@ -53,6 +53,7 @@
                                 @case(\App\BookingHistory::TYPE_REJECTED)
                                 @case(\App\BookingHistory::TYPE_CANCELLED)
                                 @case(\App\BookingHistory::TYPE_SENT_BACK)
+                                @case(\App\BookingHistory::TYPE_DELETED)
                                     &ndash;
                                 @break
                                 @case(\App\BookingHistory::TYPE_RECEIVED)
@@ -62,6 +63,7 @@
                                 @break
                                 @case(\App\BookingHistory::TYPE_ACCEPTED_ANSWER)
                                 @case(\App\BookingHistory::TYPE_REJECTED_ANSWER)
+                                @case(\App\BookingHistory::TYPE_DELETED_INFO)
                                 {{ $history->booking->house->user->name }} {{ $history->booking->house->user->surname }}
                                 @break
                             @endswitch
@@ -90,6 +92,7 @@
                                 <div class="text-secondary">{{ __('Sent back') }}</div>
                                 @break
                                 @case(\App\BookingHistory::TYPE_DELETED)
+                                @case(\App\BookingHistory::TYPE_DELETED_INFO)
                                 <div class="text-danger">{{ __('Deleted') }}</div>
                                 @break
                             @endswitch
@@ -105,23 +108,18 @@
                                 @case(\App\BookingHistory::TYPE_REJECTED_ANSWER)
                                 @case(\App\BookingHistory::TYPE_CANCELLED_INFO)
                                 @case(\App\BookingHistory::TYPE_SENT_BACK_INFO)
+                                @case(\App\BookingHistory::TYPE_DELETED_INFO)
                                     &ndash;
                                 @break
                                 @case(\App\BookingHistory::TYPE_ACCEPTED)
                                 @case(\App\BookingHistory::TYPE_REJECTED)
+                                @case(\App\BookingHistory::TYPE_DELETED)
                                     {{ $history->booking->user->name }} {{ $history->booking->user->surname }}
                                 @break
                                 @case(\App\BookingHistory::TYPE_CANCELLED)
                                 @case(\App\BookingHistory::TYPE_SENT_BACK)
                                     {{ $history->booking->house->user->name }} {{ $history->booking->house->user->surname }}
                                 @break
-{{--                                @case(\App\BookingHistory::TYPE_DELETED)--}}
-{{--                                    @if ($history->booking->status == \App\Booking::STATUS_BOOKING_REJECT)--}}
-{{--                                        {{ $history->booking->house->user->name }} {{ $history->booking->house->user->surname }}--}}
-{{--                                    @else--}}
-{{--                                        {{ $history->booking->user->name }} {{ $history->booking->user->surname }}--}}
-{{--                                    @endif--}}
-{{--                                @break--}}
                             @endswitch
                         </div>
 
@@ -133,9 +131,10 @@
                                 \App\BookingHistory::TYPE_CANCELLED,
                                 \App\BookingHistory::TYPE_CANCELLED,
                                 \App\BookingHistory::TYPE_SENT_BACK,
+                                \App\BookingHistory::TYPE_DELETED,
                                 ]))
                                 {{ __('Outgoing') }}
-                            @elseif($history->type != \App\BookingHistory::TYPE_DELETED)
+                            @else
                                 {{ __('Incoming') }}
                             @endif
                         </div>

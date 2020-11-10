@@ -21,6 +21,7 @@ class BookingHistory extends Model
     const TYPE_SENT_BACK_INFO = 10;
 
     const TYPE_DELETED = 11;
+    const TYPE_DELETED_INFO = 12;
 
     protected $fillable = ['user_id', 'booking_id', 'type'];
 

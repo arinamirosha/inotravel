@@ -21,7 +21,7 @@ class BookingDeletedListener
         BookingHistory::create([
             'user_id' => $event->booking->user->id,
             'booking_id' => $event->booking->id,
-            'type' => BookingHistory::TYPE_DELETED,
+            'type' => BookingHistory::TYPE_DELETED_INFO,
         ]);
         BookingHistory::create([
             'user_id' => $event->booking->house->user->id,

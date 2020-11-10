@@ -95,7 +95,7 @@ class BookingController extends Controller
 
         $histories = BookingHistory::where('user_id', '=', $userId)
             ->orderBy('created_at', 'desc')
-            ->with(['booking', 'user', 'booking.user', 'booking.house', 'booking.house.user'])
+            ->with(['booking', 'booking.user', 'booking.house', 'booking.house.user'])
             ->paginate(15);
 
         return view('booking.history', compact('histories'));
