@@ -98,7 +98,6 @@ class House extends Model
 
             SendBookingDeletedEmail::dispatch($booksToMail, $house->name, $house->city)->delay(now()->addSeconds(10));
 
-            $house->bookings()->update(['status' => Booking::STATUS_BOOKING_DELETE, 'new' => Booking::STATUS_BOOKING_NEW]);
             $bookings = $house->bookings()->get();
             foreach ($bookings as $booking) {
                 event(new BookingDeletedEvent($booking));
