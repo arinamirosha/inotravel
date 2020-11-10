@@ -41,7 +41,7 @@ class Booking extends Model
      */
     public function house()
     {
-        return $this->belongsTo(House::class);
+        return $this->belongsTo(House::class)->withTrashed();
     }
 
     /**

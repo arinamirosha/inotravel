@@ -2,11 +2,13 @@
 
 namespace App;
 
+use App\Events\BookingDeletedEvent;
 use App\Jobs\SendBookingDeletedEmail;
 use App\Libraries\House\Facades\HouseManager;
 use App\Mail\BookingDeletedNotification;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -14,6 +16,8 @@ use Illuminate\Support\Facades\Storage;
 
 class House extends Model
 {
+    use SoftDeletes;
+
     const ALL_HOUSES = 'all houses';
     const ONE_HOUSE = 'one house';
 
@@ -94,8 +98,14 @@ class House extends Model
 
             SendBookingDeletedEmail::dispatch($booksToMail, $house->name, $house->city)->delay(now()->addSeconds(10));
 
-            $house->bookings()->forceDelete();
-            $house->deleteImage();
+            $house->bookings()->update(['status' => Booking::STATUS_BOOKING_DELETE, 'new' => Booking::STATUS_BOOKING_NEW]);
+            $bookings = $house->bookings()->get();
+            foreach ($bookings as $booking) {
+                event(new BookingDeletedEvent($booking));
+            }
+
+            $house->bookings()->delete();
+//            $house->deleteImage();
             $house->facilities()->detach();
             $house->restrictions()->detach();
         });
@@ -125,12 +135,6 @@ class House extends Model
         $houseId = $this->id;
         $housesResult = HouseManager::getSqlFreeHouse($arrival, $departure, $people, $houseId, House::ONE_HOUSE);
 
-        if (DB::table(DB::raw("($housesResult) x"))->exists()) {
-            $isFree = true;
-        } else {
-            $isFree = false;
-        }
-
-        return $isFree;
+        return DB::table(DB::raw("($housesResult) x"))->exists();
     }
 }
