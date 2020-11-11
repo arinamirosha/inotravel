@@ -111,7 +111,6 @@ class BookingController extends Controller
 
             case Booking::STATUS_BOOKING_SEND_BACK:
                 event(new BookingSentBackEvent($booking));
-                $booking->delete();
                 break;
 
             case Booking::STATUS_BOOKING_DELETE:

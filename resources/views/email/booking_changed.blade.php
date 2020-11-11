@@ -11,6 +11,7 @@
             @case(\App\Booking::STATUS_BOOKING_ACCEPT){{ __('ACCEPTED') }}@break
             @case(\App\Booking::STATUS_BOOKING_REJECT){{ __('DECLINED') }}@break
             @case(\App\Booking::STATUS_BOOKING_CANCEL){{ __('CANCELLED') }}@break
+            @case(\App\Booking::STATUS_BOOKING_SEND_BACK){{ __('WITHDRAWN') }}@break
         @endswitch
     </div>
 @endcomponent
