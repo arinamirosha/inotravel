@@ -102,9 +102,7 @@ class BookingController extends Controller
         switch ($status) {
             case Booking::STATUS_BOOKING_ACCEPT:
             case Booking::STATUS_BOOKING_REJECT:
-                $booking->update(['status' => $status, 'new' => Booking::STATUS_BOOKING_NEW]);
-                SendBookingChangedEmail::dispatch($booking->user->email, $booking)->delay(now()->addSeconds(10));
-                event(new BookingAnswerEvent($booking, $status == Booking::STATUS_BOOKING_ACCEPT));
+                event(new BookingAnswerEvent($booking, $status));
                 break;
 
             case Booking::STATUS_BOOKING_CANCEL:

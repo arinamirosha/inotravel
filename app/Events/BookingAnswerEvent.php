@@ -20,17 +20,17 @@ class BookingAnswerEvent
      * @var Booking
      */
     public $booking;
-    public $accepted;
+    public $status;
 
     /**
      * Create a new event instance.
      *
      * @param Booking $booking
-     * @param $accepted
+     * @param $status
      */
-    public function __construct(Booking $booking, $accepted)
+    public function __construct(Booking $booking, $status)
     {
         $this->booking = $booking;
-        $this->accepted = $accepted;
+        $this->status = $status;
     }
 }
