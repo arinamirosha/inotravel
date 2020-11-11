@@ -2,8 +2,10 @@
 
 namespace App\Listeners;
 
+use App\Booking;
 use App\BookingHistory;
 use App\Events\BookingCancelledEvent;
+use App\Jobs\SendBookingChangedEmail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -17,16 +19,21 @@ class BookingCancelledListener
      */
     public function handle(BookingCancelledEvent $event)
     {
+        $booking = $event->booking;
+        $booking->update(['status' => $event->status, 'new' => Booking::STATUS_BOOKING_NEW]);
+
         BookingHistory::create([
-            'user_id' => $event->booking->user->id,
-            'booking_id' => $event->booking->id,
+            'user_id' => $booking->user->id,
+            'booking_id' => $booking->id,
             'type' => BookingHistory::TYPE_CANCELLED,
         ]);
 
         BookingHistory::create([
-            'user_id' => $event->booking->house->user->id,
-            'booking_id' => $event->booking->id,
+            'user_id' => $booking->house->user->id,
+            'booking_id' => $booking->id,
             'type' => BookingHistory::TYPE_CANCELLED_INFO,
         ]);
+
+        SendBookingChangedEmail::dispatch($booking->house->user->email, $booking)->delay(now()->addSeconds(10));
     }
 }

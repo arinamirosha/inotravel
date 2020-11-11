@@ -106,9 +106,7 @@ class BookingController extends Controller
                 break;
 
             case Booking::STATUS_BOOKING_CANCEL:
-                $booking->update(['status' => $status, 'new' => Booking::STATUS_BOOKING_NEW]);
-                SendBookingChangedEmail::dispatch($booking->house->user->email, $booking)->delay(now()->addSeconds(10));
-                event(new BookingCancelledEvent($booking));
+                event(new BookingCancelledEvent($booking, $status));
                 break;
 
             case Booking::STATUS_BOOKING_SEND_BACK:
