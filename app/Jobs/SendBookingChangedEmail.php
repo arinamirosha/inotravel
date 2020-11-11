@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\Booking;
-use App\Mail\BookingChangedNotification;
+use App\Mail\BookingChangedMail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -39,7 +39,7 @@ class SendBookingChangedEmail implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to($this->email)->send(new BookingChangedNotification($this->booking));
+        Mail::to($this->email)->send(new BookingChangedMail($this->booking));
     }
 
     /**

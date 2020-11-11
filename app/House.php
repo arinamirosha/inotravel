@@ -5,7 +5,6 @@ namespace App;
 use App\Events\BookingDeletedEvent;
 use App\Jobs\SendBookingDeletedEmail;
 use App\Libraries\House\Facades\HouseManager;
-use App\Mail\BookingDeletedNotification;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;

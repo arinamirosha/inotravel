@@ -105,12 +105,7 @@ class HousesController extends Controller
                 ->exists()
             : null;
 
-        if ($arrival) {
-            $isFree = $house->isFree($arrival, $departure, $people);
-        } else {
-            $isFree = false;
-        }
-
+        $isFree = $arrival ? $house->isFree($arrival, $departure, $people) : false;
         $enoughPlaces = $house->places >= $people;
 
         return view('houses.show',

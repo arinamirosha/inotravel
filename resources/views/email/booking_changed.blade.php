@@ -1,5 +1,4 @@
 @component('mail::message')
-{{-- Body --}}
 @component('mail::panel')
     <div>
         {{ __('New application status') }}

@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
-class BookingChangedNotification extends Mailable
+class BookingChangedMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -32,7 +32,7 @@ class BookingChangedNotification extends Mailable
      */
     public function build()
     {
-        return $this->subject(__('Application updated'))->markdown('email.booking_changed_notification',
+        return $this->subject(__('Application updated'))->markdown('email.booking_changed',
             ['booking' => $this->booking]);
     }
 }

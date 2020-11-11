@@ -12,22 +12,28 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class BookingSentEvent
+class NewBookingEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    /**
-     * @var Booking
-     */
-    public $booking;
+    public $houseId;
+    public $arrival;
+    public $departure;
+    public $people;
 
     /**
      * Create a new event instance.
      *
-     * @param Booking $booking
+     * @param $houseId
+     * @param $arrival
+     * @param $departure
+     * @param $people
      */
-    public function __construct(Booking $booking)
+    public function __construct($houseId, $arrival, $departure, $people)
     {
-        $this->booking = $booking;
+        $this->houseId = $houseId;
+        $this->arrival = $arrival;
+        $this->departure = $departure;
+        $this->people = $people;
     }
 }

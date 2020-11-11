@@ -2,12 +2,12 @@
 
 namespace App\Providers;
 
-use App\Events\BookingSentEvent;
+use App\Events\NewBookingEvent;
 use App\Events\BookingAnswerEvent;
 use App\Events\BookingCancelledEvent;
 use App\Events\BookingSentBackEvent;
 use App\Events\BookingDeletedEvent;
-use App\Listeners\BookingSentListener;
+use App\Listeners\NewBookingListener;
 use App\Listeners\BookingAnswerListener;
 use App\Listeners\BookingCancelledListener;
 use App\Listeners\BookingSentBackListener;
@@ -28,8 +28,8 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        BookingSentEvent::class => [
-            BookingSentListener::class,
+        NewBookingEvent::class => [
+            NewBookingListener::class,
         ],
         BookingAnswerEvent::class => [
             BookingAnswerListener::class,

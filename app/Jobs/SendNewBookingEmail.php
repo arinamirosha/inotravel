@@ -2,8 +2,8 @@
 
 namespace App\Jobs;
 
-use App\House;
-use App\Mail\BookingDeletedMail;
+use App\Booking;
+use App\Mail\NewBookingMail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -12,42 +12,34 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
-class SendBookingDeletedEmail implements ShouldQueue
+class SendNewBookingEmail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable;
 
-    const JOB_NAME = 'booking_notifications_job';
-    private $booksToMail;
-    private $name;
-    private $city;
+    const JOB_NAME = 'new_booking_notifications_job';
+    private $booking;
+    private $email;
 
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param $email
+     * @param Booking $booking
      */
-    public function __construct($booksToMail, $name, $city)
+    public function __construct($email, Booking $booking)
     {
-        $this->booksToMail = $booksToMail;
-        $this->name = $name;
-        $this->city = $city;
+        $this->booking = $booking;
+        $this->email = $email;
     }
 
     /**
-     * Execute the job. Send emails to users about deleting of house
+     * Execute the job.
      *
      * @return void
      */
     public function handle()
     {
-        foreach ($this->booksToMail as $booking) {
-            Mail::to($booking->email)->send(new BookingDeletedMail(
-                $booking->arrival,
-                $booking->departure,
-                $this->name,
-                $this->city
-            ));
-        }
+        Mail::to($this->email)->send(new NewBookingMail($this->booking));
     }
 
     /**

@@ -10,7 +10,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
-class BookingDeletedNotification extends Mailable
+class BookingDeletedMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -40,7 +40,7 @@ class BookingDeletedNotification extends Mailable
     public function build()
     {
         return $this->subject(__('Application deleted'))
-            ->view('email.booking_deleted_notification', [
+            ->view('email.booking_deleted', [
                 'arrival' => $this->arrival,
                 'departure' => $this->departure,
                 'name' => $this->name,

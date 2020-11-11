@@ -8,7 +8,7 @@ use App\Events\BookingAnswerEvent;
 use App\Events\BookingCancelledEvent;
 use App\Events\BookingDeletedEvent;
 use App\Events\BookingSentBackEvent;
-use App\Events\BookingSentEvent;
+use App\Events\NewBookingEvent;
 use App\Events\BookingStatusChangedEvent;
 use App\Jobs\SendBookingChangedEmail;
 use Illuminate\Support\Facades\Auth;
@@ -39,31 +39,15 @@ class BookingController extends Controller
         $houseId = $request->houseId;
         $house = House::find($houseId);
 
-        if (!$house) {
-            return redirect(route('welcome'));
-        }
-
         $arrival = $request->arrival;
         $departure = $request->departure;
         $people = $request->people;
-        $user = Auth::user();
 
-        $isFree = $house->isFree($arrival, $departure, $people);
-
-        if ($isFree) {
-            $booking = $user->bookings()->create([
-                'house_id' => $houseId,
-                'arrival' => $arrival,
-                'departure' => $departure,
-                'people' => $people,
-                'status' => Booking::STATUS_BOOKING_SEND,
-                'new' => Booking::STATUS_BOOKING_VIEWED,
-            ]);
-            event(new BookingSentEvent($booking));
-//            Booking...Event::dispatch($booking);
+        if ($house && $house->isFree($arrival, $departure, $people)) {
+            event(new NewBookingEvent($houseId, $arrival, $departure, $people));
         }
 
-        return redirect(route('house.show', $houseId));
+        return back();
     }
 
     /**
@@ -130,8 +114,8 @@ class BookingController extends Controller
                 break;
 
             case Booking::STATUS_BOOKING_SEND_BACK:
-                $booking->update(['status' => $status, 'new' => Booking::STATUS_BOOKING_NEW]);
                 event(new BookingSentBackEvent($booking));
+                $booking->delete();
                 break;
 
             case Booking::STATUS_BOOKING_DELETE:

@@ -60,7 +60,6 @@
                                     @break
 
                                     @case(\App\Booking::STATUS_BOOKING_CANCEL)<div class="text-danger">{{ __('Application canceled!') }}</div>@break
-                                    @case(\App\Booking::STATUS_BOOKING_SEND_BACK)<div class="text-secondary">{{ __('Application sent back!') }}</div>@break
                                     @case(\App\Booking::STATUS_BOOKING_ACCEPT)<div class="text-success">{{ __('Application accepted!') }}</div>@break
 
                                 @endswitch

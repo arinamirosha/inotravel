@@ -93,11 +93,8 @@ class User extends Authenticatable
             ->where('status', '<>', Booking::STATUS_BOOKING_REJECT)
             ->select('bookings.*')
             ->count();
-        if ($newInBooks != 0) {
-            return "(+$newInBooks)";
-        } else {
-            return '';
-        }
+
+        return $newInBooks != 0 ? "(+$newInBooks)" : '';
     }
 
     /**
@@ -109,13 +106,9 @@ class User extends Authenticatable
     {
         $unreadOutBooks = Booking::where('user_id', '=', $this->id)
             ->where('new', '=', Booking::STATUS_BOOKING_NEW)
-            ->where('status', '<>', Booking::STATUS_BOOKING_SEND_BACK)
             ->where('status', '<>', Booking::STATUS_BOOKING_CANCEL)
             ->count();
-        if ($unreadOutBooks != 0) {
-            return "(+$unreadOutBooks)";
-        } else {
-            return '';
-        }
+
+        return $unreadOutBooks != 0 ? "(+$unreadOutBooks)" : '';
     }
 }
