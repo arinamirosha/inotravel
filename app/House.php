@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Events\BookingDeletedEvent;
+use App\Events\HouseDeletedEvent;
 use App\Jobs\SendBookingDeletedEmail;
 use App\Libraries\House\Facades\HouseManager;
 use Carbon\Carbon;
@@ -88,24 +88,7 @@ class House extends Model
     {
         parent::boot();
         static::deleted(function ($house) {
-            $booksToMail =
-                $house->bookings()
-                    ->where('status', Booking::STATUS_BOOKING_ACCEPT)
-                    ->where('arrival', '>=', Carbon::now()->format('Y-m-d'))
-                    ->addSelect(['email' => User::select('email')->whereColumn('user_id', 'users.id')])
-                    ->get();
-
-            SendBookingDeletedEmail::dispatch($booksToMail, $house->name, $house->city)->delay(now()->addSeconds(10));
-
-            $bookings = $house->bookings()->get();
-            foreach ($bookings as $booking) {
-                event(new BookingDeletedEvent($booking));
-            }
-
-            $house->bookings()->delete();
-//            $house->deleteImage();
-            $house->facilities()->detach();
-            $house->restrictions()->detach();
+            event(new HouseDeletedEvent($house));
         });
     }
 

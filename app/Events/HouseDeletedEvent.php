@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Booking;
+use App\House;
 use App\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -12,22 +12,22 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class BookingDeletedEvent
+class HouseDeletedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * @var Booking
+     * @var House
      */
-    public $booking;
+    public $house;
 
     /**
      * Create a new event instance.
      *
-     * @param Booking $booking
+     * @param House $house
      */
-    public function __construct(Booking $booking)
+    public function __construct(House $house)
     {
-        $this->booking = $booking;
+        $this->house = $house;
     }
 }

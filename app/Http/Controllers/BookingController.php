@@ -6,7 +6,7 @@ use App\Booking;
 use App\BookingHistory;
 use App\Events\BookingAnswerEvent;
 use App\Events\BookingCancelledEvent;
-use App\Events\BookingDeletedEvent;
+use App\Events\HouseDeletedEvent;
 use App\Events\BookingSentBackEvent;
 use App\Events\NewBookingEvent;
 use App\Events\BookingStatusChangedEvent;
