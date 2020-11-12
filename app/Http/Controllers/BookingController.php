@@ -17,6 +17,7 @@ use GuzzleHttp\Psr7\Uri;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use SebastianBergmann\Comparator\Book;
+use Symfony\Component\Console\Input\Input;
 
 class BookingController extends Controller
 {
@@ -83,7 +84,35 @@ class BookingController extends Controller
             ->paginate(15);
 
         return view('booking.history', compact('histories'));
+    }
 
+    /**
+     * Apply filters to history
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function filter(Request $request)
+    {
+        $userId = Auth::id();
+
+        $histories = BookingHistory::where('booking_histories.user_id', '=', $userId);
+
+        if ($request->city) {
+            $histories = $histories
+                ->leftJoin('bookings', 'bookings.id', '=', 'booking_id')
+                ->rightJoin('houses', function ($query) use ($request) {
+                    $query->on('bookings.house_id', '=', 'houses.id')
+                        ->where('city', 'like', "%$request->city%");
+                });
+        }
+
+        $histories = $histories
+//            ->with(['booking', 'booking.user', 'booking.house', 'booking.house.user'])
+            ->orderBy('booking_histories.created_at', 'desc')
+            ->paginate(15);
+
+        return view('inc.history_result', compact('histories'));
     }
 
     /**

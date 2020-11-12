@@ -49649,6 +49649,26 @@ $('document').ready(function () {
     $('#deletePhoto').fadeOut();
     $('#deleteImage').prop('checked', true);
   });
+  $("#filter-form").submit(function (e) {
+    e.preventDefault();
+    var form = $(this);
+    var formData = new FormData(this);
+    formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+    $.ajax({
+      url: form.attr('action'),
+      type: form.attr('method'),
+      processData: false,
+      contentType: false,
+      cache: false,
+      data: formData,
+      success: function success(data) {
+        $('#filter-result').html(data);
+      },
+      error: function error(data) {
+        $('#filter-result').html('error');
+      }
+    });
+  });
 });
 
 /***/ }),

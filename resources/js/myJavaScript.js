@@ -57,4 +57,27 @@ $('document').ready(function() {
         $('#deleteImage').prop('checked', true);
     });
 
+    $("#filter-form").submit(function(e){
+        e.preventDefault();
+        var form = $(this);
+        var formData = new FormData(this);
+        formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+
+        $.ajax({
+            url: form.attr('action'),
+            type: form.attr('method'),
+            processData: false,
+            contentType: false,
+            cache:false,
+            data: formData,
+            success: function(data){
+                $('#filter-result').html(data);
+            },
+            error: function(data){
+                $('#filter-result').html('error');
+            }
+        });
+
+    });
+
 });
