@@ -75,9 +75,13 @@ class BookingController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function history()
+    public function history(Request $request)
     {
         $userId = Auth::id();
+
+        if ($request->has('clearHistory')) {
+            BookingHistory::where('user_id', '=', $userId)->delete();
+        }
 
         $histories = BookingHistory::where('user_id', '=', $userId)
             ->orderBy('created_at', 'desc')
