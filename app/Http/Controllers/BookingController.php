@@ -126,33 +126,30 @@ class BookingController extends Controller
         }
 
         if ($request->has('statuses')) {
-
-            $histories = $histories->where(function($query) use ($requestData) {
-                $arr=[];
-                foreach ($requestData['statuses'] as $status) {
-                    switch ($status) {
-                        case Booking::STATUS_BOOKING_SEND:
-                            array_push($arr, BookingHistory::TYPE_SENT, BookingHistory::TYPE_RECEIVED);
-                            break;
-                        case Booking::STATUS_BOOKING_ACCEPT:
-                            array_push($arr, BookingHistory::TYPE_ACCEPTED, BookingHistory::TYPE_ACCEPTED_ANSWER);
-                            break;
-                        case Booking::STATUS_BOOKING_REJECT:
-                            array_push($arr, BookingHistory::TYPE_REJECTED, BookingHistory::TYPE_REJECTED_ANSWER);
-                            break;
-                        case Booking::STATUS_BOOKING_CANCEL:
-                            array_push($arr, BookingHistory::TYPE_CANCELLED, BookingHistory::TYPE_CANCELLED_INFO);
-                            break;
-                        case Booking::STATUS_BOOKING_SEND_BACK:
-                            array_push($arr, BookingHistory::TYPE_SENT_BACK, BookingHistory::TYPE_SENT_BACK_INFO);
-                            break;
-                        case Booking::STATUS_BOOKING_DELETE:
-                            array_push($arr, BookingHistory::TYPE_DELETED, BookingHistory::TYPE_DELETED_INFO);
-                            break;
-                    }
+            $arr=[];
+            foreach ($requestData['statuses'] as $status) {
+                switch ($status) {
+                    case Booking::STATUS_BOOKING_SEND:
+                        array_push($arr, BookingHistory::TYPE_SENT, BookingHistory::TYPE_RECEIVED);
+                        break;
+                    case Booking::STATUS_BOOKING_ACCEPT:
+                        array_push($arr, BookingHistory::TYPE_ACCEPTED, BookingHistory::TYPE_ACCEPTED_ANSWER);
+                        break;
+                    case Booking::STATUS_BOOKING_REJECT:
+                        array_push($arr, BookingHistory::TYPE_REJECTED, BookingHistory::TYPE_REJECTED_ANSWER);
+                        break;
+                    case Booking::STATUS_BOOKING_CANCEL:
+                        array_push($arr, BookingHistory::TYPE_CANCELLED, BookingHistory::TYPE_CANCELLED_INFO);
+                        break;
+                    case Booking::STATUS_BOOKING_SEND_BACK:
+                        array_push($arr, BookingHistory::TYPE_SENT_BACK, BookingHistory::TYPE_SENT_BACK_INFO);
+                        break;
+                    case Booking::STATUS_BOOKING_DELETE:
+                        array_push($arr, BookingHistory::TYPE_DELETED, BookingHistory::TYPE_DELETED_INFO);
+                        break;
                 }
-                $query->whereIn('type', $arr);
-            });
+            }
+            $histories = $histories->whereIn('type', $arr);
         }
 
         switch ($requestData['searchOutIn']) {
@@ -179,11 +176,10 @@ class BookingController extends Controller
         }
 
         $histories = $histories
-//            ->with(['booking.user', 'booking.house.user'])
+            ->with(['booking', 'booking.user', 'booking.house', 'booking.house.user'])
+            ->select('booking_histories.*')
             ->orderBy('booking_histories.created_at', 'desc')
             ->paginate(15);
-
-//        return dd($histories[0]);
 
         return view('inc.history_result', compact('histories'));
     }
