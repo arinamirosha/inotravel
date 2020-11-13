@@ -10,6 +10,7 @@ use App\Events\HouseDeletedEvent;
 use App\Events\BookingSentBackEvent;
 use App\Events\NewBookingEvent;
 use App\Events\BookingStatusChangedEvent;
+use App\Http\Requests\HistoryFilterRequest;
 use App\Jobs\SendBookingChangedEmail;
 use Illuminate\Support\Facades\Auth;
 use App\House;
@@ -89,10 +90,10 @@ class BookingController extends Controller
     /**
      * Apply filters to history
      *
-     * @param Request $request
+     * @param HistoryFilterRequest $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function filter(Request $request)
+    public function filter(HistoryFilterRequest $request)
     {
         $userId = Auth::id();
 

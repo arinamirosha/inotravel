@@ -2,36 +2,24 @@
     <div class="text-center font-weight-bold">{{ __('Accommodation/application') }}</div>
     <div class="mt-2">
         <label for="city">{{ __('City') }}</label>
-        <input id="city" type="text" class="form-control @error('city') is-invalid @enderror" name="city"
-               value="{{old('city')}}" autocomplete="city" autofocus>
-
-        @error('city')
+        <input id="city" type="text" class="form-control" name="city" autocomplete="city" autofocus>
         <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-        @enderror
+            <strong id="errorCity"></strong>
+        </span>
     </div>
     <div class="mt-2">
         <label for="arrival">{{ __('Arrival') }}</label>
-        <input id="arrival" type="date" class="form-control @error('arrival') is-invalid @enderror" name="arrival"
-               value="{{old('arrival')}}" autocomplete="arrival" autofocus>
-
-        @error('arrival')
+        <input id="arrival" type="date" class="form-control" name="arrival" autocomplete="arrival" autofocus>
         <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-        @enderror
+            <strong id="errorArrival"></strong>
+        </span>
     </div>
     <div class="mt-2">
         <label for="departure">{{ __('Departure') }}</label>
-        <input id="departure" type="date" class="form-control @error('departure') is-invalid @enderror" name="departure"
-               value="{{old('departure')}}" autocomplete="departure" autofocus>
-
-        @error('departure')
+        <input id="departure" type="date" class="form-control" name="departure" autocomplete="departure" autofocus>
         <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-        @enderror
+            <strong id="errorDeparture"></strong>
+        </span>
     </div>
 </div>
 

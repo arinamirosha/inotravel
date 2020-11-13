@@ -72,9 +72,28 @@ $('document').ready(function() {
             data: formData,
             success: function(data){
                 $('#filter-result').html(data);
+                $('#city, #arrival, #departure').removeClass('is-invalid');
+                $('#errorCity, #errorArrival, #errorDeparture').text('');
             },
             error: function(data){
-                $('#filter-result').html('error');
+                var errors = JSON.parse(data.responseText).errors;
+
+                $('#city, #arrival, #departure').removeClass('is-invalid');
+                $('#errorCity, #errorArrival, #errorDeparture').text('');
+
+                if (errors['city']) {
+                    $('#city').addClass('is-invalid');
+                    $('#errorCity').text(errors['city']);
+                }
+                if (errors['arrival']) {
+                    $('#arrival').addClass('is-invalid');
+                    $('#errorArrival').text(errors['arrival']);
+                }
+                if (errors['departure']) {
+                    $('#departure').addClass('is-invalid');
+                    $('#errorDeparture').text(errors['departure']);
+                }
+
             }
         });
 
