@@ -13,9 +13,12 @@
             @csrf
             @include('inc.filter_form_elements')
 
-            <button type="submit" class="btn btn-block btn-outline-primary">
+            <button type="submit" class="btn btn-block btn-primary">
                 {{__('Apply')}}
             </button>
+            <a class="btn btn-block btn-outline-primary" href="{{route('booking.history')}}">
+                {{__('Clear all filters')}}
+            </a>
             <a class="btn btn-block btn-outline-primary" href="#" onclick="return confirm('{{ __('Are you sure you want to clear history?') }}')">
                 {{__('Clear history')}}
             </a>
