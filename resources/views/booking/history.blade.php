@@ -22,12 +22,12 @@
                         </div>
                     @endif
 
-                    <div class="row p-1 h6 rounded @if ($history->booking->house->user->id == Auth::id()) my-house @else not-my-house @endif">
+                    <div class="row p-1 h6 rounded @if ($history->booking->house->user_id == Auth::id()) my-house @else not-my-house @endif">
 
                         <div class="col-md-4">
                             <div class="row">
                                 <div class="col-2 p-0">
-                                    <a href="{{ route('house.show', $history->booking->house->id) }}">
+                                    <a href="{{ route('house.show', $history->booking->house_id) }}">
                                         <img src="{{ url($history->booking->house->houseImage()) }}" alt="" class="w-100 rounded">
                                     </a>
                                 </div>

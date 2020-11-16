@@ -24,13 +24,13 @@ class BookingAnswerListener
         $booking->update(['status' => $event->status, 'new' => Booking::STATUS_BOOKING_NEW]);
 
         BookingHistory::create([
-            'user_id' => $booking->user->id,
+            'user_id' => $booking->user_id,
             'booking_id' => $booking->id,
             'type' => $accepted ? BookingHistory::TYPE_ACCEPTED_ANSWER : BookingHistory::TYPE_REJECTED_ANSWER,
         ]);
 
         BookingHistory::create([
-            'user_id' => $booking->house->user->id,
+            'user_id' => $booking->house->user_id,
             'booking_id' => $booking->id,
             'type' => $accepted ? BookingHistory::TYPE_ACCEPTED : BookingHistory::TYPE_REJECTED,
         ]);
