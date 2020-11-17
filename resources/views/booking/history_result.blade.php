@@ -66,6 +66,6 @@
 
 <div class="row offset-1">
     <div class="col-6">
-        {!! $histories->render() !!}
+        {{$histories->links()}}
     </div>
 </div>
