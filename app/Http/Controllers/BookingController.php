@@ -181,7 +181,7 @@ class BookingController extends Controller
             ->orderBy('booking_histories.created_at', 'desc')
             ->paginate(15);
 
-        return view('inc.history_result', compact('histories'));
+        return view('booking.history_result', compact('histories'));
     }
 
     /**
