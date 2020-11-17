@@ -88,6 +88,10 @@ class BookingController extends Controller
             ->with(['booking', 'booking.user', 'booking.house', 'booking.house.user'])
             ->paginate(15);
 
+        if ($request->ajax()) {
+            return view('booking.history_result', compact('histories'));
+        }
+
         return view('booking.history', compact('histories'));
     }
 

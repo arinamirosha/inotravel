@@ -1,10 +1,10 @@
-$('document').ready(function() {
-    $('#menu a').each(function() {
+$('document').ready(function () {
+    $('#menu a').each(function () {
         if ($(this).attr('href') == window.location.href)
             $(this).css('text-decoration', 'underline');
     });
 
-    $("#file").change(function(e){
+    $("#file").change(function (e) {
         e.preventDefault();
         var formData = new FormData();
         var form = $("#form-file-ajax");
@@ -23,22 +23,22 @@ $('document').ready(function() {
                 type: form.attr('method'),
                 processData: false,
                 contentType: false,
-                cache:false,
-                dataType : 'json',
+                cache: false,
+                dataType: 'json',
                 data: formData,
-                beforeSend: function(){
+                beforeSend: function () {
                     $('#process').fadeIn();
                 },
                 complete: function () {
                     $('#process').fadeOut();
                 },
-                success: function(data){
-                    $('#photo').attr('src', window.location.origin+'/storage/'+data.image);
+                success: function (data) {
+                    $('#photo').attr('src', window.location.origin + '/storage/' + data.image);
                     $('#imgId').val(data.id);
                     $('#deletePhoto').fadeIn();
                     $('#deleteImage').prop('checked', false);
                 },
-                error: function(data){
+                error: function (data) {
                     var response = JSON.parse(data.responseText);
                     var errorMessage = response.errors['file'][0];
                     msg.html(errorMessage);
@@ -46,18 +46,17 @@ $('document').ready(function() {
                 }
             });
         }
-
     });
 
-    $('#deletePhoto').click(function() {
-        $('#photo').attr('src', window.location.origin+'/images/noImage.svg');
+    $('#deletePhoto').click(function () {
+        $('#photo').attr('src', window.location.origin + '/images/noImage.svg');
         $('#imgId').val('');
         $('#message').fadeOut();
         $('#deletePhoto').fadeOut();
         $('#deleteImage').prop('checked', true);
     });
 
-    $("#filter-form").submit(function(e){
+    $("#filter-form").submit(function (e) {
         e.preventDefault();
         var form = $(this);
         var formData = new FormData(this);
@@ -68,14 +67,14 @@ $('document').ready(function() {
             type: form.attr('method'),
             processData: false,
             contentType: false,
-            cache:false,
+            cache: false,
             data: formData,
-            success: function(data){
+            success: function (data) {
                 $('#filter-result').html(data);
                 $('#city, #arrival, #departure').removeClass('is-invalid');
                 $('#errorCity, #errorArrival, #errorDeparture').text('');
             },
-            error: function(data){
+            error: function (data) {
                 var errors = JSON.parse(data.responseText).errors;
 
                 $('#city, #arrival, #departure').removeClass('is-invalid');
@@ -93,10 +92,44 @@ $('document').ready(function() {
                     $('#departure').addClass('is-invalid');
                     $('#errorDeparture').text(errors['departure']);
                 }
-
             }
         });
-
     });
 
+
 });
+
+$(window).on('hashchange', function () {
+    if (window.location.hash) {
+        var page = window.location.hash.replace('#', '');
+        if (page == Number.NaN || page <= 0) {
+            return false;
+        } else {
+            getData(page);
+        }
+    }
+});
+
+$(document).ready(function () {
+    $(document).on('click', '.pagination a', function (event) {
+        event.preventDefault();
+        $('li').removeClass('active');
+        $(this).parent('li').addClass('active');
+        var myurl = $(this).attr('href');
+        var page = $(this).attr('href').split('page=')[1];
+        getData(page);
+    });
+});
+
+function getData(page) {
+    $.ajax({
+        url: '?page=' + page,
+        type: 'get',
+        datatype: 'html'
+    }).done(function (data) {
+        $("#filter-result").empty().html(data);
+        location.hash = page;
+    }).fail(function (jqXHR, ajaxOptions, thrownError) {
+        alert('No response from server');
+    });
+}
