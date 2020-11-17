@@ -37,7 +37,7 @@
         <div class="row text-center">
             <div class="col-md-12" id="filter-result">
 
-                @include('inc.history_result')
+                @include('booking.history_result')
 
             </div>
         </div>
