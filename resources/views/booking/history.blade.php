@@ -22,12 +22,12 @@
                         </div>
                     @endif
 
-                    <div class="row p-1 h6 rounded @if ($history->booking->house->user->id == Auth::id()) my-house @else not-my-house @endif">
+                    <div class="row p-1 h6 rounded @if ($history->booking->house->user_id == Auth::id()) my-house @else not-my-house @endif">
 
                         <div class="col-md-4">
                             <div class="row">
                                 <div class="col-2 p-0">
-                                    <a href="{{ route('house.show', $history->booking->house->id) }}">
+                                    <a href="{{ route('house.show', $history->booking->house_id) }}">
                                         <img src="{{ url($history->booking->house->houseImage()) }}" alt="" class="w-100 rounded">
                                     </a>
                                 </div>
@@ -47,96 +47,19 @@
                         </div>
 
                         <div class="col-md-2">
-                            @switch($history->type)
-                                @case(\App\BookingHistory::TYPE_SENT)
-                                @case(\App\BookingHistory::TYPE_ACCEPTED)
-                                @case(\App\BookingHistory::TYPE_REJECTED)
-                                @case(\App\BookingHistory::TYPE_CANCELLED)
-                                @case(\App\BookingHistory::TYPE_SENT_BACK)
-                                @case(\App\BookingHistory::TYPE_DELETED)
-                                    &ndash;
-                                @break
-                                @case(\App\BookingHistory::TYPE_RECEIVED)
-                                @case(\App\BookingHistory::TYPE_CANCELLED_INFO)
-                                @case(\App\BookingHistory::TYPE_SENT_BACK_INFO)
-                                {{ $history->booking->user->name }} {{ $history->booking->user->surname }}
-                                @break
-                                @case(\App\BookingHistory::TYPE_ACCEPTED_ANSWER)
-                                @case(\App\BookingHistory::TYPE_REJECTED_ANSWER)
-                                @case(\App\BookingHistory::TYPE_DELETED_INFO)
-                                {{ $history->booking->house->user->name }} {{ $history->booking->house->user->surname }}
-                                @break
-                            @endswitch
+                            @include('inc.columns.sender')
                         </div>
 
                         <div class="col-md-1">
-                            @switch($history->type)
-                                @case(\App\BookingHistory::TYPE_SENT)
-                                @case(\App\BookingHistory::TYPE_RECEIVED)
-                                <div class="text-secondary">{{ __('Sent') }}</div>
-                                @break
-                                @case(\App\BookingHistory::TYPE_ACCEPTED)
-                                @case(\App\BookingHistory::TYPE_ACCEPTED_ANSWER)
-                                <div class="text-success">{{ __('Accepted') }}</div>
-                                @break
-                                @case(\App\BookingHistory::TYPE_REJECTED)
-                                @case(\App\BookingHistory::TYPE_REJECTED_ANSWER)
-                                <div class="text-danger">{{ __('Declined') }}</div>
-                                @break
-                                @case(\App\BookingHistory::TYPE_CANCELLED)
-                                @case(\App\BookingHistory::TYPE_CANCELLED_INFO)
-                                <div class="text-danger">{{ __('Cancelled') }}</div>
-                                @break
-                                @case(\App\BookingHistory::TYPE_SENT_BACK)
-                                @case(\App\BookingHistory::TYPE_SENT_BACK_INFO)
-                                <div class="text-secondary">{{ __('Sent back') }}</div>
-                                @break
-                                @case(\App\BookingHistory::TYPE_DELETED)
-                                @case(\App\BookingHistory::TYPE_DELETED_INFO)
-                                <div class="text-danger">{{ __('Deleted') }}</div>
-                                @break
-                            @endswitch
+                            @include('inc.columns.status_of_booking')
                         </div>
 
                         <div class="col-md-2">
-                            @switch($history->type)
-                                @case(\App\BookingHistory::TYPE_SENT)
-                                    {{ $history->booking->house->user->name }} {{ $history->booking->house->user->surname }}
-                                @break
-                                @case(\App\BookingHistory::TYPE_RECEIVED)
-                                @case(\App\BookingHistory::TYPE_ACCEPTED_ANSWER)
-                                @case(\App\BookingHistory::TYPE_REJECTED_ANSWER)
-                                @case(\App\BookingHistory::TYPE_CANCELLED_INFO)
-                                @case(\App\BookingHistory::TYPE_SENT_BACK_INFO)
-                                @case(\App\BookingHistory::TYPE_DELETED_INFO)
-                                    &ndash;
-                                @break
-                                @case(\App\BookingHistory::TYPE_ACCEPTED)
-                                @case(\App\BookingHistory::TYPE_REJECTED)
-                                @case(\App\BookingHistory::TYPE_DELETED)
-                                    {{ $history->booking->user->name }} {{ $history->booking->user->surname }}
-                                @break
-                                @case(\App\BookingHistory::TYPE_CANCELLED)
-                                @case(\App\BookingHistory::TYPE_SENT_BACK)
-                                    {{ $history->booking->house->user->name }} {{ $history->booking->house->user->surname }}
-                                @break
-                            @endswitch
+                            @include('inc.columns.recipient')
                         </div>
 
                         <div class="col-md-1">
-                            @if(in_array($history->type, [
-                                \App\BookingHistory::TYPE_SENT,
-                                \App\BookingHistory::TYPE_ACCEPTED,
-                                \App\BookingHistory::TYPE_REJECTED,
-                                \App\BookingHistory::TYPE_CANCELLED,
-                                \App\BookingHistory::TYPE_CANCELLED,
-                                \App\BookingHistory::TYPE_SENT_BACK,
-                                \App\BookingHistory::TYPE_DELETED,
-                                ]))
-                                {{ __('Outgoing') }}
-                            @else
-                                {{ __('Incoming') }}
-                            @endif
+                            @include('inc.columns.incoming_or_outgoing')
                         </div>
 
                         <div class="col-md-2">
