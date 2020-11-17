@@ -9,7 +9,7 @@
         <div class="row text-center">
             <div class="col-md-12">
 
-                @include('inc.history_result')
+                @include('booking.history_result')
 
             </div>
         </div>

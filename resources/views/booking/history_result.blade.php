@@ -36,19 +36,19 @@
         </div>
 
         <div class="col-md-2">
-            @include('inc.columns.sender')
+            @include('booking.columns.sender')
         </div>
 
         <div class="col-md-1">
-            @include('inc.columns.status_of_booking')
+            @include('booking.columns.status_of_booking')
         </div>
 
         <div class="col-md-2">
-            @include('inc.columns.recipient')
+            @include('booking.columns.recipient')
         </div>
 
         <div class="col-md-1">
-            @include('inc.columns.incoming_or_outgoing')
+            @include('booking.columns.incoming_or_outgoing')
         </div>
 
         <div class="col-md-2">
