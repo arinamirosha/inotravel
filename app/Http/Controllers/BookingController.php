@@ -55,9 +55,10 @@ class BookingController extends Controller
     /**
      * Show all sent bookings excluding cancelled
      *
+     * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
         $userId = Auth::id();
         $bookings = Booking::where('user_id', '=', $userId)
@@ -66,6 +67,10 @@ class BookingController extends Controller
             ->orderBy('updated_at', 'desc')
             ->with(['house', 'house.user'])
             ->paginate(15);
+
+        if ($request->ajax()) {
+            return view('booking.books', compact('bookings'));
+        }
 
         return view('booking.index', compact('bookings'));
     }
@@ -91,10 +96,10 @@ class BookingController extends Controller
 
         if ($request->ajax()) {
             $requestData = $request->all();
-            $userId = Auth::id();
             $histories = BookingHistory::where('booking_histories.user_id', '=', $userId)
                 ->leftJoin('bookings', 'booking_id', '=', 'bookings.id')
                 ->leftJoin('houses', 'bookings.house_id', '=', 'houses.id');
+
             if ($requestData['city']) {
                 $histories = $histories->where('city', 'like', "%" . $requestData['city'] . "%");
             }
@@ -104,6 +109,7 @@ class BookingController extends Controller
             if ($requestData['departure']) {
                 $histories = $histories->where('departure', '=', $requestData['departure']);
             }
+
             switch ($requestData['searchAppsHouses']) {
                 case BookingHistory::MY_ACCOMMODATION:
                     $histories = $histories->where('houses.user_id', '=', $userId);
@@ -112,8 +118,9 @@ class BookingController extends Controller
                     $histories = $histories->where('bookings.user_id', '=', $userId);
                     break;
             }
+
             if ($request->has('statuses')) {
-                $arr=[];
+                $arr = [];
                 foreach ($requestData['statuses'] as $status) {
                     switch ($status) {
                         case Booking::STATUS_BOOKING_SEND:
@@ -138,6 +145,7 @@ class BookingController extends Controller
                 }
                 $histories = $histories->whereIn('type', $arr);
             }
+
             switch ($requestData['searchOutIn']) {
                 case BookingHistory::OUTGOING:
                     $histories = $histories->whereIn('type', [
@@ -160,11 +168,13 @@ class BookingController extends Controller
                     ]);
                     break;
             }
+
             $histories = $histories
                 ->with(['booking', 'booking.user', 'booking.house', 'booking.house.user'])
                 ->select('booking_histories.*')
                 ->orderBy('booking_histories.created_at', 'desc')
                 ->paginate(15);
+
             return view('booking.history_result', compact('histories'));
         }
 

@@ -49653,11 +49653,16 @@ $('document').ready(function () {
     e.preventDefault();
     getHistory(1);
   });
-  $(document).on('click', '.pagination a', function (event) {
-    event.preventDefault(); // var myurl = $(this).attr('href');
+  $(document).on('click', '.pagination a', function (e) {
+    e.preventDefault();
+    var href = $(this).attr('href');
+    var page = href.split('page=')[1];
 
-    var page = $(this).attr('href').split('page=')[1];
-    getHistory(page);
+    if (href.includes('history')) {
+      getHistory(page);
+    } else {
+      getData(page);
+    }
   });
 });
 $(window).on('hashchange', function () {
@@ -49667,7 +49672,13 @@ $(window).on('hashchange', function () {
     if (page == Number.NaN || page <= 0) {
       return false;
     } else {
-      getHistory(page);
+      var href = $(this).attr('href'); // undefined?!
+
+      if (href.includes('history')) {
+        getHistory(page);
+      } else {
+        getData(page);
+      }
     }
   }
 });
@@ -49682,7 +49693,7 @@ function getHistory(page) {
     cache: false,
     data: form.serialize(),
     success: function success(data) {
-      $('#filter-result').html(data);
+      $('#filter-result').empty().html(data);
       $('#city, #arrival, #departure').removeClass('is-invalid');
       $('#errorCity, #errorArrival, #errorDeparture').text('');
       location.hash = page;
@@ -49707,6 +49718,19 @@ function getHistory(page) {
         $('#errorDeparture').text(errors['departure']);
       }
     }
+  });
+}
+
+function getData(page) {
+  $.ajax({
+    url: '?page=' + page,
+    type: "get",
+    datatype: "html"
+  }).done(function (data) {
+    $("#result_wrap").empty().html(data);
+    location.hash = page;
+  }).fail(function (jqXHR, ajaxOptions, thrownError) {
+    alert('No response from server');
   });
 }
 
