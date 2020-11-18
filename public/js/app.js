@@ -49672,7 +49672,7 @@ $(window).on('hashchange', function () {
     if (page == Number.NaN || page <= 0) {
       return false;
     } else {
-      var href = $(this).attr('href'); // undefined?!
+      var href = window.location.href;
 
       if (href.includes('history')) {
         getHistory(page);
