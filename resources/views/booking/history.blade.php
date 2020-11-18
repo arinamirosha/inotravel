@@ -9,8 +9,7 @@
 
         <div class="font-weight-bold mb-4 h6 p-2 bg-title rounded">{{ __('Filters') }}</div>
 
-        <form action="{{route('booking.filter')}}" method="post" id="filter-form">
-            @csrf
+        <form action="{{route('booking.history')}}" method="get" id="filter-form">
             @include('inc.filter_form_elements')
 
             <button type="submit" class="btn btn-block btn-primary">

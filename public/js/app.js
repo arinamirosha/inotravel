@@ -49651,42 +49651,13 @@ $('document').ready(function () {
   });
   $("#filter-form").submit(function (e) {
     e.preventDefault();
-    var form = $(this);
-    var formData = new FormData(this);
-    formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
-    $.ajax({
-      url: form.attr('action'),
-      type: form.attr('method'),
-      processData: false,
-      contentType: false,
-      cache: false,
-      data: formData,
-      success: function success(data) {
-        $('#filter-result').html(data);
-        $('#city, #arrival, #departure').removeClass('is-invalid');
-        $('#errorCity, #errorArrival, #errorDeparture').text('');
-      },
-      error: function error(data) {
-        var errors = JSON.parse(data.responseText).errors;
-        $('#city, #arrival, #departure').removeClass('is-invalid');
-        $('#errorCity, #errorArrival, #errorDeparture').text('');
+    getHistory(1);
+  });
+  $(document).on('click', '.pagination a', function (event) {
+    event.preventDefault(); // var myurl = $(this).attr('href');
 
-        if (errors['city']) {
-          $('#city').addClass('is-invalid');
-          $('#errorCity').text(errors['city']);
-        }
-
-        if (errors['arrival']) {
-          $('#arrival').addClass('is-invalid');
-          $('#errorArrival').text(errors['arrival']);
-        }
-
-        if (errors['departure']) {
-          $('#departure').addClass('is-invalid');
-          $('#errorDeparture').text(errors['departure']);
-        }
-      }
-    });
+    var page = $(this).attr('href').split('page=')[1];
+    getHistory(page);
   });
 });
 $(window).on('hashchange', function () {
@@ -49696,31 +49667,46 @@ $(window).on('hashchange', function () {
     if (page == Number.NaN || page <= 0) {
       return false;
     } else {
-      getData(page);
+      getHistory(page);
     }
   }
 });
-$(document).ready(function () {
-  $(document).on('click', '.pagination a', function (event) {
-    event.preventDefault();
-    $('li').removeClass('active');
-    $(this).parent('li').addClass('active');
-    var myurl = $(this).attr('href');
-    var page = $(this).attr('href').split('page=')[1];
-    getData(page);
-  });
-});
 
-function getData(page) {
+function getHistory(page) {
+  var form = $('#filter-form');
   $.ajax({
-    url: '?page=' + page,
-    type: 'get',
-    datatype: 'html'
-  }).done(function (data) {
-    $("#filter-result").empty().html(data);
-    location.hash = page;
-  }).fail(function (jqXHR, ajaxOptions, thrownError) {
-    alert('No response from server');
+    url: form.attr('action') + '?page=' + page,
+    type: form.attr('method'),
+    processData: false,
+    contentType: false,
+    cache: false,
+    data: form.serialize(),
+    success: function success(data) {
+      $('#filter-result').html(data);
+      $('#city, #arrival, #departure').removeClass('is-invalid');
+      $('#errorCity, #errorArrival, #errorDeparture').text('');
+      location.hash = page;
+    },
+    error: function error(data) {
+      var errors = JSON.parse(data.responseText).errors;
+      $('#city, #arrival, #departure').removeClass('is-invalid');
+      $('#errorCity, #errorArrival, #errorDeparture').text('');
+
+      if (errors['city']) {
+        $('#city').addClass('is-invalid');
+        $('#errorCity').text(errors['city']);
+      }
+
+      if (errors['arrival']) {
+        $('#arrival').addClass('is-invalid');
+        $('#errorArrival').text(errors['arrival']);
+      }
+
+      if (errors['departure']) {
+        $('#departure').addClass('is-invalid');
+        $('#errorDeparture').text(errors['departure']);
+      }
+    }
   });
 }
 

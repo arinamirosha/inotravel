@@ -45,7 +45,6 @@ Route::group([
 
         Route::get('/booking', 'BookingController@index')->name('booking.index');
         Route::get('/booking/history', 'BookingController@history')->name('booking.history');
-        Route::post('/booking/history', 'BookingController@filter')->name('booking.filter');
         Route::post('/booking', 'BookingController@store')->name('booking.store');
         Route::post('/booking/{booking}/update', 'BookingController@update')->name('booking.update');
 
