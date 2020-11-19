@@ -61,16 +61,29 @@ $('document').ready(function () {
         getHistory(1);
     });
 
+    $("#search-form").submit(function (e) {
+        e.preventDefault();
+        getSearch(1);
+    });
+
     $(document).on('click', '.pagination a', function (e) {
         e.preventDefault();
         var href = $(this).attr('href');
         var page = href.split('page=')[1];
         if (href.includes('history')) {
             getHistory(page);
+        } else if (href.includes('search')) {
+            getSearch(page);
         } else {
             getData(page);
         }
     });
+
+    var href = window.location.href;
+    if (href.includes('search?')) {
+        newHref = href.substring(0, href.indexOf('?'));
+        history.pushState({}, null, newHref);
+    }
 });
 
 $(window).on('hashchange', function () {
@@ -82,6 +95,8 @@ $(window).on('hashchange', function () {
             var href = window.location.href;
             if (href.includes('history')) {
                 getHistory(page);
+            } else if (href.includes('search')) {
+                getSearch(page);
             } else {
                 getData(page);
             }
@@ -139,3 +154,43 @@ function getData(page) {
     });
 }
 
+function getSearch(page) {
+    var form = $('#search-form');
+    $.ajax({
+        url: form.attr('action') + '?page=' + page,
+        type: form.attr('method'),
+        processData: false,
+        contentType: false,
+        cache: false,
+        data: form.serialize(),
+        success: function (data) {
+            $('#search-result').empty().html(data);
+            $('#where, #arrival, #departure, #people').removeClass('is-invalid');
+            $('#errorWhere, #errorArrival, #errorDeparture, #errorPeople').text('');
+            location.hash = page;
+        },
+        error: function (data) {
+            var errors = JSON.parse(data.responseText).errors;
+
+            $('#where, #arrival, #departure, #people').removeClass('is-invalid');
+            $('#errorWhere, #errorArrival, #errorDeparture, #errorPeople').text('');
+
+            if (errors['where']) {
+                $('#where').addClass('is-invalid');
+                $('#errorWhere').text(errors['where']);
+            }
+            if (errors['arrival']) {
+                $('#arrival').addClass('is-invalid');
+                $('#errorArrival').text(errors['arrival']);
+            }
+            if (errors['departure']) {
+                $('#departure').addClass('is-invalid');
+                $('#errorDeparture').text(errors['departure']);
+            }
+            if (errors['people']) {
+                $('#people').addClass('is-invalid');
+                $('#errorPeople').text(errors['people']);
+            }
+        }
+    });
+}
