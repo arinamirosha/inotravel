@@ -34,7 +34,7 @@ class SearchController extends Controller
             ->addSelect(['user_name' => User::select('name')->whereColumn('user_id', 'users.id')])
             ->orderBy('name')
             ->orderBy('user_name')
-            ->paginate(3);
+            ->paginate(30);
 
         Cookie::queue('arrival', $arrival, 60);
         Cookie::queue('departure', $departure, 60);
