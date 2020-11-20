@@ -33,13 +33,13 @@ class NewBookingListener
         ]);
 
         BookingHistory::create([
-            'user_id' => $booking->user->id,
+            'user_id' => $booking->user_id,
             'booking_id' => $booking->id,
             'type' => BookingHistory::TYPE_SENT,
         ]);
 
         BookingHistory::create([
-            'user_id' => $booking->house->user->id,
+            'user_id' => $booking->house->user_id,
             'booking_id' => $booking->id,
             'type' => BookingHistory::TYPE_RECEIVED,
         ]);

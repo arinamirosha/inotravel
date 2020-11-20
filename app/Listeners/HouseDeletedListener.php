@@ -34,12 +34,12 @@ class HouseDeletedListener
         $bookings = $house->bookings()->with(['user', 'house', 'house.user'])->get();
         foreach ($bookings as $booking) {
             BookingHistory::create([
-                'user_id' => $booking->user->id,
+                'user_id' => $booking->user_id,
                 'booking_id' => $booking->id,
                 'type' => BookingHistory::TYPE_DELETED_INFO,
             ]);
             BookingHistory::create([
-                'user_id' => $booking->house->user->id,
+                'user_id' => $booking->house->user_id,
                 'booking_id' => $booking->id,
                 'type' => BookingHistory::TYPE_DELETED,
             ]);

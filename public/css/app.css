@@ -10949,3 +10949,8 @@ main {
   font-weight: bold;
 }
 
+#filters {
+  margin-left: 25px;
+  margin-right: 15px;
+}
+

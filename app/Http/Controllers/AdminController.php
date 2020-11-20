@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
@@ -17,11 +18,16 @@ class AdminController extends Controller
     /**
      * Show all users
      *
+     * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::all()->sortBy('name');
+        $users = User::orderBy('name')->paginate(25);
+
+        if ($request->ajax()) {
+            return view('admin.users', compact('users'));
+        }
 
         return view('admin.index', compact('users'));
     }

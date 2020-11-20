@@ -23,13 +23,13 @@ class BookingSentBackListener
         $booking->update(['status' => Booking::STATUS_BOOKING_SEND_BACK]);
 
         BookingHistory::create([
-            'user_id' => $booking->user->id,
+            'user_id' => $booking->user_id,
             'booking_id' => $booking->id,
             'type' => BookingHistory::TYPE_SENT_BACK,
         ]);
 
         BookingHistory::create([
-            'user_id' => $booking->house->user->id,
+            'user_id' => $booking->house->user_id,
             'booking_id' => $booking->id,
             'type' => BookingHistory::TYPE_SENT_BACK_INFO,
         ]);

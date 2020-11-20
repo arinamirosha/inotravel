@@ -23,6 +23,13 @@ class BookingHistory extends Model
     const TYPE_DELETED = 11;
     const TYPE_DELETED_INFO = 12;
 
+    const MY_ACCOMMODATION = 13;
+    const MY_APPLICATIONS =14;
+    const ALL = 15;
+    const OUTGOING = 16;
+    const INCOMING = 17;
+    const ALL_OUT_IN = 18;
+
     protected $fillable = ['user_id', 'booking_id', 'type'];
 
     /**
