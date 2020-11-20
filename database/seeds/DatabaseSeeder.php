@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // create users and their houses
-        $users = factory(User::class, 50)->create()->each(function ($user) {
+        $users = factory(User::class, 1000)->create()->each(function ($user) {
 
             // different count of houses for each user
             $houses = factory(House::class, rand(0, 3))->make();
@@ -57,15 +57,14 @@ class DatabaseSeeder extends Seeder
             $user->bookings()->saveMany($bookings);
         });
 
-        // create history
-//        factory(BookingHistory::class, 1500)->create();
-
+        // create history (for user's houses and bookings)
         $users->each(function ($user) {
-            $user->houses()->each(function ($house) use ($user) {
-                $faker = Factory::create();
+            $faker = Factory::create();
+
+            $user->houses()->each(function ($house) use ($user, $faker) {
                 $booksIds = $house->bookings()->pluck('id')->toArray();
                 if ($booksIds) {
-                    $histories = factory(BookingHistory::class, rand(0, 10))->make();
+                    $histories = factory(BookingHistory::class, rand(0, 15))->make();
                     $histories->each(function ($history) use ($user, $house, $faker, $booksIds) {
                         $history->booking_id = $faker->randomElement($booksIds);
                     });
@@ -73,11 +72,14 @@ class DatabaseSeeder extends Seeder
                 }
             });
 
-            $histories = factory(BookingHistory::class, rand(0, 20))->make();
-            $histories->each(function ($history) use ($user) {
-                $history->booking_id = Booking::all()->random()->id;
-            });
-            $user->histories()->saveMany($histories);
+            $booksIds = $user->bookings()->pluck('id')->toArray();
+            if ($booksIds) {
+                $histories = factory(BookingHistory::class, rand(0, 30))->make();
+                $histories->each(function ($history) use ($user, $faker, $booksIds) {
+                    $history->booking_id = $faker->randomElement($booksIds);
+                });
+                $user->histories()->saveMany($histories);
+            }
         });
 
     }
