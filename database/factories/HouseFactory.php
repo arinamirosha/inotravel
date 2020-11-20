@@ -10,7 +10,7 @@ $factory->define(House::class, function (Faker $faker) {
         'name' => $faker->sentence(5),
         'city' => $faker->city,
         'address' => $faker->streetAddress,
-        'places' => $faker->numberBetween(1, 10),
+        'places' => $faker->numberBetween(1, 15),
         'info' => $faker->text(500),
 //        'image' => $faker->,
     ];
