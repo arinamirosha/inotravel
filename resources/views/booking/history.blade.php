@@ -28,6 +28,9 @@
             </button>
         </form>
 
+        <div id="process" class="mt-4">
+            <img src="{{ url('/images/preloader.gif') }}" alt="Loading" class="w-25">
+        </div>
     </div>
 @endsection
 
