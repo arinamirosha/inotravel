@@ -9,7 +9,7 @@
         <div class="row text-center">
             <div class="col-md-12" id="result_wrap">
 
-                @include('booking.books')
+                @include('booking.applications')
 
             </div>
         </div>

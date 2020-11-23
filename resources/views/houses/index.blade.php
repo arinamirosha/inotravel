@@ -20,7 +20,7 @@
                     </div>
 
                     <div id="result_wrap">
-                        @include('houses.books')
+                        @include('houses.applications')
                     </div>
 
                     <div class="row pb-2">
