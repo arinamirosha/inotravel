@@ -70,7 +70,7 @@ class BookingController extends Controller
             ->paginate(15);
 
         if ($request->ajax()) {
-            return view('booking.books', compact('bookings'));
+            return view('booking.applications', compact('bookings'));
         }
 
         return view('booking.index', compact('bookings'));
