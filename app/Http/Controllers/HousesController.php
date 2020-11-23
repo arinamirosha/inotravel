@@ -65,9 +65,10 @@ class HousesController extends Controller
     /**
      * Show user's houses and received bookings (except rejected)
      *
+     * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
         $userId = Auth::id();
         $houses = House::where('user_id', '=', $userId)->latest()->get();
@@ -78,6 +79,10 @@ class HousesController extends Controller
             ->with(['house', 'user'])
             ->orderBy('updated_at', 'desc')
             ->paginate(10);
+
+        if ($request->ajax()) {
+            return view('houses.applications', compact('bookings'));
+        }
 
         return view('houses.index', compact('houses', 'bookings'));
     }

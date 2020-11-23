@@ -10,13 +10,16 @@ use App\Events\HouseDeletedEvent;
 use App\Events\BookingSentBackEvent;
 use App\Events\NewBookingEvent;
 use App\Events\BookingStatusChangedEvent;
+use App\Http\Requests\HistoryFilterRequest;
 use App\Jobs\SendBookingChangedEmail;
+use App\Libraries\BookingHistory\Facades\BookingHistoryManager;
 use Illuminate\Support\Facades\Auth;
 use App\House;
 use GuzzleHttp\Psr7\Uri;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use SebastianBergmann\Comparator\Book;
+use Symfony\Component\Console\Input\Input;
 
 class BookingController extends Controller
 {
@@ -53,9 +56,10 @@ class BookingController extends Controller
     /**
      * Show all sent bookings excluding cancelled
      *
+     * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
         $userId = Auth::id();
         $bookings = Booking::where('user_id', '=', $userId)
@@ -65,25 +69,38 @@ class BookingController extends Controller
             ->with(['house', 'house.user'])
             ->paginate(15);
 
+        if ($request->ajax()) {
+            return view('booking.applications', compact('bookings'));
+        }
+
         return view('booking.index', compact('bookings'));
     }
 
     /**
      * Show history of booking's events
      *
+     * @param HistoryFilterRequest $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function history()
+    public function history(HistoryFilterRequest $request)
     {
         $userId = Auth::id();
+
+        if ($request->has('clearHistory')) {
+            BookingHistory::where('user_id', '=', $userId)->delete();
+        }
 
         $histories = BookingHistory::where('user_id', '=', $userId)
             ->orderBy('created_at', 'desc')
             ->with(['booking', 'booking.user', 'booking.house', 'booking.house.user'])
             ->paginate(15);
 
-        return view('booking.history', compact('histories'));
+        if ($request->ajax()) {
+            $histories = BookingHistoryManager::getFilteredHistory($userId, $request);
+            return view('booking.history_result', compact('histories'));
+        }
 
+        return view('booking.history', compact('histories'));
     }
 
     /**

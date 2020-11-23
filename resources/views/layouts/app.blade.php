@@ -140,7 +140,10 @@
         </nav>
 
         <main class="py-4">
-            @yield('content')
+            <div class="row">
+                @yield('filters')
+                @yield('content')
+            </div>
         </main>
 
     </div>

@@ -34,13 +34,17 @@ class SearchController extends Controller
             ->addSelect(['user_name' => User::select('name')->whereColumn('user_id', 'users.id')])
             ->orderBy('name')
             ->orderBy('user_name')
-            ->get();
+            ->paginate(30);
 
         Cookie::queue('arrival', $arrival, 60);
         Cookie::queue('departure', $departure, 60);
         Cookie::queue('people', $people, 60);
 
-        return response()->view('search', [
+        if ($request->ajax()) {
+            return view('search.houses', compact('houses'));
+        }
+
+        return response()->view('search.index', [
             'houses' => $houses,
             'searchData' => $requestData,
             'isSearch' => true,

@@ -178,6 +178,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\HouseManagerServiceProvider::class,
         App\Providers\LocalizationServiceProvider::class,
+        App\Providers\BookingHistoryManagerServiceProvider::class,
 
     ],
 
@@ -232,6 +233,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'HouseManager' => App\Libraries\House\Facades\HouseManager::class,
         'Localization' => App\Libraries\Localization\Facades\Localization::class,
+        'BookingHistoryManager' => App\Libraries\BookingHistory\Facades\BookingHistoryManager::class,
     ],
 
 ];
