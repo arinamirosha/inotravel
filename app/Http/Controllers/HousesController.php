@@ -81,7 +81,7 @@ class HousesController extends Controller
             ->paginate(10);
 
         if ($request->ajax()) {
-            return view('houses.books', compact('bookings'));
+            return view('houses.applications', compact('bookings'));
         }
 
         return view('houses.index', compact('houses', 'bookings'));
