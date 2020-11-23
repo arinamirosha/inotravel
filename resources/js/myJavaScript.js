@@ -120,23 +120,7 @@ function getHistory(page) {
             location.hash = page;
         },
         error: function (data) {
-            var errors = JSON.parse(data.responseText).errors;
-
-            $('#city, #arrival, #departure').removeClass('is-invalid');
-            $('#errorCity, #errorArrival, #errorDeparture').text('');
-
-            if (errors['city']) {
-                $('#city').addClass('is-invalid');
-                $('#errorCity').text(errors['city']);
-            }
-            if (errors['arrival']) {
-                $('#arrival').addClass('is-invalid');
-                $('#errorArrival').text(errors['arrival']);
-            }
-            if (errors['departure']) {
-                $('#departure').addClass('is-invalid');
-                $('#errorDeparture').text(errors['departure']);
-            }
+            formatErrors(data);
         }
     });
 }
@@ -170,27 +154,35 @@ function getSearch(page) {
             location.hash = page;
         },
         error: function (data) {
-            var errors = JSON.parse(data.responseText).errors;
-
-            $('#where, #arrival, #departure, #people').removeClass('is-invalid');
-            $('#errorWhere, #errorArrival, #errorDeparture, #errorPeople').text('');
-
-            if (errors['where']) {
-                $('#where').addClass('is-invalid');
-                $('#errorWhere').text(errors['where']);
-            }
-            if (errors['arrival']) {
-                $('#arrival').addClass('is-invalid');
-                $('#errorArrival').text(errors['arrival']);
-            }
-            if (errors['departure']) {
-                $('#departure').addClass('is-invalid');
-                $('#errorDeparture').text(errors['departure']);
-            }
-            if (errors['people']) {
-                $('#people').addClass('is-invalid');
-                $('#errorPeople').text(errors['people']);
-            }
+            formatErrors(data);
         }
     });
+}
+
+function formatErrors(data) {
+    var errors = JSON.parse(data.responseText).errors;
+
+    $('#city, #where, #arrival, #departure, #people').removeClass('is-invalid');
+    $('#errorCity, #errorWhere, #errorArrival, #errorDeparture, #errorPeople').text('');
+
+    if (errors['city']) {
+        $('#city').addClass('is-invalid');
+        $('#errorCity').text(errors['city']);
+    }
+    if (errors['where']) {
+        $('#where').addClass('is-invalid');
+        $('#errorWhere').text(errors['where']);
+    }
+    if (errors['arrival']) {
+        $('#arrival').addClass('is-invalid');
+        $('#errorArrival').text(errors['arrival']);
+    }
+    if (errors['departure']) {
+        $('#departure').addClass('is-invalid');
+        $('#errorDeparture').text(errors['departure']);
+    }
+    if (errors['people']) {
+        $('#people').addClass('is-invalid');
+        $('#errorPeople').text(errors['people']);
+    }
 }
