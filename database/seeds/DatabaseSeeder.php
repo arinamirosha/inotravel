@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
         $users = factory(User::class, 1000)->create()->each(function ($user) {
 
             // different count of houses for each user
-            $houses = factory(House::class, rand(0, 3))->make();
+            $houses = factory(House::class, rand(0, 5))->make();
             $user->houses()->saveMany($houses);
 
             // for each house different facilities and restrictions
@@ -49,7 +49,7 @@ class DatabaseSeeder extends Seeder
         $users->each(function ($user) {
             $notUserHouses = House::all()->where('user_id', '<>', $user->id);
 
-            $bookings = factory(Booking::class, rand(0, 15))->make();
+            $bookings = factory(Booking::class, rand(0, 20))->make();
             $bookings->each(function ($booking) use ($user, $notUserHouses) {
                 $booking->house_id = $notUserHouses->random()->id;
             });
@@ -64,7 +64,7 @@ class DatabaseSeeder extends Seeder
             $user->houses()->each(function ($house) use ($user, $faker) {
                 $booksIds = $house->bookings()->pluck('id')->toArray();
                 if ($booksIds) {
-                    $histories = factory(BookingHistory::class, rand(0, 15))->make();
+                    $histories = factory(BookingHistory::class, rand(0, 20))->make();
                     $histories->each(function ($history) use ($user, $house, $faker, $booksIds) {
                         $history->booking_id = $faker->randomElement($booksIds);
                     });
