@@ -90,17 +90,16 @@ class BookingController extends Controller
             BookingHistory::where('user_id', '=', $userId)->delete();
         }
 
-        $histories = BookingHistory::where('user_id', '=', $userId)
-            ->orderBy('created_at', 'desc')
-            ->with(['booking', 'booking.user', 'booking.house', 'booking.house.user'])
-            ->paginate(15);
-
         if ($request->ajax()) {
-            $histories = BookingHistoryManager::getFilteredHistory($userId, $request);
+            $histories = $request->statuses ? BookingHistoryManager::getFilteredHistory($userId, $request) : [];
             return view('booking.history_result', compact('histories'));
+        } else {
+            $histories = BookingHistory::where('user_id', '=', $userId)
+                ->orderBy('created_at', 'desc')
+                ->with(['booking', 'booking.user', 'booking.house', 'booking.house.user'])
+                ->paginate(15);
+            return view('booking.history', compact('histories'));
         }
-
-        return view('booking.history', compact('histories'));
     }
 
     /**
