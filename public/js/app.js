@@ -49706,6 +49706,12 @@ function getHistory(page) {
     contentType: false,
     cache: false,
     data: form.serialize(),
+    beforeSend: function beforeSend() {
+      $('#process').fadeIn();
+    },
+    complete: function complete() {
+      $('#process').fadeOut();
+    },
     success: function success(data) {
       $('#filter-result').empty().html(data);
       $('#city, #arrival, #departure').removeClass('is-invalid');
@@ -49740,6 +49746,12 @@ function getSearch(page) {
     contentType: false,
     cache: false,
     data: form.serialize(),
+    beforeSend: function beforeSend() {
+      $('#process').fadeIn();
+    },
+    complete: function complete() {
+      $('#process').fadeOut();
+    },
     success: function success(data) {
       $('#search-result').empty().html(data);
       $('#where, #arrival, #departure, #people').removeClass('is-invalid');

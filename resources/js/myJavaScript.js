@@ -113,6 +113,12 @@ function getHistory(page) {
         contentType: false,
         cache: false,
         data: form.serialize(),
+        beforeSend: function () {
+            $('#process').fadeIn();
+        },
+        complete: function () {
+            $('#process').fadeOut();
+        },
         success: function (data) {
             $('#filter-result').empty().html(data);
             $('#city, #arrival, #departure').removeClass('is-invalid');
@@ -147,6 +153,12 @@ function getSearch(page) {
         contentType: false,
         cache: false,
         data: form.serialize(),
+        beforeSend: function () {
+            $('#process').fadeIn();
+        },
+        complete: function () {
+            $('#process').fadeOut();
+        },
         success: function (data) {
             $('#search-result').empty().html(data);
             $('#where, #arrival, #departure, #people').removeClass('is-invalid');
