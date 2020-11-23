@@ -14,8 +14,11 @@
                         <div class="col-9">
                             @include('inc.search_form_elements')
                         </div>
-                        <div class="col-3 pt-4">
+                        <div class="col-2 pt-4">
                             <button type="submit" class="btn btn-secondary">{{ __('New search') }}</button>
+                        </div>
+                        <div id="process" class="col-1 pt-4">
+                            <img src="{{ url('/images/preloader.gif') }}" alt="Loading" class="w-50">
                         </div>
                     </div>
                 </form>
