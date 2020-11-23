@@ -64,8 +64,10 @@
     </div>
 @endforelse
 
+@if($histories)
 <div class="row offset-1">
     <div class="col-6">
         {{$histories->links()}}
     </div>
 </div>
+@endif

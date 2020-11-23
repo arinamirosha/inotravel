@@ -47,37 +47,37 @@
 <div class="form-check text-left mb-4">
     <div class="text-center font-weight-bold mb-2">{{ __('Action') }}</div>
     <div>
-        <input class="form-check-input" type="checkbox" value="{{\App\Booking::STATUS_BOOKING_SEND}}" id="sent" name="statuses[]">
+        <input class="form-check-input" type="checkbox" value="{{\App\Booking::STATUS_BOOKING_SEND}}" id="sent" name="statuses[]" checked>
         <label class="form-check-label" for="sent">
             {{ __('Sent') }}
         </label>
     </div>
     <div>
-        <input class="form-check-input" type="checkbox" value="{{\App\Booking::STATUS_BOOKING_ACCEPT}}" id="accepted" name="statuses[]">
+        <input class="form-check-input" type="checkbox" value="{{\App\Booking::STATUS_BOOKING_ACCEPT}}" id="accepted" name="statuses[]" checked>
         <label class="form-check-label" for="accepted">
             {{ __('Accepted') }}
         </label>
     </div>
     <div>
-        <input class="form-check-input" type="checkbox" value="{{\App\Booking::STATUS_BOOKING_REJECT}}" id="declined" name="statuses[]">
+        <input class="form-check-input" type="checkbox" value="{{\App\Booking::STATUS_BOOKING_REJECT}}" id="declined" name="statuses[]" checked>
         <label class="form-check-label" for="declined">
             {{ __('Declined') }}
         </label>
     </div>
     <div>
-        <input class="form-check-input" type="checkbox" value="{{\App\Booking::STATUS_BOOKING_CANCEL}}" id="cancelled" name="statuses[]">
+        <input class="form-check-input" type="checkbox" value="{{\App\Booking::STATUS_BOOKING_CANCEL}}" id="cancelled" name="statuses[]" checked>
         <label class="form-check-label" for="cancelled">
             {{ __('Cancelled') }}
         </label>
     </div>
     <div>
-        <input class="form-check-input" type="checkbox" value="{{\App\Booking::STATUS_BOOKING_SEND_BACK}}" id="sentback" name="statuses[]">
+        <input class="form-check-input" type="checkbox" value="{{\App\Booking::STATUS_BOOKING_SEND_BACK}}" id="sentback" name="statuses[]" checked>
         <label class="form-check-label" for="sentback">
             {{ __('Sent back') }}
         </label>
     </div>
     <div>
-        <input class="form-check-input" type="checkbox" value="{{\App\Booking::STATUS_BOOKING_DELETE}}" id="deleted" name="statuses[]">
+        <input class="form-check-input" type="checkbox" value="{{\App\Booking::STATUS_BOOKING_DELETE}}" id="deleted" name="statuses[]" checked>
         <label class="form-check-label" for="deleted">
             {{ __('Deleted') }}
         </label>
