@@ -9,8 +9,6 @@ use Faker\Generator as Faker;
 
 $factory->define(BookingHistory::class, function (Faker $faker) {
     return [
-//        'user_id' => User::all()->random()->id,
-//        'booking_id' => Booking::all()->random()->id,
         'type' => $faker->randomElement([
             BookingHistory::TYPE_SENT,
             BookingHistory::TYPE_RECEIVED,

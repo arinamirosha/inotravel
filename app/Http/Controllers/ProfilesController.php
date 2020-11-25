@@ -36,7 +36,7 @@ class ProfilesController extends Controller
     }
 
     /**
-     * Update user, get exception when user trying to change email that another user has
+     * Update user
      *
      * @param ProfileRequest $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector

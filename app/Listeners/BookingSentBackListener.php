@@ -13,6 +13,7 @@ class BookingSentBackListener
 {
     /**
      * Handle the event.
+     * Update booking status, add to history, dispatch SendBookingChangedEmail job and soft delete booking.
      *
      * @param  BookingSentBackEvent  $event
      * @return void

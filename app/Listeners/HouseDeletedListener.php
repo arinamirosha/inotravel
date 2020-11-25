@@ -15,6 +15,8 @@ class HouseDeletedListener
 {
     /**
      * Handle the event.
+     * Dispatch SendBookingDeletedEmail job for some users about booking's deleting,
+     * add to history, delete bookings, delete house's facilities and restrictions
      *
      * @param HouseDeletedEvent $event
      * @return void
@@ -23,14 +25,17 @@ class HouseDeletedListener
     {
         $house = $event->house;
 
+        // Get future accepted bookings that will be deleted with house
         $booksToMail = $house->bookings()
             ->where('status', Booking::STATUS_BOOKING_ACCEPT)
             ->where('arrival', '>=', Carbon::now()->format('Y-m-d'))
             ->addSelect(['email' => User::select('email')->whereColumn('user_id', 'users.id')])
             ->get();
 
+        // Notify the owners of these applications
         SendBookingDeletedEmail::dispatch($booksToMail, $house->name, $house->city)->delay(now()->addSeconds(10));
 
+        // Add to history for all
         $bookings = $house->bookings()->with(['user', 'house', 'house.user'])->get();
         foreach ($bookings as $booking) {
             BookingHistory::create([

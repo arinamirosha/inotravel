@@ -45,7 +45,7 @@ class Booking extends Model
     }
 
     /**
-     * One booking to many history
+     * One booking to many histories
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

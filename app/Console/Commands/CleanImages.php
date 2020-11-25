@@ -37,7 +37,7 @@ class CleanImages extends Command
     }
 
     /**
-     * Execute the console command.
+     * Execute the console command. Check parameters and dispatch CleanImages job
      *
      * @return int
      */

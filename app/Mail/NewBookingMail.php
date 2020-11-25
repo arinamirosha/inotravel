@@ -28,7 +28,7 @@ class NewBookingMail extends Mailable
     }
 
     /**
-     * Build the message.
+     * Build the message about new booking.
      *
      * @return $this
      */

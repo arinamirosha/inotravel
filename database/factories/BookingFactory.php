@@ -9,7 +9,7 @@ use Illuminate\Support\Carbon;
 $factory->define(Booking::class, function (Faker $faker) {
 
     $arrival = $faker->dateTimeBetween('-3 months', '+3 months')->format("Y-m-d");
-    $departure = Carbon::parse($arrival)->addDays(rand(1, 10));
+    $departure = Carbon::parse($arrival)->addDays(rand(1, 15));
 
     $statuses = [
         Booking::STATUS_BOOKING_SEND,
@@ -20,23 +20,14 @@ $factory->define(Booking::class, function (Faker $faker) {
     ];
     $status = $faker->randomElement($statuses);
 
-    $new = in_array($status, [Booking::STATUS_BOOKING_SEND, Booking::STATUS_BOOKING_SEND_BACK])
+    // booking with STATUS_BOOKING_SEND must be viewed, the rest doesn't matter
+    $new = $status == Booking::STATUS_BOOKING_SEND
         ? Booking::STATUS_BOOKING_VIEWED
         : $faker->randomElement([Booking::STATUS_BOOKING_NEW, Booking::STATUS_BOOKING_VIEWED]);
 
-    switch ($status) {
-        case Booking::STATUS_BOOKING_SEND:
-        case Booking::STATUS_BOOKING_ACCEPT:
-            $deleted_at = null;
-            break;
-        case Booking::STATUS_BOOKING_SEND_BACK:
-            $deleted_at = now();
-            break;
-        case Booking::STATUS_BOOKING_REJECT:
-        case Booking::STATUS_BOOKING_CANCEL:
-            $deleted_at = $new == Booking::STATUS_BOOKING_NEW ? null : $faker->randomElement([now(), null]);
-            break;
-    }
+    // booking with STATUS_BOOKING_SEND must be soft deleted, the rest doesn't matter
+    $nullOrNow = $faker->boolean(70) ? null : now();
+    $deleted_at = $status == Booking::STATUS_BOOKING_SEND_BACK ? now() : $nullOrNow;
 
     return [
         'status' => $status,

@@ -57,7 +57,7 @@ class User extends Authenticatable
     }
 
     /**
-     * One user to many history
+     * One user to many histories
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

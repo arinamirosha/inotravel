@@ -25,7 +25,7 @@ function storeImage($file)
 }
 
 /**
- * Get image path from temporary table and then delete
+ * Get image path from temporary_images table and then delete
  *
  * @param $id
  * @return mixed

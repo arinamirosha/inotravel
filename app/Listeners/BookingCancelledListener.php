@@ -13,6 +13,7 @@ class BookingCancelledListener
 {
     /**
      * Handle the event.
+     * Update booking status, set as unread, add to history and dispatch SendBookingChangedEmail job.
      *
      * @param  BookingCancelledEvent  $event
      * @return void

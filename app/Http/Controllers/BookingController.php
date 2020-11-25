@@ -54,7 +54,7 @@ class BookingController extends Controller
     }
 
     /**
-     * Show all sent bookings excluding cancelled
+     * Show outgoing bookings (except cancelled)
      *
      * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -64,7 +64,6 @@ class BookingController extends Controller
         $userId = Auth::id();
         $bookings = Booking::where('user_id', '=', $userId)
             ->where('status', '<>', Booking::STATUS_BOOKING_CANCEL)
-            ->where('status', '<>', Booking::STATUS_BOOKING_SEND_BACK)
             ->orderBy('updated_at', 'desc')
             ->with(['house', 'house.user'])
             ->paginate(15);
@@ -77,7 +76,7 @@ class BookingController extends Controller
     }
 
     /**
-     * Show history of booking's events
+     * Apply filters to booking history or show full history (first page load)
      *
      * @param HistoryFilterRequest $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -103,7 +102,7 @@ class BookingController extends Controller
     }
 
     /**
-     * Set new status of booking or delete. Create jobs to send emails about changing of the status
+     * Execute event for booking (answer, cancelled, sent back), soft delete booking or mark as viewed
      *
      * @param Booking $booking
      * @param Request $request

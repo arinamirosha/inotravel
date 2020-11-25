@@ -49,7 +49,7 @@ class DatabaseSeeder extends Seeder
         $users->each(function ($user) {
             $notUserHouses = House::all()->where('user_id', '<>', $user->id);
 
-            $bookings = factory(Booking::class, rand(0, 20))->make();
+            $bookings = factory(Booking::class, rand(0, 30))->make();
             $bookings->each(function ($booking) use ($user, $notUserHouses) {
                 $booking->house_id = $notUserHouses->random()->id;
             });
@@ -72,9 +72,9 @@ class DatabaseSeeder extends Seeder
                 }
             });
 
-            $booksIds = $user->bookings()->pluck('id')->toArray();
+            $booksIds = $user->bookings()->withTrashed()->pluck('id')->toArray();
             if ($booksIds) {
-                $histories = factory(BookingHistory::class, rand(0, 30))->make();
+                $histories = factory(BookingHistory::class, rand(0, 20))->make();
                 $histories->each(function ($history) use ($user, $faker, $booksIds) {
                     $history->booking_id = $faker->randomElement($booksIds);
                 });
