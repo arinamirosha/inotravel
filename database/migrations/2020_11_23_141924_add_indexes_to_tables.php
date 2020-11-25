@@ -29,7 +29,6 @@ class AddIndexesToTables extends Migration
             $table->index('user_id');
             $table->index('arrival');
             $table->index('departure');
-            $table->index('status');
         });
 
         Schema::table('booking_histories', function (Blueprint $table) {
