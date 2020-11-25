@@ -25,6 +25,6 @@ $factory->define(BookingHistory::class, function (Faker $faker) {
             BookingHistory::TYPE_DELETED,
             BookingHistory::TYPE_DELETED_INFO
         ]),
-        'created_at' => $faker->dateTimeBetween('-3 months', '+3 months')->format("Y-m-d"),
+        'created_at' => $faker->dateTimeBetween('-3 months', 'now')->format("Y-m-d"),
     ];
 });

@@ -51,7 +51,7 @@ class Booking extends Model
      */
     public function histories()
     {
-        return $this->hasMany(BookingHistory::class)->orderBy('created_at', 'DESC');
+        return $this->hasMany(BookingHistory::class);
     }
 
 }

@@ -43,7 +43,7 @@ class User extends Authenticatable
      */
     public function houses()
     {
-        return $this->hasMany(House::class)->orderBy('created_at', 'DESC');
+        return $this->hasMany(House::class);
     }
 
     /**
@@ -53,7 +53,7 @@ class User extends Authenticatable
      */
     public function bookings()
     {
-        return $this->hasMany(Booking::class)->orderBy('created_at', 'DESC');
+        return $this->hasMany(Booking::class);
     }
 
     /**
@@ -63,7 +63,7 @@ class User extends Authenticatable
      */
     public function histories()
     {
-        return $this->hasMany(BookingHistory::class)->orderBy('created_at', 'DESC');
+        return $this->hasMany(BookingHistory::class);
     }
 
     /**
@@ -73,7 +73,7 @@ class User extends Authenticatable
      */
     public function temporaryImages()
     {
-        return $this->hasMany(TemporaryImage::class)->orderBy('created_at', 'DESC');
+        return $this->hasMany(TemporaryImage::class);
     }
 
     /**

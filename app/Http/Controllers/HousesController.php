@@ -103,9 +103,9 @@ class HousesController extends Controller
 
         $isBooked = Auth::check() ?
             $house->bookings()
+                ->where('user_id', '=', Auth::id())
                 ->where('arrival', '=', $arrival)
                 ->where('departure', '=', $departure)
-                ->where('user_id', '=', Auth::id())
                 ->where('status', '<>', Booking::STATUS_BOOKING_CANCEL)
                 ->exists()
             : null;
