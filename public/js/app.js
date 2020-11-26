@@ -49670,12 +49670,6 @@ $('document').ready(function () {
       getData(page);
     }
   });
-  var href = window.location.href;
-
-  if (href.includes('search?')) {
-    newHref = href.substring(0, href.indexOf('?'));
-    history.pushState({}, null, newHref);
-  }
 });
 $(window).on('hashchange', function () {
   if (window.location.hash) {
