@@ -9,6 +9,13 @@ use App\BookingHistory;
 
 class BookingHistoryManager
 {
+    /**
+     * Get filtered booking history
+     *
+     * @param $userId
+     * @param $request
+     * @return mixed
+     */
     public function getFilteredHistory($userId, $request)
     {
         $requestData = $request->all();
@@ -17,6 +24,7 @@ class BookingHistoryManager
             ->leftJoin('bookings', 'booking_id', '=', 'bookings.id')
             ->leftJoin('houses', 'bookings.house_id', '=', 'houses.id');
 
+        // if city/arrival/departure specified add where clause
         if ($requestData['city']) {
             $histories = $histories->where('city', 'like', "%" . $requestData['city'] . "%");
         }
@@ -28,14 +36,15 @@ class BookingHistoryManager
         }
 
         switch ($requestData['searchAppsHouses']) {
-            case BookingHistory::MY_ACCOMMODATION:
+            case BookingHistory::MY_ACCOMMODATION: // bookings for user houses (user - owner)
                 $histories = $histories->where('houses.user_id', '=', $userId);
                 break;
-            case BookingHistory::MY_APPLICATIONS:
+            case BookingHistory::MY_APPLICATIONS: // bookings for someone houses (user - traveler)
                 $histories = $histories->where('bookings.user_id', '=', $userId);
                 break;
         }
 
+        // filter type of action with booking
         if ($request->has('statuses')) {
             $arr = [];
             foreach ($requestData['statuses'] as $status) {
@@ -64,7 +73,7 @@ class BookingHistoryManager
         }
 
         switch ($requestData['searchOutIn']) {
-            case BookingHistory::OUTGOING:
+            case BookingHistory::OUTGOING: // user did something with booking (user's action)
                 $histories = $histories->whereIn('type', [
                     BookingHistory::TYPE_SENT,
                     BookingHistory::TYPE_ACCEPTED,
@@ -74,7 +83,7 @@ class BookingHistoryManager
                     BookingHistory::TYPE_DELETED,
                 ]);
                 break;
-            case BookingHistory::INCOMING:
+            case BookingHistory::INCOMING: // someone did something with booking (user receive info about action)
                 $histories = $histories->whereIn('type', [
                     BookingHistory::TYPE_RECEIVED,
                     BookingHistory::TYPE_ACCEPTED_ANSWER,

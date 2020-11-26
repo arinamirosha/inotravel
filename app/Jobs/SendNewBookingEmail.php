@@ -33,7 +33,7 @@ class SendNewBookingEmail implements ShouldQueue
     }
 
     /**
-     * Execute the job.
+     * Execute the job. Send mail about new booking.
      *
      * @return void
      */

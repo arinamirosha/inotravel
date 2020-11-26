@@ -63,7 +63,7 @@ class HousesController extends Controller
     }
 
     /**
-     * Show user's houses and received bookings (except rejected)
+     * Show user's houses and incoming bookings (except rejected)
      *
      * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -88,7 +88,7 @@ class HousesController extends Controller
     }
 
     /**
-     * Show one of the houses and check if it's booked and free
+     * Show house and check if it's booked, free and have enough places
      *
      * @param House $house
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -103,9 +103,9 @@ class HousesController extends Controller
 
         $isBooked = Auth::check() ?
             $house->bookings()
+                ->where('user_id', '=', Auth::id())
                 ->where('arrival', '=', $arrival)
                 ->where('departure', '=', $departure)
-                ->where('user_id', '=', Auth::id())
                 ->where('status', '<>', Booking::STATUS_BOOKING_CANCEL)
                 ->exists()
             : null;

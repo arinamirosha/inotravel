@@ -16,6 +16,7 @@ class NewBookingListener
 {
     /**
      * Handle the event.
+     * Create new booking, add to history and dispatch SendNewBookingEmail job.
      *
      * @param NewBookingEvent $event
      * @return void

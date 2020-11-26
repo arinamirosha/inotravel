@@ -45,13 +45,13 @@ class Booking extends Model
     }
 
     /**
-     * One booking to many history
+     * One booking to many histories
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function histories()
     {
-        return $this->hasMany(BookingHistory::class)->orderBy('created_at', 'DESC');
+        return $this->hasMany(BookingHistory::class);
     }
 
 }

@@ -33,7 +33,7 @@ class BookingHistory extends Model
     protected $fillable = ['user_id', 'booking_id', 'type'];
 
     /**
-     * Many history to one user
+     * Many histories to one user
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -43,7 +43,7 @@ class BookingHistory extends Model
     }
 
     /**
-     * Many history to one booking
+     * Many histories to one booking
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
