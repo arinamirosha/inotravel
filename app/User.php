@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -15,7 +16,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = ['name', 'surname', 'email', 'password', 'admin'];
+    protected $fillable = ['name', 'surname', 'email', 'password', 'admin', 'avatar'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -74,6 +75,30 @@ class User extends Authenticatable
     public function temporaryImages()
     {
         return $this->hasMany(TemporaryImage::class);
+    }
+
+    /**
+     * Get path to user's avatar
+     *
+     * @return string
+     */
+    public function avatarImg()
+    {
+        $imagePath = ($this->avatar) ? Storage::url($this->avatar) : '/images/noImage.svg';
+
+        return $imagePath;
+    }
+
+    /**
+     * Delete user's avatar
+     */
+    public function deleteAvatar()
+    {
+        if ($this->avatar) {
+            Storage::delete("public/$this->avatar");
+            $this->avatar = null;
+            $this->save();
+        }
     }
 
     /**

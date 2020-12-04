@@ -49597,50 +49597,19 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports) {
 
+var AVATAR = 'avatar';
+var HOUSE_IMAGE = 'houseImage';
 $('document').ready(function () {
   $('#menu a').each(function () {
     if ($(this).attr('href') == window.location.href) $(this).css('text-decoration', 'underline');
   });
   $("#file").change(function (e) {
     e.preventDefault();
-    var formData = new FormData();
-    var form = $("#form-file-ajax");
-    var file = $(this).prop('files')[0];
-    var msg = $('#message');
-    msg.fadeOut();
-    $('#imgError').fadeOut();
-
-    if (file) {
-      formData.append('file', file);
-      formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
-      $.ajax({
-        url: form.attr('action'),
-        type: form.attr('method'),
-        processData: false,
-        contentType: false,
-        cache: false,
-        dataType: 'json',
-        data: formData,
-        beforeSend: function beforeSend() {
-          $('#process').fadeIn();
-        },
-        complete: function complete() {
-          $('#process').fadeOut();
-        },
-        success: function success(data) {
-          $('#photo').attr('src', window.location.origin + '/storage/' + data.image);
-          $('#imgId').val(data.id);
-          $('#deletePhoto').fadeIn();
-          $('#deleteImage').prop('checked', false);
-        },
-        error: function error(data) {
-          var response = JSON.parse(data.responseText);
-          var errorMessage = response.errors['file'][0];
-          msg.html(errorMessage);
-          msg.fadeIn();
-        }
-      });
-    }
+    uploadImageAjax($(this), HOUSE_IMAGE);
+  });
+  $("#avatar").change(function (e) {
+    e.preventDefault();
+    uploadImageAjax($(this), AVATAR);
   });
   $('#deletePhoto').click(function () {
     $('#photo').attr('src', window.location.origin + '/images/noImage.svg');
@@ -49648,6 +49617,34 @@ $('document').ready(function () {
     $('#message').fadeOut();
     $('#deletePhoto').fadeOut();
     $('#deleteImage').prop('checked', true);
+  });
+  $('#deleteAvatar').click(function () {
+    $('#message').fadeOut();
+    form = $('#form-file-ajax');
+    var formData = new FormData();
+    formData.append('delete', 'on');
+    formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+    $.ajax({
+      url: form.attr('action'),
+      type: form.attr('method'),
+      processData: false,
+      contentType: false,
+      cache: false,
+      data: formData,
+      beforeSend: function beforeSend() {
+        $('#process').fadeIn();
+      },
+      complete: function complete() {
+        $('#process').fadeOut();
+      },
+      success: function success(data) {
+        $('#photo').attr('src', window.location.origin + '/images/noImage.svg');
+        $('#deleteAvatar').addClass('invisible');
+      },
+      error: function error(data) {
+        alert(data);
+      }
+    });
   });
   $("#filter-form").submit(function (e) {
     e.preventDefault();
@@ -49690,6 +49687,56 @@ $(window).on('hashchange', function () {
     }
   }
 });
+
+function uploadImageAjax(input, type) {
+  var formData = new FormData();
+  var form = $("#form-file-ajax");
+  var file = input.prop('files')[0];
+  var msg = $('#message');
+  msg.fadeOut();
+  $('#imgError').fadeOut();
+
+  if (file) {
+    formData.append('file', file);
+    formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+    $.ajax({
+      url: form.attr('action'),
+      type: form.attr('method'),
+      processData: false,
+      contentType: false,
+      cache: false,
+      dataType: 'json',
+      data: formData,
+      beforeSend: function beforeSend() {
+        $('#process').fadeIn();
+      },
+      complete: function complete() {
+        $('#process').fadeOut();
+      },
+      success: function success(data) {
+        $('#photo').attr('src', window.location.origin + '/storage/' + data.image);
+
+        switch (type) {
+          case HOUSE_IMAGE:
+            $('#imgId').val(data.id);
+            $('#deletePhoto').fadeIn();
+            $('#deleteImage').prop('checked', false);
+            break;
+
+          case AVATAR:
+            $('#deleteAvatar').removeClass('invisible');
+            break;
+        }
+      },
+      error: function error(data) {
+        var response = JSON.parse(data.responseText);
+        var errorMessage = response.errors['file'][0];
+        msg.html(errorMessage);
+        msg.fadeIn();
+      }
+    });
+  }
+}
 
 function getHistory(page) {
   var form = $('#filter-form');

@@ -100,6 +100,7 @@ class House extends Model
         if ($this->image) {
             Storage::delete("public/$this->image");
             $this->image = null;
+            $this->save();
         }
     }
 

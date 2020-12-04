@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ImageRequest;
 use App\Http\Requests\PasswordRequest;
 use App\Http\Requests\ProfileRequest;
+use App\TemporaryImage;
 use App\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -64,4 +66,25 @@ class ProfilesController extends Controller
         return redirect(route('profile.edit'))->with('message', __('Password updated successfully'));
     }
 
+    /**
+     * Upload avatar by ajax
+     *
+     * @param ImageRequest $request
+     * @return TemporaryImage
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    public function uploadAvatar(ImageRequest $request)
+    {
+        $user = Auth::user();
+        $user->deleteAvatar();
+
+        if ($request->has('delete')) {
+            return true;
+        }
+
+        $imgPath = storeImage($request->file);
+        $user->update(['avatar' => $imgPath]);
+
+        return ['image' => $imgPath];
+    }
 }

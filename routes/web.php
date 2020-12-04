@@ -31,6 +31,7 @@ Route::group([
         Route::get('/profile/edit', 'ProfilesController@edit')->name('profile.edit');
         Route::post('/profile/update', 'ProfilesController@update')->name('profile.update');
         Route::post('/profile/update-password', 'ProfilesController@updatePassword')->name('profile.update_password');
+        Route::post('/upload-avatar', 'ProfilesController@uploadAvatar')->name('profile.upload-avatar');
 
         Route::get('/house/create', 'HousesController@create')->name('house.create');
         Route::get('/house', 'HousesController@index')->name('house.index');
@@ -55,5 +56,6 @@ Route::group([
         Route::get('/booking/{booking}/update', function () { return redirect(route('booking.index')); });
         Route::get('/admin/{user}/update', function () { return redirect(route('admin.index')); });
         Route::get('/upload-image', function () { return redirect(route('house.index')); });
+        Route::get('/upload-avatar', function ($user) { return redirect(route('profile.edit', $user)); });
     }
 );
