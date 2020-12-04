@@ -24,6 +24,19 @@ class ProfilesController extends Controller
     }
 
     /**
+     * Show profile
+     *
+     * @param User $user
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function show(User $user)
+    {
+        $user->load('houses');
+        return view('profiles.show', compact('user'));
+    }
+
+    /**
      * Show page for updating profile
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View

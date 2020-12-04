@@ -100,7 +100,7 @@
                                 @endif
 
                                 <div class="pr-3">
-                                    <a class="navbar-item" href="{{ route('profile.edit') }}">
+                                    <a class="navbar-item" href="{{ route('profile.show', Auth::user()->id) }}">
                                         {{ Auth::user()->name }} {{ Auth::user()->surname }}
                                     </a>
                                 </div>

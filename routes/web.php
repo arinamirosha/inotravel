@@ -28,6 +28,7 @@ Route::group([
             Route::post('/admin/{user}/update', 'AdminController@update')->name('admin.update');
         });
 
+        Route::get('/profile/{user}/show', 'ProfilesController@show')->name('profile.show');
         Route::get('/profile/edit', 'ProfilesController@edit')->name('profile.edit');
         Route::post('/profile/update', 'ProfilesController@update')->name('profile.update');
         Route::post('/profile/update-password', 'ProfilesController@updatePassword')->name('profile.update_password');
