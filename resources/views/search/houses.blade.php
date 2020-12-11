@@ -7,8 +7,8 @@
                     <img src="{{ url($house->houseImage()) }}" alt="" class="w-100 rounded">
                 </a>
             </div>
-            <div>
-                <a href="{{ route('house.show', $house->id) }}">{{ $house->name }}</a>
+            <div title="{{ $house->name }}">
+                <a class="my-text" href="{{ route('house.show', $house->id) }}">{{ $house->name }}</a>
             </div>
             <div>
                 {{ $house->city }}

@@ -43,3 +43,11 @@ main {
     margin-left: 25px;
     margin-right: 15px;
 }
+
+.my-text {
+    -webkit-line-clamp: 2;
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}

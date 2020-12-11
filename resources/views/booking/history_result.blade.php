@@ -21,7 +21,7 @@
                     </a>
                 </div>
                 <div class="col-10 text-left">
-                    <div>
+                    <div class="text-truncate" title="{{ $history->booking->house->name }}">
                         <a href="{{ route('house.show', $history->booking->house->id) }}">{{ $history->booking->house->name }}</a>
                     </div>
                     <div>
