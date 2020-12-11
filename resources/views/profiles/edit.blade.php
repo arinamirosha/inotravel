@@ -155,8 +155,11 @@
                     <div id="message" class="text-danger font-weight-bold small mt-2"></div>
 
                     <div id="process" class="pt-3 text-center">
-                        <img src="{{ url('/images/preloader.gif') }}" alt="Loading">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
                     </div>
+
                 </div>
             </div>
 

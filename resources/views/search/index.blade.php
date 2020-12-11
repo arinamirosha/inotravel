@@ -18,7 +18,9 @@
                             <button type="submit" class="btn btn-secondary">{{ __('New search') }}</button>
                         </div>
                         <div id="process" class="col-1 pt-4">
-                            <img src="{{ url('/images/preloader.gif') }}" alt="Loading" class="w-50">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
                         </div>
                     </div>
                 </form>

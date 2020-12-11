@@ -29,7 +29,9 @@
         </form>
 
         <div id="process" class="mt-4">
-            <img src="{{ url('/images/preloader.gif') }}" alt="Loading" class="w-25">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
         </div>
     </div>
 @endsection
