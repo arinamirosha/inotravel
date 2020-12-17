@@ -10,9 +10,10 @@
     <title>@yield('title', config('app.name', 'Laravel'))</title>
 
     <!-- Scripts -->
-    <script>
-        var user = {!! auth()->user()->toJson() !!};
-    </script>
+    @if(Auth::check())
+    <script> var user = {!! Auth::user()->toJson() !!} </script>
+    @endif
+
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->

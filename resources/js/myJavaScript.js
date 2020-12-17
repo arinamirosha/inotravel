@@ -3,15 +3,17 @@ const HOUSE_IMAGE = 'houseImage';
 
 $('document').ready(function () {
 
-    Echo.private('user.'+user.id)
-        .listen('NewBookingEvent', (e) => {
-            // alert('new application for house '+e.houseName+' by user '+e.userId);
+    if (typeof user !== 'undefined') {
+        Echo.private('user.'+user.id)
+            .listen('NewBookingEvent', (e) => {
+                // alert('new application for house '+e.houseName+' by user '+e.userId);
 
-            $('.toast').toast('show');
-            // console.log(e);
+                $('.toast').toast('show');
+                console.log(e);
 
-            // увеличить (+1)
-        });
+                // увеличить (+1)
+            });
+    }
 
     $('#menu a').each(function () {
         if ($(this).attr('href') == window.location.href)

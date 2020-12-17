@@ -23,6 +23,7 @@ class NewBookingEvent implements ShouldBroadcastNow
     public $arrival;
     public $departure;
     public $people;
+    public $house;
 
     /**
      * Create a new event instance.
@@ -38,6 +39,7 @@ class NewBookingEvent implements ShouldBroadcastNow
         $this->arrival = $arrival;
         $this->departure = $departure;
         $this->people = $people;
+        $this->house = House::find($this->houseId);
     }
 
     /**
@@ -47,7 +49,7 @@ class NewBookingEvent implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        $userId = House::find($this->houseId)->user_id;
+        $userId = $this->house->user_id;
         return new PrivateChannel('user.'.$userId);
     }
 
@@ -59,8 +61,11 @@ class NewBookingEvent implements ShouldBroadcastNow
     public function broadcastWith()
     {
         return [
-            'houseName' => House::find($this->houseId)->name,
-            'userId' => House::find($this->houseId)->user_id
+            'houseName' => $this->house->name,
+            'userName' => $this->house->user->name,
+            'userSurame' => $this->house->user->surname,
+            'arrival' => $this->arrival,
+            'departure' => $this->departure,
         ];
     }
 

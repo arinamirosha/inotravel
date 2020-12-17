@@ -55706,11 +55706,14 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
 var AVATAR = 'avatar';
 var HOUSE_IMAGE = 'houseImage';
 $('document').ready(function () {
-  Echo["private"]('user.' + user.id).listen('NewBookingEvent', function (e) {
-    // alert('new application for house '+e.houseName+' by user '+e.userId);
-    $('.toast').toast('show'); // console.log(e);
-    // увеличить (+1)
-  });
+  if (typeof user !== 'undefined') {
+    Echo["private"]('user.' + user.id).listen('NewBookingEvent', function (e) {
+      // alert('new application for house '+e.houseName+' by user '+e.userId);
+      $('.toast').toast('show');
+      console.log(e); // увеличить (+1)
+    });
+  }
+
   $('#menu a').each(function () {
     if ($(this).attr('href') == window.location.href) $(this).css('text-decoration', 'underline');
   });
