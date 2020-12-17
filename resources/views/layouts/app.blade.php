@@ -10,6 +10,9 @@
     <title>@yield('title', config('app.name', 'Laravel'))</title>
 
     <!-- Scripts -->
+    <script>
+        var user = {!! auth()->user()->toJson() !!};
+    </script>
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
@@ -140,6 +143,25 @@
         </nav>
 
         <main class="py-4">
+
+            <div aria-live="polite" aria-atomic="true" class="position-relative">
+                <div class="toast-container position-absolute p-3" style="right: 0; z-index: 1">
+
+                    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000">
+                        <div class="toast-header">
+                            <strong class="mr-auto">New application!</strong>
+                            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                                <span aria-hidden="true">x</span>
+                            </button>
+                        </div>
+                        <div class="toast-body">
+                            check this out
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
             <div class="row">
                 @yield('filters')
                 @yield('content')
