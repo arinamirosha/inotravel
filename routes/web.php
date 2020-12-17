@@ -50,6 +50,8 @@ Route::group([
         Route::post('/booking', 'BookingController@store')->name('booking.store');
         Route::post('/booking/{booking}/update', 'BookingController@update')->name('booking.update');
 
+        Route::post('/toast', 'ToastController');
+
         // идет не в post
         Route::get('/profile/update', function ($user) { return redirect(route('profile.edit', $user)); });
         Route::get('/profile/update-password', function ($user) { return redirect(route('profile.edit', $user)); });

@@ -2,16 +2,33 @@ const AVATAR = 'avatar';
 const HOUSE_IMAGE = 'houseImage';
 
 $('document').ready(function () {
-
     if (typeof user !== 'undefined') {
         Echo.private('user.'+user.id)
             .listen('NewBookingEvent', (e) => {
-                // alert('new application for house '+e.houseName+' by user '+e.userId);
 
-                $('.toast').toast('show');
-                console.log(e);
+                $.ajax({
+                    url: '/toast',
+                    type: 'post',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content'),
+                        ev: JSON.stringify(e)
+                    },
+                    success: function (data) {
+                        $('#toast-container').append(data);
+                        $('.toast').last().toast('show');
+                    },
+                    error: function (data) {
+                        formatErrors(data);
+                    }
+                });
 
-                // увеличить (+1)
+                let news = $('#newInBooks');
+                if (news.html() === '') {
+                    news.html('(+1)');
+                } else {
+                    let count = parseInt(news.html().substring(2, news.html().length-1)) + 1;
+                    news.html(`(+${count})`);
+                }
             });
     }
 

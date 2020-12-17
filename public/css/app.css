@@ -10945,7 +10945,8 @@ main {
 }
 
 .my-house:hover,
-.not-my-house:hover {
+.not-my-house:hover,
+.toast-body {
   font-weight: bold;
 }
 
@@ -10960,5 +10961,10 @@ main {
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-box-orient: vertical;
+}
+
+#toast-container {
+  right: 0;
+  z-index: 1;
 }
 

@@ -63,7 +63,7 @@ class NewBookingEvent implements ShouldBroadcastNow
         return [
             'houseName' => $this->house->name,
             'userName' => $this->house->user->name,
-            'userSurame' => $this->house->user->surname,
+            'userSurname' => $this->house->user->surname,
             'arrival' => $this->arrival,
             'departure' => $this->departure,
         ];

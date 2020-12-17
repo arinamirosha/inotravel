@@ -55708,9 +55708,29 @@ var HOUSE_IMAGE = 'houseImage';
 $('document').ready(function () {
   if (typeof user !== 'undefined') {
     Echo["private"]('user.' + user.id).listen('NewBookingEvent', function (e) {
-      // alert('new application for house '+e.houseName+' by user '+e.userId);
-      $('.toast').toast('show');
-      console.log(e); // увеличить (+1)
+      $.ajax({
+        url: '/toast',
+        type: 'post',
+        data: {
+          _token: $('meta[name="csrf-token"]').attr('content'),
+          ev: JSON.stringify(e)
+        },
+        success: function success(data) {
+          $('#toast-container').append(data);
+          $('.toast').last().toast('show');
+        },
+        error: function error(data) {
+          formatErrors(data);
+        }
+      });
+      var news = $('#newInBooks');
+
+      if (news.html() === '') {
+        news.html('(+1)');
+      } else {
+        var count = parseInt(news.html().substring(2, news.html().length - 1)) + 1;
+        news.html("(+".concat(count, ")"));
+      }
     });
   }
 

@@ -35,7 +35,7 @@ main {
     background: rgba(95, 178, 178, 0.1);
 }
 
-.my-house:hover, .not-my-house:hover {
+.my-house:hover, .not-my-house:hover, .toast-body {
     font-weight: bold;
 }
 
@@ -50,4 +50,9 @@ main {
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-box-orient: vertical;
+}
+
+#toast-container {
+    right: 0;
+    z-index: 1;
 }
