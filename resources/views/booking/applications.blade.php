@@ -15,7 +15,9 @@
                 {{ $booking->house->city }}
             </div>
             <div>
-                {{ $booking->house->user->name }} {{ $booking->house->user->surname }}
+                <a class="text-dark" href="{{ route('profile.show', $booking->house->user->id) }}">
+                    {{ $booking->house->user->name }} {{ $booking->house->user->surname }}
+                </a>
             </div>
             <div>
                 {{ Carbon\Carbon::parse($booking->arrival)->format('d/m/y') }} - {{ Carbon\Carbon::parse($booking->departure)->format('d/m/y') }}

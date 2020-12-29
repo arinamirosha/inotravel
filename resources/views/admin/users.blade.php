@@ -4,7 +4,7 @@
 
     <div class="row mb-2 @if($user->admin) text-primary @endif">
         <div class="col-4 font-weight-bold h5">
-            {{ $user->name }} {{ $user->surname }}
+            <a @if(!$user->admin) class="text-dark" @endif href="{{ route('profile.show', $user->id) }}">{{ $user->name }} {{ $user->surname }}</a>
         </div>
         <div class="col-4 h5">
             {{ $user->email }}

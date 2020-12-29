@@ -14,7 +14,9 @@
                 {{ $house->city }}
             </div>
             <div>
-                {{ $house->user->name }} {{ $house->user->surname }}
+                <a class="text-dark" href="{{ route('profile.show', $house->user->id) }}">
+                    {{ $house->user->name }} {{ $house->user->surname }}
+                </a>
             </div>
         </div>
 
