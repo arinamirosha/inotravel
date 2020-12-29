@@ -55746,39 +55746,10 @@ $('document').ready(function () {
     uploadImageAjax($(this), AVATAR);
   });
   $('#deletePhoto').click(function () {
-    $('#photo').attr('src', window.location.origin + '/images/noImage.svg');
-    $('#imgId').val('');
-    $('#message').fadeOut();
-    $('#deletePhoto').fadeOut();
-    $('#deleteImage').prop('checked', true);
+    deleteImageAjax(HOUSE_IMAGE);
   });
   $('#deleteAvatar').click(function () {
-    $('#message').fadeOut();
-    form = $('#form-file-ajax');
-    var formData = new FormData();
-    formData.append('delete', 'on');
-    formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
-    $.ajax({
-      url: form.attr('action'),
-      type: form.attr('method'),
-      processData: false,
-      contentType: false,
-      cache: false,
-      data: formData,
-      beforeSend: function beforeSend() {
-        $('#process').fadeIn();
-      },
-      complete: function complete() {
-        $('#process').fadeOut();
-      },
-      success: function success(data) {
-        $('#photo').attr('src', window.location.origin + '/images/noImage.svg');
-        $('#deleteAvatar').addClass('invisible');
-      },
-      error: function error(data) {
-        alert(data);
-      }
-    });
+    deleteImageAjax(AVATAR);
   });
   $("#filter-form").submit(function (e) {
     e.preventDefault();
@@ -55831,6 +55802,12 @@ function uploadImageAjax(input, type) {
   $('#imgError').fadeOut();
 
   if (file) {
+    $imgId = $('#imgId').val();
+
+    if ($imgId) {
+      formData.append('imgId', $imgId);
+    }
+
     formData.append('file', file);
     formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
     $.ajax({
@@ -55870,6 +55847,51 @@ function uploadImageAjax(input, type) {
       }
     });
   }
+}
+
+function deleteImageAjax(type) {
+  $('#message').fadeOut();
+  form = $('#form-file-ajax');
+  var formData = new FormData();
+
+  if (type === HOUSE_IMAGE) {
+    formData.append('imgId', $('#imgId').val());
+  }
+
+  formData.append('delete', 'on');
+  formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+  $.ajax({
+    url: form.attr('action'),
+    type: form.attr('method'),
+    processData: false,
+    contentType: false,
+    cache: false,
+    data: formData,
+    beforeSend: function beforeSend() {
+      $('#process').fadeIn();
+    },
+    complete: function complete() {
+      $('#process').fadeOut();
+    },
+    success: function success(data) {
+      $('#photo').attr('src', window.location.origin + '/images/noImage.svg');
+
+      switch (type) {
+        case HOUSE_IMAGE:
+          $('#imgId').val('');
+          $('#deletePhoto').fadeOut();
+          $('#deleteImage').prop('checked', true);
+          break;
+
+        case AVATAR:
+          $('#deleteAvatar').addClass('invisible');
+          break;
+      }
+    },
+    error: function error(data) {
+      console.log(data);
+    }
+  });
 }
 
 function getHistory(page) {

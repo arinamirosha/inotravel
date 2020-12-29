@@ -79,12 +79,12 @@
                             </div>
                         </div>
 
-                        <div class="form-group row justify-content-center">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="admin" name="admin">
-                                <label class="custom-control-label" for="admin">{{ __('Administrator') }}</label>
-                            </div>
-                        </div>
+{{--                        <div class="form-group row justify-content-center">--}}
+{{--                            <div class="custom-control custom-checkbox">--}}
+{{--                                <input type="checkbox" class="custom-control-input" id="admin" name="admin">--}}
+{{--                                <label class="custom-control-label" for="admin">{{ __('Administrator') }}</label>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
 
                         <div class="form-group row mb-0 text-center">
                             <div class="col-md-12">

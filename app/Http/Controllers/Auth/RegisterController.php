@@ -76,7 +76,7 @@ class RegisterController extends Controller
             'surname' => $data['surname'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'admin' => array_key_exists('admin', $data) ? true : false,
+//            'admin' => array_key_exists('admin', $data) ? true : false,
         ]);
     }
 }

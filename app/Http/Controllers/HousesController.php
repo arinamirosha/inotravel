@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Libraries\House\Facades\HouseManager;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class HousesController extends Controller
@@ -181,10 +182,16 @@ class HousesController extends Controller
      */
     public function uploadImage(ImageRequest $request)
     {
-        $imgPath = storeImage($request->file);
+        if ($request->imgId) {
+            $imgPathToDelete = getImgFromTempById($request->imgId);
+            Storage::disk('public')->delete($imgPathToDelete);
+        }
+        if ($request->has('delete')) {
+            return true;
+        }
 
-        $user = Auth::user();
-        $img = $user->temporaryImages()->create(['image' => $imgPath]);
+        $imgPath = storeImage($request->file);
+        $img = Auth::user()->temporaryImages()->create(['image' => $imgPath]);
 
         return $img;
     }
