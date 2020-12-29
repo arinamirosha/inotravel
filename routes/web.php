@@ -50,6 +50,7 @@ Route::group([
         Route::post('/booking', 'BookingController@store')->name('booking.store');
         Route::post('/booking/{booking}/update', 'BookingController@update')->name('booking.update');
 
+        Route::get('/viewed', 'BookingController@viewed');
         Route::post('/toast', 'ToastController');
 
         // идет не в post
@@ -60,5 +61,6 @@ Route::group([
         Route::get('/admin/{user}/update', function () { return redirect(route('admin.index')); });
         Route::get('/upload-image', function () { return redirect(route('house.index')); });
         Route::get('/upload-avatar', function ($user) { return redirect(route('profile.edit', $user)); });
+        Route::get('/toast', function () { return redirect(route('welcome')); });
     }
 );

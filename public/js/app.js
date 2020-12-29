@@ -55772,6 +55772,26 @@ $('document').ready(function () {
       getData(page);
     }
   });
+  var href = window.location.href;
+  var isNew = $('.bg-new').length !== 0;
+
+  if ((href.includes('booking') && !href.includes('history') || href.includes('house')) && isNew) {
+    $isHouses = href.includes('house');
+    $.ajax({
+      url: 'viewed',
+      type: 'get',
+      data: {
+        page: $isHouses ? 'houses' : 'bookings'
+      },
+      success: function success(data) {
+        $isHouses ? $('#newInBooks').html('') : $('#newOutBooks').html('');
+        setTimeout(markViewed, 3000);
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  }
 });
 $(window).on('hashchange', function () {
   if (window.location.hash) {
@@ -55990,6 +56010,10 @@ function formatErrors(data) {
     $('#people').addClass('is-invalid');
     $('#errorPeople').text(errors['people']);
   }
+}
+
+function markViewed() {
+  $('.bg-new').removeClass('bg-new');
 }
 
 /***/ }),

@@ -1,5 +1,5 @@
 @forelse($bookings as $booking)
-    <div class="row h5 pb-1 pt-2 @if ($booking->new == \App\Booking::STATUS_BOOKING_NEW) bg-new @endif">
+    <div class="row h5 pb-1 pt-2 @if ($booking->new == \App\Booking::STATUS_BOOKING_NEW && $booking->status != \App\Booking::STATUS_BOOKING_SEND) bg-new @endif">
 
         <div class="col-md-2">
             <a href="{{ route('house.show', $booking->house->id) }}">
@@ -36,36 +36,30 @@
         <div class="col-md-2">
             <form method="post" action="{{ route('booking.update', $booking->id) }}">
                 @csrf
+                @switch($booking->status)
 
-                @if($booking->new === \App\Booking::STATUS_BOOKING_NEW)
-                    <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_VIEWED}}">
-                    <button class="btn btn-sm btn-outline-primary ml-5">{{ __('Ok (new)') }}</button>
-                @else
-                    @switch($booking->status)
+                    @case(\App\Booking::STATUS_BOOKING_ACCEPT)
+                    <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_CANCEL}}">
+                    <button class="btn btn-sm btn-outline-danger ml-5" onclick="return confirm('{{ __('Are you sure you want to cancel the application?') }}')">
+                        {{ __('Cancel') }}
+                    </button>
+                    @break
 
-                        @case(\App\Booking::STATUS_BOOKING_ACCEPT)
-                        <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_CANCEL}}">
-                        <button class="btn btn-sm btn-outline-danger ml-5" onclick="return confirm('{{ __('Are you sure you want to cancel the application?') }}')">
-                            {{ __('Cancel') }}
-                        </button>
-                        @break
+                    @case(\App\Booking::STATUS_BOOKING_SEND)
+                    <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_SEND_BACK}}">
+                    <button class="btn btn-sm btn-outline-danger ml-5" onclick="return confirm('{{ __('Are you sure you want to withdraw your application?') }}')">
+                        {{ __('Withdraw') }}
+                    </button>
+                    @break
 
-                        @case(\App\Booking::STATUS_BOOKING_SEND)
-                        <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_SEND_BACK}}">
-                        <button class="btn btn-sm btn-outline-danger ml-5" onclick="return confirm('{{ __('Are you sure you want to withdraw your application?') }}')">
-                            {{ __('Withdraw') }}
-                        </button>
-                        @break
+                    @case(\App\Booking::STATUS_BOOKING_REJECT)
+                    <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_DELETE}}">
+                    <button class="btn btn-sm btn-outline-secondary ml-5">
+                        {{ __('Hide') }}
+                    </button>
+                    @break
 
-                        @case(\App\Booking::STATUS_BOOKING_REJECT)
-                        <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_DELETE}}">
-                        <button class="btn btn-sm btn-outline-secondary ml-5">
-                            {{ __('Hide') }}
-                        </button>
-                        @break
-
-                    @endswitch
-                @endif
+                @endswitch
             </form>
         </div>
 

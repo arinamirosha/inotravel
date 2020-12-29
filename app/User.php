@@ -110,10 +110,7 @@ class User extends Authenticatable
     {
         $newInBooks = Booking::join('houses', 'houses.id', '=', 'house_id')
             ->where('houses.user_id', '=', $this->id)
-            ->where(function ($query) {
-                $query->where('status', '=', Booking::STATUS_BOOKING_SEND)
-                    ->orWhere('new', '=', Booking::STATUS_BOOKING_NEW);
-            })
+            ->where('new', '=', Booking::STATUS_BOOKING_NEW)
             ->where('status', '<>', Booking::STATUS_BOOKING_ACCEPT)
             ->where('status', '<>', Booking::STATUS_BOOKING_REJECT)
             ->select('bookings.*')
@@ -131,6 +128,7 @@ class User extends Authenticatable
     {
         $unreadOutBooks = Booking::where('user_id', '=', $this->id)
             ->where('new', '=', Booking::STATUS_BOOKING_NEW)
+            ->where('status', '<>', Booking::STATUS_BOOKING_SEND)
             ->where('status', '<>', Booking::STATUS_BOOKING_CANCEL)
             ->count();
 

@@ -78,6 +78,26 @@ $('document').ready(function () {
         }
     });
 
+    var href = window.location.href;
+    var isNew = $('.bg-new').length !== 0;
+    if (((href.includes('booking') && ! href.includes('history')) || href.includes('house')) && isNew) {
+        $isHouses = href.includes('house');
+        $.ajax({
+            url: 'viewed',
+            type: 'get',
+            data: {
+                page: $isHouses ? 'houses' : 'bookings',
+            },
+            success: function (data) {
+                $isHouses ? $('#newInBooks').html('') : $('#newOutBooks').html('');
+                setTimeout(markViewed, 3000);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
 });
 
 $(window).on('hashchange', function () {
@@ -285,4 +305,8 @@ function formatErrors(data) {
         $('#people').addClass('is-invalid');
         $('#errorPeople').text(errors['people']);
     }
+}
+
+function markViewed() {
+    $('.bg-new').removeClass('bg-new');
 }

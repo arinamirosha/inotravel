@@ -80,7 +80,7 @@ class ProfilesController extends Controller
     }
 
     /**
-     * Upload avatar by ajax
+     * Upload or delete avatar by ajax
      *
      * @param ImageRequest $request
      * @return TemporaryImage

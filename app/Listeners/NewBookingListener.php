@@ -30,7 +30,7 @@ class NewBookingListener
             'departure' => $event->departure,
             'people' => $event->people,
             'status' => Booking::STATUS_BOOKING_SEND,
-            'new' => Booking::STATUS_BOOKING_VIEWED,
+            'new' => Booking::STATUS_BOOKING_NEW,
         ]);
 
         BookingHistory::create([

@@ -174,7 +174,7 @@ class HousesController extends Controller
     }
 
     /**
-     * Upload image by ajax
+     * Upload or delete image by ajax
      *
      * @param ImageRequest $request
      * @return TemporaryImage

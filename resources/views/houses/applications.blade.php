@@ -1,5 +1,5 @@
 @forelse($bookings as $booking)
-    <div class="row pb-1 pt-2 h5 @if ($booking->new == \App\Booking::STATUS_BOOKING_NEW && $booking->status <> \App\Booking::STATUS_BOOKING_ACCEPT || $booking->status == \App\Booking::STATUS_BOOKING_SEND) bg-new @endif">
+    <div class="row pb-1 pt-2 h5 @if ($booking->new == \App\Booking::STATUS_BOOKING_NEW && $booking->status != \App\Booking::STATUS_BOOKING_ACCEPT) bg-new @endif">
 
         <div class="col-md-2">
             <a href="{{ route('house.show', $booking->house->id) }}">
@@ -47,10 +47,7 @@
         <div class="col-md-2">
             <form method="post" action="{{ route('booking.update', $booking->id) }}">
                 @csrf
-                @if ($booking->new == \App\Booking::STATUS_BOOKING_NEW && $booking->status <> \App\Booking::STATUS_BOOKING_ACCEPT)
-                    <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_VIEWED}}">
-                    <button class="btn btn-sm btn-outline-primary ml-5">{{ __('Ok (new)') }}</button>
-                @elseif($booking->status <> \App\Booking::STATUS_BOOKING_SEND && $booking->status <> \App\Booking::STATUS_BOOKING_ACCEPT)
+                @if($booking->status <> \App\Booking::STATUS_BOOKING_SEND && $booking->status <> \App\Booking::STATUS_BOOKING_ACCEPT)
                     <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_DELETE}}">
                     <button class="btn btn-sm btn-outline-secondary ml-5">
                         {{ __('Hide') }}

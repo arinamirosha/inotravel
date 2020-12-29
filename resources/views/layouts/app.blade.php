@@ -117,7 +117,7 @@
 
                                 <div class="pr-3">
                                     <a class="navbar-item" href="{{ route('booking.index') }}">{{ __('Applications') }}
-                                        {{ Auth::user()->unreadOutBooks() }}
+                                        <span id="newOutBooks">{{ Auth::user()->unreadOutBooks() }}</span>
                                     </a>
                                 </div>
 
