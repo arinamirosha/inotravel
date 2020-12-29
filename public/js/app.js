@@ -55759,6 +55759,9 @@ $('document').ready(function () {
     e.preventDefault();
     getSearch(1);
   });
+  $("#select").change(function () {
+    getSelect(1);
+  });
   $(document).on('click', '.pagination a', function (e) {
     e.preventDefault();
     var href = $(this).attr('href');
@@ -55768,6 +55771,8 @@ $('document').ready(function () {
       getHistory(page);
     } else if (href.includes('search')) {
       getSearch(page);
+    } else if (href.includes('booking')) {
+      getSelect(page);
     } else {
       getData(page);
     }
@@ -55806,6 +55811,8 @@ $(window).on('hashchange', function () {
         getHistory(page);
       } else if (href.includes('search')) {
         getSearch(page);
+      } else if (href.includes('booking')) {
+        getSelect(page);
       } else {
         getData(page);
       }
@@ -55973,6 +55980,22 @@ function getSearch(page) {
       $('#search-result').empty().html(data);
       $('#where, #arrival, #departure, #people').removeClass('is-invalid');
       $('#errorWhere, #errorArrival, #errorDeparture, #errorPeople').text('');
+      location.hash = page;
+    },
+    error: function error(data) {
+      formatErrors(data);
+    }
+  });
+}
+
+function getSelect(page) {
+  var form = $('#select-form');
+  $.ajax({
+    url: form.attr('action') + '?page=' + page,
+    type: form.attr('method'),
+    data: form.serialize(),
+    success: function success(data) {
+      $('#result_wrap').empty().html(data);
       location.hash = page;
     },
     error: function error(data) {

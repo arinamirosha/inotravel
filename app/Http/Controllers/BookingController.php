@@ -65,10 +65,16 @@ class BookingController extends Controller
     {
         $userId   = Auth::id();
         $bookings = Booking::where('user_id', '=', $userId)
-                           ->where('status', '<>', Booking::STATUS_BOOKING_CANCEL)
-                           ->orderBy('updated_at', 'desc')
-                           ->with(['house', 'house.user'])
-                           ->paginate(15);
+                           ->where('status', '<>', Booking::STATUS_BOOKING_CANCEL);
+
+        $select = $request->select;
+        if ($select && $select != Booking::STATUS_BOOKING_ALL) {
+            $bookings = $bookings->where('status', '=', $select);
+        }
+
+        $bookings = $bookings->orderBy('updated_at', 'desc')
+                             ->with(['house', 'house.user'])
+                             ->paginate(15);
 
         if ($request->ajax()) {
             return view('booking.applications', compact('bookings'));
