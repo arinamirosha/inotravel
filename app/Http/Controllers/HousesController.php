@@ -75,11 +75,17 @@ class HousesController extends Controller
         $houses = House::where('user_id', '=', $userId)->latest()->get();
         $bookings = Booking::join('houses', 'houses.id', '=', 'house_id')
             ->where('houses.user_id', '=', $userId)
-            ->where('status', '<>', Booking::STATUS_BOOKING_REJECT)
-            ->select('bookings.*')
-            ->with(['house', 'user'])
-            ->orderBy('updated_at', 'desc')
-            ->paginate(10);
+            ->where('status', '<>', Booking::STATUS_BOOKING_REJECT);
+
+        $select = $request->select;
+        if ($select && $select != Booking::STATUS_BOOKING_ALL) {
+            $bookings = $bookings->where('status', '=', $select);
+        }
+
+        $bookings = $bookings->select('bookings.*')
+                             ->with(['house', 'user'])
+                             ->orderBy('updated_at', 'desc')
+                             ->paginate(10);
 
         if ($request->ajax()) {
             return view('houses.applications', compact('bookings'));

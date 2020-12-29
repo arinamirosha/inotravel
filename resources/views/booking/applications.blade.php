@@ -74,7 +74,7 @@
 @empty
     <div class="row justify-content-center">
         <div class="col-md-12 p-5 h2">
-            {{ __('You have not sent any applications yet!') }}
+            {{ __('No applications') }}
         </div>
     </div>
 @endforelse

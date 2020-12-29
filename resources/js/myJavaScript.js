@@ -77,7 +77,7 @@ $('document').ready(function () {
             getHistory(page);
         } else if (href.includes('search')) {
             getSearch(page);
-        } else if (href.includes('booking')) {
+        } else if (href.includes('booking') || href.includes('house')) {
             getSelect(page);
         } else {
             getData(page);
@@ -117,7 +117,7 @@ $(window).on('hashchange', function () {
                 getHistory(page);
             } else if (href.includes('search')) {
                 getSearch(page);
-            } else if (href.includes('booking')) {
+            } else if (href.includes('booking') || href.includes('house')) {
                 getSelect(page);
             } else {
                 getData(page);

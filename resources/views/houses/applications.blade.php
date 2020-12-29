@@ -68,7 +68,7 @@
 @empty
     <div class="row justify-content-center">
         <div class="col-md-12 p-3 h4">
-            {{ __('No incoming applications') }}
+            {{ __('No applications') }}
         </div>
     </div>
 @endforelse
