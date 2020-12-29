@@ -40,7 +40,9 @@ class AdminController extends Controller
      */
     public function update(User $user)
     {
-        $user->update(['admin' => true]);
+        $user->admin ?
+            $user->update(['admin' => false]) :
+            $user->update(['admin' => true]);
 
         return redirect(route('admin.index'));
     }
