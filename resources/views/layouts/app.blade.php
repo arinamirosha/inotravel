@@ -98,7 +98,7 @@
                                     </div>
                                     <div class="pr-3">
                                         <a class="navbar-item" href="{{ route('admin.index') }}">
-                                            {{ __('Users') }}
+                                            {{ __('Users') }} {{ Auth::user()->newNotifications() }}
                                         </a>
                                     </div>
                                 @endif

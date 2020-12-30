@@ -134,4 +134,16 @@ class User extends Authenticatable
 
         return $unreadOutBooks != 0 ? "(+$unreadOutBooks)" : '';
     }
+
+    /**
+     * Get count of unread notifications
+     *
+     * @return string
+     */
+    public function newNotifications()
+    {
+        $newNotifications = $this->unreadNotifications->count();
+
+        return $newNotifications != 0 ? "(+$newNotifications)" : '';
+    }
 }

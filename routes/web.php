@@ -25,6 +25,7 @@ Route::group([
 
         Route::middleware('admin')->group(function () {
             Route::get('/admin', 'AdminController@index')->name('admin.index');
+            Route::post('/admin/mark-as-read', 'AdminController@markAsRead')->name('admin.mark-as-read');
             Route::post('/admin/{user}/update', 'AdminController@update')->name('admin.update');
         });
 
@@ -62,5 +63,6 @@ Route::group([
         Route::get('/upload-image', function () { return redirect(route('house.index')); });
         Route::get('/upload-avatar', function ($user) { return redirect(route('profile.edit', $user)); });
         Route::get('/toast', function () { return redirect(route('welcome')); });
+        Route::get('/admin/mark-as-read/{id}', function () { return redirect(route('admin.index')); });
     }
 );

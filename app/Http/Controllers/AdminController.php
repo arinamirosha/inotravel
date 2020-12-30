@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -29,7 +31,21 @@ class AdminController extends Controller
             return view('admin.users', compact('users'));
         }
 
-        return view('admin.index', compact('users'));
+        $notifications = Auth::user()->unreadNotifications;
+
+        return view('admin.index', compact('users', 'notifications'));
+    }
+
+    public function markAsRead(Request $request)
+    {
+        $notificationId = $request->notificationId;
+        if ($notificationId) {
+            Auth::user()->unreadNotifications->where('id', '=', $notificationId)->markAsRead();
+        } else {
+            Auth::user()->unreadNotifications->markAsRead();
+        }
+
+        return redirect(route('admin.index'));
     }
 
     /**
