@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Nunito);@import url(https://fonts.googleapis.com/css2?family=Manrope&display=swap);@charset "UTF-8";
 
 /*!
  * Bootstrap v4.5.2 (https://getbootstrap.com/)
@@ -10966,5 +10966,9 @@ main {
 #toast-container {
   right: 0;
   z-index: 1;
+}
+
+body {
+  font-family: "Manrope", sans-serif;
 }
 
