@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SearchUserRequest;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -21,11 +23,16 @@ class AdminController extends Controller
      * Show all users
      *
      * @param Request $request
+     *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index(Request $request)
+    public function index(SearchUserRequest $request)
     {
-        $users = User::orderBy('name')->paginate(25);
+        $users = User::orderBy('name');
+        if ($request->searchUserData) {
+            $users = $users->where(DB::raw("concat(name,' ',surname)"), "like" , "%$request->searchUserData%");
+        }
+        $users = $users->paginate(25);
 
         if ($request->ajax()) {
             return view('admin.users', compact('users'));
@@ -52,6 +59,7 @@ class AdminController extends Controller
      * Make user an admin
      *
      * @param User $user
+     *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update(User $user)

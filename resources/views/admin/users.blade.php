@@ -1,6 +1,6 @@
 <?php $isSuperAdmin = Auth::user()->admin == 2 ?>
 
-@foreach($users as $user)
+@forelse($users as $user)
 
     <div class="row mb-2 @if($user->admin) text-primary @endif">
         <div class="col-4 font-weight-bold h5">
@@ -29,7 +29,11 @@
         </div>
     </div>
 
-@endforeach
+@empty
+    <div class="row justify-content-center p-3 h4">
+        {{ __('Not Found') }}
+    </div>
+@endforelse
 
 <div class="row offset-1">
     <div class="col-6">

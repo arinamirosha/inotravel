@@ -8,15 +8,13 @@
     <div class="container light-bg">
 
         @if($notifications->isNotEmpty())
-            <div class="row text-right mb-3">
-                <div class="col-md-10">
+            <div class="row justify-content-center mb-4">
 
-                    <form action="{{ route('admin.mark-as-read') }}" method="post">
-                        @csrf
-                        <button class="btn btn-outline-dark btn-sm">{{ __('Mark All As Read') }}</button>
-                    </form>
+                <form action="{{ route('admin.mark-as-read') }}" method="post">
+                    @csrf
+                    <button class="btn btn-outline-secondary">{{ __('Mark All As Read') }}</button>
+                </form>
 
-                </div>
             </div>
             <div class="row justify-content-center">
                 <div class="col-md-10">
@@ -29,6 +27,24 @@
         @endif
 
         <div class="row justify-content-center">
+            <div class="col-md-4">
+
+                <form action="{{ route('admin.index') }}" method="get" id="search-user-form">
+                    @csrf
+                    <div class="input-group mb-3">
+                        <input name="searchUserData" class="form-control" placeholder="{{__("Enter name or surname")}}" aria-label="User's data" >
+                        <button class="btn btn-outline-secondary" type="submit">{{__('Search')}}</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <strong class="text-danger" id="errorSearchUserData"></strong>
+        </div>
+
+        <div class="row justify-content-center mt-4">
             <div class="col-md-10" id="result_wrap">
 
                 @include('admin.users')

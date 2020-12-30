@@ -55762,6 +55762,10 @@ $('document').ready(function () {
   $("#select").change(function () {
     getSelect(1);
   });
+  $("#search-user-form").submit(function (e) {
+    e.preventDefault();
+    getSearchUser(1);
+  });
   $(document).on('click', '.pagination a', function (e) {
     e.preventDefault();
     var href = $(this).attr('href');
@@ -55773,6 +55777,8 @@ $('document').ready(function () {
       getSearch(page);
     } else if (href.includes('booking') || href.includes('house')) {
       getSelect(page);
+    } else if (href.includes('admin')) {
+      getSearchUser(page);
     } else {
       getData(page);
     }
@@ -55813,6 +55819,8 @@ $(window).on('hashchange', function () {
         getSearch(page);
       } else if (href.includes('booking') || href.includes('house')) {
         getSelect(page);
+      } else if (href.includes('admin')) {
+        getSearchUser(page);
       } else {
         getData(page);
       }
@@ -56000,6 +56008,28 @@ function getSelect(page) {
     },
     error: function error(data) {
       formatErrors(data);
+    }
+  });
+}
+
+function getSearchUser(page) {
+  var form = $('#search-user-form');
+  $errElem = $('#errorSearchUserData');
+  $.ajax({
+    url: form.attr('action') + '?page=' + page,
+    type: form.attr('method'),
+    data: form.serialize(),
+    success: function success(data) {
+      $('#result_wrap').empty().html(data);
+      $errElem.text('');
+      location.hash = page;
+    },
+    error: function error(data) {
+      var response = JSON.parse(data.responseText);
+      var errorMessage = response.errors['searchUserData'][0];
+      console.log(errorMessage);
+      $errElem.text(errorMessage);
+      $errElem.css('display', 'block');
     }
   });
 }
