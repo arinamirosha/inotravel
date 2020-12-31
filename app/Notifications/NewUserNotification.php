@@ -4,7 +4,9 @@ namespace App\Notifications;
 
 use App\User;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -35,7 +37,7 @@ class NewUserNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', 'broadcast'];
     }
 
     /**
@@ -52,5 +54,19 @@ class NewUserNotification extends Notification implements ShouldQueue
             'surname' => $this->user->surname,
             'email' => $this->user->email,
         ];
+    }
+
+    /**
+     * Get the broadcastable representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return BroadcastMessage
+     */
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            'name' => $this->user->name,
+            'surname' => $this->user->surname,
+        ]);
     }
 }

@@ -50,7 +50,7 @@ class NewBookingEvent implements ShouldBroadcastNow
     public function broadcastOn()
     {
         $userId = $this->house->user_id;
-        return new PrivateChannel('user.'.$userId);
+        return new PrivateChannel('App.User.'.$userId);
     }
 
     /**

@@ -3,32 +3,13 @@ const HOUSE_IMAGE = 'houseImage';
 
 $('document').ready(function () {
     if (typeof user !== 'undefined') {
-        Echo.private('user.'+user.id)
+
+        Echo.private('App.User.' + user.id)
+            .notification((e) => {
+                toastAjax(e, 'newUsers');
+            })
             .listen('NewBookingEvent', (e) => {
-
-                $.ajax({
-                    url: '/toast',
-                    type: 'post',
-                    data: {
-                        _token: $('meta[name="csrf-token"]').attr('content'),
-                        ev: JSON.stringify(e)
-                    },
-                    success: function (data) {
-                        $('#toast-container').append(data);
-                        $('.toast').last().toast('show');
-                    },
-                    error: function (data) {
-                        formatErrors(data);
-                    }
-                });
-
-                let news = $('#newInBooks');
-                if (news.html() === '') {
-                    news.html('(+1)');
-                } else {
-                    let count = parseInt(news.html().substring(2, news.html().length-1)) + 1;
-                    news.html(`(+${count})`);
-                }
+                toastAjax(e, 'newInBooks')
             });
     }
 
@@ -364,4 +345,29 @@ function formatErrors(data) {
 
 function markViewed() {
     $('.bg-new').removeClass('bg-new');
+}
+
+function toastAjax(e, countId) {
+    $.ajax({
+        url: '/toast',
+        type: 'post',
+        data: {
+            _token: $('meta[name="csrf-token"]').attr('content'),
+            ev: JSON.stringify(e)
+        },
+        success: function (data) {
+            $('#toast-container').append(data);
+            $('.toast').last().toast('show');
+        },
+        error: function (data) {
+            console.log(data);
+        }
+    });
+    let news = $('#' + countId);
+    if (news.html() === '') {
+        news.html('(+1)');
+    } else {
+        let count = parseInt(news.html().substring(2, news.html().length-1)) + 1;
+        news.html(`(+${count})`);
+    }
 }
