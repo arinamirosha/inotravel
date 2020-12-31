@@ -54,6 +54,10 @@ $('document').ready(function () {
         e.preventDefault();
         getSearchUser(1);
     });
+    $("#select-user").change(function (e) {
+        e.preventDefault();
+        getSearchUser(1);
+    });
 
     $(document).on('click', '.pagination a', function (e) {
         e.preventDefault();

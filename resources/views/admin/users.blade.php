@@ -1,29 +1,33 @@
-<?php $isSuperAdmin = Auth::user()->admin == 2 ?>
+<?php $isUserSuperAdmin = Auth::user()->admin == \App\User::SUPER_ADMIN ?>
 
 @forelse($users as $user)
 
-    <div class="row mb-2 @if($user->admin) text-primary @endif">
+    <?php $isNoAdmin = $user->admin == \App\User::NO_ADMIN ?>
+    <?php $isAdmin = $user->admin != \App\User::NO_ADMIN ?>
+    <?php $isSuperAdmin = $user->admin == \App\User::SUPER_ADMIN ?>
+
+    <div class="row mb-2 @if($isAdmin) text-primary @endif">
         <div class="col-4 font-weight-bold h5">
-            <a @if(!$user->admin) class="text-dark" @endif href="{{ route('profile.show', $user->id) }}">{{ $user->name }} {{ $user->surname }}</a>
+            <a @if($isNoAdmin) class="text-dark" @endif href="{{ route('profile.show', $user->id) }}">{{ $user->name }} {{ $user->surname }}</a>
         </div>
         <div class="col-4 h5">
             {{ $user->email }}
         </div>
         <div class="col-4 h5 text-center">
-            @if($isSuperAdmin && $user->admin != 2)
+            @if($isUserSuperAdmin && !$isSuperAdmin)
                 <form action="{{ route('admin.update', $user->id) }}" method="post">
                     @csrf
-                    @if($user->admin)
+                    @if($isAdmin)
                         <button class="btn btn-outline-danger btn-sm">{{ __('Remove admin') }}</button>
-                    @elseif($isSuperAdmin)
+                    @elseif($isUserSuperAdmin)
                         <button class="btn btn-outline-success btn-sm">{{ __('Make admin') }}</button>
                     @endif
                 </form>
             @else
                 @switch($user->admin)
-                    @case(0) {{ __('No Admin') }} @break
-                    @case(1) {{ __('Administrator') }} @break
-                    @case(2) {{ __('Super Admin') }} @break
+                    @case(\App\User::NO_ADMIN) {{ __('No Admin') }} @break
+                    @case(\App\User::ADMIN) {{ __('Administrator') }} @break
+                    @case(\App\User::SUPER_ADMIN) {{ __('Super Admin') }} @break
                 @endswitch
             @endif
         </div>

@@ -29,9 +29,18 @@ class AdminController extends Controller
     public function index(SearchUserRequest $request)
     {
         $users = User::orderBy('name');
-        if ($request->searchUserData) {
-            $users = $users->where(DB::raw("concat(name,' ',surname)"), "like" , "%$request->searchUserData%");
+
+        if ($request->ajax()) {
+            if ($request->searchUserData) {
+                $users = $users->where(DB::raw("concat(name,' ',surname)"), "like" , "%$request->searchUserData%");
+            }
+
+            $selectUser = $request->selectUser;
+            if ($selectUser != User::ALL) {
+                $users = $users->where('admin', '=', $selectUser);
+            }
         }
+
         $users = $users->paginate(25);
 
         if ($request->ajax()) {
@@ -65,8 +74,8 @@ class AdminController extends Controller
     public function update(User $user)
     {
         $user->admin ?
-            $user->update(['admin' => false]) :
-            $user->update(['admin' => true]);
+            $user->update(['admin' => User::NO_ADMIN]) :
+            $user->update(['admin' => User::ADMIN]);
 
         return redirect(route('admin.index'));
     }
