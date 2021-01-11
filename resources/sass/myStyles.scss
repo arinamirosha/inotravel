@@ -5,7 +5,7 @@ body {
 }
 
 .light-bg {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, .9);
     padding: 30px;
     border-radius: 10px;
     min-height: calc(100vh - 100px);
@@ -15,27 +15,26 @@ html,
 body {
     height: 100%;
 }
-#app {
-    min-height: 100%;
-}
-main {
-    min-height: calc(100vh - 50px);
-}
+
+#app { min-height: 100%; }
+
+main { min-height: calc(100vh - 50px); }
 
 #process,
 #deletePhoto {
     display: none;
 }
 
-.bg-title {
-    background: rgba(95, 178, 178, 0.8);
+.bg-title { background: rgba(95, 178, 178, .8); }
+
+.my-house,
+.bg-new {
+    background: rgba(95, 178, 178, .1);
 }
 
-.my-house, .bg-new {
-    background: rgba(95, 178, 178, 0.1);
-}
-
-.my-house:hover, .not-my-house:hover, .toast-body {
+.my-house:hover,
+.not-my-house:hover,
+.toast-body {
     font-weight: bold;
 }
 
@@ -46,18 +45,16 @@ main {
 
 .my-text {
     -webkit-line-clamp: 2;
-    overflow : hidden;
+    overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-box-orient: vertical;
 }
 
-#toast-container {
+.toast-container {
     right: 0;
     z-index: 1;
     width: 300px;
 }
 
-body {
-    font-family: 'Manrope', sans-serif;
-}
+body { font-family: 'Manrope', sans-serif; }

@@ -10963,7 +10963,7 @@ main {
   -webkit-box-orient: vertical;
 }
 
-#toast-container {
+.toast-container {
   right: 0;
   z-index: 1;
   width: 300px;
