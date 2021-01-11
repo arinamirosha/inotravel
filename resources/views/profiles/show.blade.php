@@ -11,14 +11,14 @@
                 <img src="{{ url($user->avatarImg()) }}" alt="" class="w-100 rounded mb-3">
             </div>
             <div class="col-4 col-md-2 font-weight-bold pt-md-4 pl-md-4">
-                <div>{{__('Name')}}</div>
-                <div>{{__('Surname')}}</div>
-                <div>{{__('E-Mail')}}</div>
+                <div>{{ __('Name') }}</div>
+                <div>{{ __('Surname') }}</div>
+                <div>{{ __('E-Mail') }}</div>
             </div>
             <div class="col-5 col-md-3 col-lg-4 pt-md-4">
-                <div>{{$user->name}}</div>
-                <div>{{$user->surname}}</div>
-                <div>{{$user->email}}</div>
+                <div>{{ $user->name }}</div>
+                <div>{{ $user->surname }}</div>
+                <div>{{ $user->email }}</div>
             </div>
             @can('update', $user)
                 <div class="col-md-3 col-lg-2 text-right">
@@ -35,7 +35,7 @@
             <div class="col-9 col-md-10 mt-3 border-top border-dark">
             </div>
             <div class="col-1 h4">
-                {{$user->houses()->count()}}
+                {{ $user->houses()->count() }}
             </div>
         </div>
         @endif

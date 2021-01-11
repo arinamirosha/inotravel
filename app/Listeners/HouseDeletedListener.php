@@ -19,6 +19,7 @@ class HouseDeletedListener
      * add to history, delete bookings, delete house's facilities and restrictions
      *
      * @param HouseDeletedEvent $event
+     *
      * @return void
      */
     public function handle(HouseDeletedEvent $event)
@@ -27,26 +28,27 @@ class HouseDeletedListener
 
         // Get future accepted bookings that will be deleted with house
         $booksToMail = $house->bookings()
-            ->where('status', Booking::STATUS_BOOKING_ACCEPT)
-            ->where('arrival', '>=', Carbon::now()->format('Y-m-d'))
-            ->addSelect(['email' => User::select('email')->whereColumn('user_id', 'users.id')])
-            ->get();
+                             ->where('status', Booking::STATUS_BOOKING_ACCEPT)
+                             ->where('arrival', '>=', Carbon::now()->format('Y-m-d'))
+                             ->addSelect(['email' => User::select('email')->whereColumn('user_id', 'users.id')])
+                             ->get();
 
         // Notify the owners of these applications
         SendBookingDeletedEmail::dispatch($booksToMail, $house->name, $house->city)->delay(now()->addSeconds(10));
 
         // Add to history for all
         $bookings = $house->bookings()->with(['user', 'house', 'house.user'])->get();
-        foreach ($bookings as $booking) {
+        foreach ($bookings as $booking)
+        {
             BookingHistory::create([
-                'user_id' => $booking->user_id,
+                'user_id'    => $booking->user_id,
                 'booking_id' => $booking->id,
-                'type' => BookingHistory::TYPE_DELETED_INFO,
+                'type'       => BookingHistory::TYPE_DELETED_INFO,
             ]);
             BookingHistory::create([
-                'user_id' => $booking->house->user_id,
+                'user_id'    => $booking->house->user_id,
                 'booking_id' => $booking->id,
-                'type' => BookingHistory::TYPE_DELETED,
+                'type'       => BookingHistory::TYPE_DELETED,
             ]);
         }
 

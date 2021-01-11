@@ -54,6 +54,7 @@ $('document').ready(function () {
         e.preventDefault();
         getSearchUser(1);
     });
+
     $("#select-user").change(function (e) {
         e.preventDefault();
         getSearchUser(1);
@@ -78,7 +79,7 @@ $('document').ready(function () {
 
     var href = window.location.href;
     var isNew = $('.bg-new').length !== 0;
-    if (((href.includes('booking') && ! href.includes('history')) || href.includes('house')) && isNew) {
+    if (((href.includes('booking') && !href.includes('history')) || href.includes('house')) && isNew) {
         $isHouses = href.includes('house');
         $.ajax({
             url: 'viewed',

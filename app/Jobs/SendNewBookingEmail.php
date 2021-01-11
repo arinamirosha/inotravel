@@ -29,7 +29,7 @@ class SendNewBookingEmail implements ShouldQueue
     public function __construct($email, Booking $booking)
     {
         $this->booking = $booking;
-        $this->email = $email;
+        $this->email   = $email;
     }
 
     /**
@@ -46,6 +46,7 @@ class SendNewBookingEmail implements ShouldQueue
      * The job failed to process.
      *
      * @param \Exception $exception
+     *
      * @return void
      */
     public function failed(\Exception $exception)

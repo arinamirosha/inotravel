@@ -30,20 +30,24 @@ class AdminController extends Controller
     {
         $users = User::orderBy('name');
 
-        if ($request->ajax()) {
-            if ($request->searchUserData) {
-                $users = $users->where(DB::raw("concat(name,' ',surname)"), "like" , "%$request->searchUserData%");
+        if ($request->ajax())
+        {
+            if ($request->searchUserData)
+            {
+                $users = $users->where(DB::raw("concat(name,' ',surname)"), "like", "%$request->searchUserData%");
             }
 
             $selectUser = $request->selectUser;
-            if ($selectUser != User::ALL) {
+            if ($selectUser != User::ALL)
+            {
                 $users = $users->where('admin', '=', $selectUser);
             }
         }
 
         $users = $users->paginate(25);
 
-        if ($request->ajax()) {
+        if ($request->ajax())
+        {
             return view('admin.users', compact('users'));
         }
 
@@ -55,9 +59,13 @@ class AdminController extends Controller
     public function markAsRead(Request $request)
     {
         $notificationId = $request->notificationId;
-        if ($notificationId) {
+
+        if ($notificationId)
+        {
             Auth::user()->unreadNotifications->where('id', '=', $notificationId)->markAsRead();
-        } else {
+        }
+        else
+        {
             Auth::user()->unreadNotifications->markAsRead();
         }
 

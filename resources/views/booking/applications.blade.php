@@ -41,21 +41,21 @@
                 @switch($booking->status)
 
                     @case(\App\Booking::STATUS_BOOKING_ACCEPT)
-                    <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_CANCEL}}">
+                    <input type="hidden" name="status" value="{{ \App\Booking::STATUS_BOOKING_CANCEL }}">
                     <button class="btn btn-sm btn-outline-danger ml-5" onclick="return confirm('{{ __('Are you sure you want to cancel the application?') }}')">
                         {{ __('Cancel') }}
                     </button>
                     @break
 
                     @case(\App\Booking::STATUS_BOOKING_SEND)
-                    <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_SEND_BACK}}">
+                    <input type="hidden" name="status" value="{{ \App\Booking::STATUS_BOOKING_SEND_BACK }}">
                     <button class="btn btn-sm btn-outline-danger ml-5" onclick="return confirm('{{ __('Are you sure you want to withdraw your application?') }}')">
                         {{ __('Withdraw') }}
                     </button>
                     @break
 
                     @case(\App\Booking::STATUS_BOOKING_REJECT)
-                    <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_DELETE}}">
+                    <input type="hidden" name="status" value="{{ \App\Booking::STATUS_BOOKING_DELETE }}">
                     <button class="btn btn-sm btn-outline-secondary ml-5">
                         {{ __('Hide') }}
                     </button>
@@ -81,6 +81,6 @@
 
 <div class="row offset-1">
     <div class="col-6">
-        {{$bookings->links()}}
+        {{ $bookings->links() }}
     </div>
 </div>

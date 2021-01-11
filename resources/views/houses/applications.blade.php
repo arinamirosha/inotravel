@@ -51,7 +51,7 @@
             <form method="post" action="{{ route('booking.update', $booking->id) }}">
                 @csrf
                 @if($booking->status <> \App\Booking::STATUS_BOOKING_SEND && $booking->status <> \App\Booking::STATUS_BOOKING_ACCEPT)
-                    <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_DELETE}}">
+                    <input type="hidden" name="status" value="{{ \App\Booking::STATUS_BOOKING_DELETE }}">
                     <button class="btn btn-sm btn-outline-secondary ml-5">
                         {{ __('Hide') }}
                     </button>
@@ -75,6 +75,6 @@
 
 <div class="row offset-1">
     <div class="col-6">
-        {{$bookings->links()}}
+        {{ $bookings->links() }}
     </div>
 </div>

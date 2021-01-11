@@ -6,7 +6,7 @@
 
     <div class="col-md-4">
         <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name"
-               value="@isset($house){{old('name',$house->name)}}@else{{old('name')}}@endisset" autocomplete="name" autofocus>
+               value="@isset($house){{ old('name', $house->name) }}@else{{ old('name') }}@endisset" autocomplete="name" autofocus>
 
         @error('name')
         <span class="invalid-feedback" role="alert">
@@ -19,7 +19,7 @@
 
     <div class="col-md-4">
         <input id="city" type="text" class="form-control @error('city') is-invalid @enderror" name="city"
-               value="@isset($house){{old('city',$house->city)}}@else{{old('city')}}@endisset" autocomplete="city" autofocus>
+               value="@isset($house){{ old('city', $house->city) }}@else{{ old('city') }}@endisset" autocomplete="city" autofocus>
 
         @error('city')
         <span class="invalid-feedback" role="alert">
@@ -34,7 +34,7 @@
 
     <div class="col-md-4">
         <input id="places" type="number" class="form-control @error('places') is-invalid @enderror" name="places"
-               value="@isset($house){{old('places',$house->places)}}@else{{old('places')}}@endisset" autocomplete="places" autofocus>
+               value="@isset($house){{ old('places', $house->places) }}@else{{ old('places') }}@endisset" autocomplete="places" autofocus>
 
         @error('places')
         <span class="invalid-feedback" role="alert">
@@ -47,7 +47,7 @@
 
     <div class="col-md-4">
         <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address"
-               value="@isset($house){{old('address',$house->address)}}@else{{old('address')}}@endisset" autocomplete="address" autofocus>
+               value="@isset($house){{ old('address', $house->address) }}@else{{ old('address') }}@endisset" autocomplete="address" autofocus>
 
         @error('address')
         <span class="invalid-feedback" role="alert">
@@ -91,7 +91,7 @@
     <label for="info" class="col-md-2 col-form-label-sm text-md-right">{{ __('Add. info') }}</label>
 
     <div class="col-md-10">
-        <textarea id="info" type="text" rows="5" class="form-control @error('info') is-invalid @enderror" name="info" autocomplete="info" autofocus>@isset($house){{old('info',$house->info)}}@else{{old('info')}}@endisset</textarea>
+        <textarea id="info" type="text" rows="5" class="form-control @error('info') is-invalid @enderror" name="info" autocomplete="info" autofocus>@isset($house){{ old('info', $house->info) }}@else{{ old('info') }}@endisset</textarea>
 
         @error('info')
         <span class="invalid-feedback" role="alert">

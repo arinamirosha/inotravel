@@ -22,12 +22,12 @@
                     <div class="row mb-4 mr-3">
                         <div class="col-md-9"></div>
                         <div class="col-md-3">
-                            <form id="select-form" action="{{route('house.index')}}" method="get">
+                            <form id="select-form" action="{{ route('house.index') }}" method="get">
                                 <select id="select" class="form-control" name="select" aria-label="select">
-                                    <option value="{{\App\Booking::STATUS_BOOKING_ALL}}">{{__('All')}}</option>
-                                    <option value="{{\App\Booking::STATUS_BOOKING_SEND}}">{{__('Waiting for an answer')}}</option>
-                                    <option value="{{\App\Booking::STATUS_BOOKING_ACCEPT}}">{{__('Accepted')}}</option>
-                                    <option value="{{\App\Booking::STATUS_BOOKING_CANCEL}}">{{__('Cancelled')}}</option>
+                                    <option value="{{ \App\Booking::STATUS_BOOKING_ALL }}">{{ __('All') }}</option>
+                                    <option value="{{ \App\Booking::STATUS_BOOKING_SEND }}">{{ __('Waiting for an answer') }}</option>
+                                    <option value="{{ \App\Booking::STATUS_BOOKING_ACCEPT }}">{{ __('Accepted') }}</option>
+                                    <option value="{{ \App\Booking::STATUS_BOOKING_CANCEL }}">{{ __('Cancelled') }}</option>
                                 </select>
                             </form>
                         </div>

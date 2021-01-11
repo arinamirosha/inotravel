@@ -29,7 +29,7 @@ class PasswordRequest extends FormRequest
     {
         return [
             'passwordOld' => ['required', 'string', 'min:8', new OldPassword($this->input('passwordOld'))],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password'    => ['required', 'string', 'min:8', 'confirmed'],
         ];
     }
 }

@@ -19,7 +19,7 @@
                         </div>
                         <div id="process" class="col-1 pt-4">
                             <div class="spinner-border" role="status">
-                                <span class="sr-only">Loading...</span>
+                                <span class="sr-only">{{ __('Loading...') }}</span>
                             </div>
                         </div>
                     </div>

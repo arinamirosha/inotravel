@@ -97,7 +97,8 @@ class House extends Model
      */
     public function deleteImage()
     {
-        if ($this->image) {
+        if ($this->image)
+        {
             Storage::delete("public/$this->image");
             $this->image = null;
             $this->save();
@@ -110,11 +111,12 @@ class House extends Model
      * @param $arrival
      * @param $departure
      * @param $people
+     *
      * @return bool
      */
     public function isFree($arrival, $departure, $people)
     {
-        $houseId = $this->id;
+        $houseId      = $this->id;
         $housesResult = HouseManager::getSqlFreeHouse($arrival, $departure, $people, $houseId, House::ONE_HOUSE);
 
         return DB::table(DB::raw("($housesResult) x"))->exists();

@@ -29,6 +29,6 @@
 
 <div class="row offset-1">
     <div class="col-6">
-        {{$houses->links()}}
+        {{ $houses->links() }}
     </div>
 </div>

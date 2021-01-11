@@ -41,6 +41,6 @@
 
 <div class="row offset-1">
     <div class="col-6">
-        {{$users->links()}}
+        {{ $users->links() }}
     </div>
 </div>

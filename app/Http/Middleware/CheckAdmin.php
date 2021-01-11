@@ -13,11 +13,13 @@ class CheckAdmin
      *
      * @param \Illuminate\Http\Request $request
      * @param \Closure $next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::user()->admin == User::NO_ADMIN) {
+        if (Auth::user()->admin == User::NO_ADMIN)
+        {
             return abort(403);
         }
 

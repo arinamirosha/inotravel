@@ -15,7 +15,8 @@ class BookingCancelledListener
      * Handle the event.
      * Update booking status, set as unread, add to history and dispatch SendBookingChangedEmail job.
      *
-     * @param  BookingCancelledEvent  $event
+     * @param BookingCancelledEvent $event
+     *
      * @return void
      */
     public function handle(BookingCancelledEvent $event)
@@ -24,15 +25,15 @@ class BookingCancelledListener
         $booking->update(['status' => $event->status, 'new' => Booking::STATUS_BOOKING_NEW]);
 
         BookingHistory::create([
-            'user_id' => $booking->user_id,
+            'user_id'    => $booking->user_id,
             'booking_id' => $booking->id,
-            'type' => BookingHistory::TYPE_CANCELLED,
+            'type'       => BookingHistory::TYPE_CANCELLED,
         ]);
 
         BookingHistory::create([
-            'user_id' => $booking->house->user_id,
+            'user_id'    => $booking->house->user_id,
             'booking_id' => $booking->id,
-            'type' => BookingHistory::TYPE_CANCELLED_INFO,
+            'type'       => BookingHistory::TYPE_CANCELLED_INFO,
         ]);
 
         SendBookingChangedEmail::dispatch($booking->house->user->email, $booking)->delay(now()->addSeconds(10));

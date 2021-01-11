@@ -19,35 +19,37 @@ class SearchController extends Controller
      * Search for right houses, show page with results
      *
      * @param SearchRequest $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function __invoke(SearchRequest $request)
     {
         $requestData = $request->all();
-        $arrival = $requestData['arrival'];
-        $departure = $requestData['departure'];
-        $where = $requestData['where'];
-        $people = $requestData['people'];
+        $arrival     = $requestData['arrival'];
+        $departure   = $requestData['departure'];
+        $where       = $requestData['where'];
+        $people      = $requestData['people'];
 
         $housesResult = HouseManager::getSqlFreeHouse($arrival, $departure, $people, $where, House::ALL_HOUSES);
-        $houses = House::rightJoin((DB::raw("($housesResult) AS h")), 'houses.id', '=', 'h.house_id')
-            ->addSelect(['user_name' => User::select('name')->whereColumn('user_id', 'users.id')])
-            ->orderBy('name')
-            ->orderBy('user_name')
-            ->paginate(30);
+        $houses       = House::rightJoin((DB::raw("($housesResult) AS h")), 'houses.id', '=', 'h.house_id')
+                             ->addSelect(['user_name' => User::select('name')->whereColumn('user_id', 'users.id')])
+                             ->orderBy('name')
+                             ->orderBy('user_name')
+                             ->paginate(30);
 
         Cookie::queue('arrival', $arrival, 60);
         Cookie::queue('departure', $departure, 60);
         Cookie::queue('people', $people, 60);
 
-        if ($request->ajax()) {
+        if ($request->ajax())
+        {
             return view('search.houses', compact('houses'));
         }
 
         return response()->view('search.index', [
-            'houses' => $houses,
+            'houses'     => $houses,
             'searchData' => $requestData,
-            'isSearch' => true,
+            'isSearch'   => true,
         ]);
     }
 }

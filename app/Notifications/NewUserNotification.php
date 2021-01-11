@@ -32,7 +32,8 @@ class NewUserNotification extends Notification implements ShouldQueue
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return array
      */
     public function via($notifiable)
@@ -43,29 +44,31 @@ class NewUserNotification extends Notification implements ShouldQueue
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return array
      */
     public function toArray($notifiable)
     {
         return [
-            'id' => $this->user->id,
-            'name' => $this->user->name,
+            'id'      => $this->user->id,
+            'name'    => $this->user->name,
             'surname' => $this->user->surname,
-            'email' => $this->user->email,
+            'email'   => $this->user->email,
         ];
     }
 
     /**
      * Get the broadcastable representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return BroadcastMessage
      */
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage([
-            'name' => $this->user->name,
+            'name'    => $this->user->name,
             'surname' => $this->user->surname,
         ]);
     }

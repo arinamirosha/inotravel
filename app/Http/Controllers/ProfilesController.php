@@ -27,12 +27,14 @@ class ProfilesController extends Controller
      * Show profile
      *
      * @param User $user
+     *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(User $user)
     {
         $user->load('houses');
+
         return view('profiles.show', compact('user'));
     }
 
@@ -54,6 +56,7 @@ class ProfilesController extends Controller
      * Update user
      *
      * @param ProfileRequest $request
+     *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update(ProfileRequest $request)
@@ -68,11 +71,12 @@ class ProfilesController extends Controller
      * Change password
      *
      * @param PasswordRequest $request
+     *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function updatePassword(PasswordRequest $request)
     {
-        $user = Auth::user();
+        $user        = Auth::user();
         $newPassword = Hash::make($request->password);
         $user->update(['password' => $newPassword]);
 
@@ -83,6 +87,7 @@ class ProfilesController extends Controller
      * Upload or delete avatar by ajax
      *
      * @param ImageRequest $request
+     *
      * @return TemporaryImage
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
@@ -91,7 +96,8 @@ class ProfilesController extends Controller
         $user = Auth::user();
         $user->deleteAvatar();
 
-        if ($request->has('delete')) {
+        if ($request->has('delete'))
+        {
             return true;
         }
 

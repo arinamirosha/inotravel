@@ -29,8 +29,8 @@ class SendBookingDeletedEmail implements ShouldQueue
     public function __construct($booksToMail, $name, $city)
     {
         $this->booksToMail = $booksToMail;
-        $this->name = $name;
-        $this->city = $city;
+        $this->name        = $name;
+        $this->city        = $city;
     }
 
     /**
@@ -54,6 +54,7 @@ class SendBookingDeletedEmail implements ShouldQueue
      * The job failed to process.
      *
      * @param \Exception $exception
+     *
      * @return void
      */
     public function failed(\Exception $exception)

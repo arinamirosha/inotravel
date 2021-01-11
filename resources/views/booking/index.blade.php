@@ -12,10 +12,10 @@
             <div class="col-md-3">
                 <form id="select-form" action="{{route('booking.index')}}" method="get">
                     <select id="select" class="form-control" name="select" aria-label="select">
-                        <option value="{{\App\Booking::STATUS_BOOKING_ALL}}">{{__('All')}}</option>
-                        <option value="{{\App\Booking::STATUS_BOOKING_SEND}}">{{__('Sent')}}</option>
-                        <option value="{{\App\Booking::STATUS_BOOKING_ACCEPT}}">{{__('Accepted')}}</option>
-                        <option value="{{\App\Booking::STATUS_BOOKING_REJECT}}">{{__('Declined')}}</option>
+                        <option value="{{ \App\Booking::STATUS_BOOKING_ALL }}">{{ __('All') }}</option>
+                        <option value="{{ \App\Booking::STATUS_BOOKING_SEND }}">{{ __('Sent')}}</option>
+                        <option value="{{ \App\Booking::STATUS_BOOKING_ACCEPT }}">{{ __('Accepted') }}</option>
+                        <option value="{{ \App\Booking::STATUS_BOOKING_REJECT }}">{{ __('Declined') }}</option>
                     </select>
                 </form>
             </div>

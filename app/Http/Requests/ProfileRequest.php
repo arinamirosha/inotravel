@@ -27,9 +27,9 @@ class ProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'max:125'],
+            'name'    => ['required', 'string', 'max:125'],
             'surname' => ['required', 'string', 'max:125'],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore(Auth::id()),],
+            'email'   => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore(Auth::id()),],
         ];
     }
 
@@ -40,11 +40,13 @@ class ProfileRequest extends FormRequest
      */
     public function messages()
     {
-        if (App::isLocale('ru')) {
+        if (App::isLocale('ru'))
+        {
             return [
                 'email.unique' => __('messages.email_busy'),
             ];
         }
+
         return [];
     }
 }

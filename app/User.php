@@ -99,7 +99,8 @@ class User extends Authenticatable
      */
     public function deleteAvatar()
     {
-        if ($this->avatar) {
+        if ($this->avatar)
+        {
             Storage::delete("public/$this->avatar");
             $this->avatar = null;
             $this->save();
@@ -114,12 +115,12 @@ class User extends Authenticatable
     public function newInBooks()
     {
         $newInBooks = Booking::join('houses', 'houses.id', '=', 'house_id')
-            ->where('houses.user_id', '=', $this->id)
-            ->where('new', '=', Booking::STATUS_BOOKING_NEW)
-            ->where('status', '<>', Booking::STATUS_BOOKING_ACCEPT)
-            ->where('status', '<>', Booking::STATUS_BOOKING_REJECT)
-            ->select('bookings.*')
-            ->count();
+                             ->where('houses.user_id', '=', $this->id)
+                             ->where('new', '=', Booking::STATUS_BOOKING_NEW)
+                             ->where('status', '<>', Booking::STATUS_BOOKING_ACCEPT)
+                             ->where('status', '<>', Booking::STATUS_BOOKING_REJECT)
+                             ->select('bookings.*')
+                             ->count();
 
         return $newInBooks != 0 ? "(+$newInBooks)" : '';
     }
@@ -132,10 +133,10 @@ class User extends Authenticatable
     public function unreadOutBooks()
     {
         $unreadOutBooks = Booking::where('user_id', '=', $this->id)
-            ->where('new', '=', Booking::STATUS_BOOKING_NEW)
-            ->where('status', '<>', Booking::STATUS_BOOKING_SEND)
-            ->where('status', '<>', Booking::STATUS_BOOKING_CANCEL)
-            ->count();
+                                 ->where('new', '=', Booking::STATUS_BOOKING_NEW)
+                                 ->where('status', '<>', Booking::STATUS_BOOKING_SEND)
+                                 ->where('status', '<>', Booking::STATUS_BOOKING_CANCEL)
+                                 ->count();
 
         return $unreadOutBooks != 0 ? "(+$unreadOutBooks)" : '';
     }

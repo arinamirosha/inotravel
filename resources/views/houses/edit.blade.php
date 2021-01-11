@@ -21,7 +21,7 @@
                         <form method="POST" enctype="multipart/form-data" id="form-file-ajax" action="{{ route('house.upload-image') }}">
                             @csrf
                             <img id="photo"
-                                 src="@if(old('deleteImage') || $imgFailed) {{url('/images/noImage.svg')}} @else {{url(old('imgId')?\App\TemporaryImage::find(old('imgId'))->tempImage():$house->houseImage())}} @endif"
+                                 src="@if(old('deleteImage') || $imgFailed) {{ url('/images/noImage.svg') }} @else {{ url(old('imgId') ? \App\TemporaryImage::find(old('imgId'))->tempImage() : $house->houseImage()) }} @endif"
                                  alt="Image" width="400" class="w-100">
                             <input type="file" id="file" name="file" class="d-none">
                             <label for="file" class="col-form-label btn btn-outline-dark btn-block mt-3">{{ __('Select A New Photo') }}</label>
@@ -45,7 +45,7 @@
                             @include('inc.house_form_elements')
 
                             <input id="deleteImage" name="deleteImage" class="d-none" type="checkbox" @if(old('deleteImage') || $imgFailed) checked @endif>
-                            <input id="imgId" type="text" name="imgId" class="d-none @error('imgId') is-invalid @enderror" @if(!$imgFailed) value="{{old('imgId')}}" @endif>
+                            <input id="imgId" type="text" name="imgId" class="d-none @error('imgId') is-invalid @enderror" @if(!$imgFailed) value="{{ old('imgId') }}" @endif>
 
                             @error('imgId')
                             <span class="invalid-feedback" role="alert" id="imgError">

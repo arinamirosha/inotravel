@@ -43,14 +43,15 @@ class CleanImages extends Command
      */
     public function handle()
     {
-        $from = $this->option('from');
-        $to = $this->option('to');
+        $from   = $this->option('from');
+        $to     = $this->option('to');
         $userId = $this->option('user_id');
 
-        if (( ! $from && $to && $userId) ||
-            ($from && ! $to && $userId) ||
-            ($from && ! ($to || $userId)) ||
-            ($to && ! ($from || $userId))) {
+        if ((!$from && $to && $userId) ||
+            ($from && !$to && $userId) ||
+            ($from && !($to || $userId)) ||
+            ($to && !($from || $userId)))
+        {
             echo __('Wrong parameters');
 
             return false;
@@ -58,27 +59,30 @@ class CleanImages extends Command
 
         $data = [];
         if ($from || $to || $userId) {
-            $data['from'] = $from;
-            $data['to'] = $to;
+            $data['from']   = $from;
+            $data['to']     = $to;
             $data['userId'] = $userId;
         }
 
-        $messages = App::isLocale('ru') ? [
-            'from.date' => __('messages.wrong_date', ['name' => 'from']),
-            'to.date' => __('messages.wrong_date', ['name' => 'to']),
-            'userId.numeric' => __('messages.id_not_number'),
-        ] : [];
+        $messages = App::isLocale('ru') ?
+            [
+                'from.date'      => __('messages.wrong_date', ['name' => 'from']),
+                'to.date'        => __('messages.wrong_date', ['name' => 'to']),
+                'userId.numeric' => __('messages.id_not_number'),
+            ] :
+            [];
 
         $validator = Validator::make($data, [
-            'from' => ['date', 'nullable'],
-            'to' => ['date', 'nullable'],
+            'from'   => ['date', 'nullable'],
+            'to'     => ['date', 'nullable'],
             'userId' => ['numeric', 'nullable'],
         ], $messages);
 
-        if ($validator->fails()) {
+        if ($validator->fails())
+        {
             $messages = $validator->errors()->getMessages();
             foreach ($messages as $message) {
-                echo $message[0]."\n";
+                echo $message[0] . "\n";
             }
 
             return false;
