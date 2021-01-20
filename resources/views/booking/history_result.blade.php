@@ -21,7 +21,7 @@
                     </a>
                 </div>
                 <div class="col-10 text-left">
-                    <div>
+                    <div class="text-truncate" title="{{ $history->booking->house->name }}">
                         <a href="{{ route('house.show', $history->booking->house->id) }}">{{ $history->booking->house->name }}</a>
                     </div>
                     <div>
@@ -67,7 +67,7 @@
 @if($histories)
 <div class="row offset-1">
     <div class="col-6">
-        {{$histories->links()}}
+        {{ $histories->links() }}
     </div>
 </div>
 @endif

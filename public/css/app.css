@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Nunito);@import url(https://fonts.googleapis.com/css2?family=Manrope&display=swap);@charset "UTF-8";
 
 /*!
  * Bootstrap v4.5.2 (https://getbootstrap.com/)
@@ -10945,12 +10945,31 @@ main {
 }
 
 .my-house:hover,
-.not-my-house:hover {
+.not-my-house:hover,
+.toast-body {
   font-weight: bold;
 }
 
 #filters {
   margin-left: 25px;
   margin-right: 15px;
+}
+
+.my-text {
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+.toast-container {
+  right: 0;
+  z-index: 1;
+  width: 300px;
+}
+
+body {
+  font-family: "Manrope", sans-serif;
 }
 

@@ -31,6 +31,6 @@ class BookingAnswerEvent
     public function __construct(Booking $booking, $status)
     {
         $this->booking = $booking;
-        $this->status = $status;
+        $this->status  = $status;
     }
 }

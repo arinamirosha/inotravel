@@ -15,7 +15,7 @@
                     <div class="col-8">
                         <div>{{ $house->name }}</div>
                         <div>{{ $house->city }}, {{ $house->address }}</div>
-                        <div>{{ $house->user->name }} {{ $house->user->surname }}</div>
+                        <div><a href="{{ route('profile.show', $house->user->id) }}">{{ $house->user->name }} {{ $house->user->surname }}</a></div>
                     </div>
                     <div class="col-4">
                         @can('update', $house->user)

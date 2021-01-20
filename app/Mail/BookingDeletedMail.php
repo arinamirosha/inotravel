@@ -26,10 +26,10 @@ class BookingDeletedMail extends Mailable
 
     public function __construct($arrival, $departure, $name, $city)
     {
-        $this->arrival = $arrival;
+        $this->arrival   = $arrival;
         $this->departure = $departure;
-        $this->name = $name;
-        $this->city = $city;
+        $this->name      = $name;
+        $this->city      = $city;
     }
 
     /**
@@ -40,11 +40,11 @@ class BookingDeletedMail extends Mailable
     public function build()
     {
         return $this->subject(__('Application deleted'))
-            ->view('email.booking_deleted', [
-                'arrival' => $this->arrival,
-                'departure' => $this->departure,
-                'name' => $this->name,
-                'city' => $this->city,
-            ]);
+                    ->view('email.booking_deleted', [
+                        'arrival'   => $this->arrival,
+                        'departure' => $this->departure,
+                        'name'      => $this->name,
+                        'city'      => $this->city,
+                    ]);
     }
 }

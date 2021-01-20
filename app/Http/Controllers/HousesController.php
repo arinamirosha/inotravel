@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Libraries\House\Facades\HouseManager;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class HousesController extends Controller
@@ -34,7 +35,7 @@ class HousesController extends Controller
      */
     public function create()
     {
-        $facilities = Facility::all();
+        $facilities   = Facility::all();
         $restrictions = Restriction::all();
 
         return view('houses.create', compact('facilities', 'restrictions'));
@@ -44,17 +45,19 @@ class HousesController extends Controller
      * Create a new house
      *
      * @param HouseRequest $request
+     *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function store(HouseRequest $request)
     {
         $requestData = $request->all();
-        if ($requestData['imgId']) {
+        if ($requestData['imgId'])
+        {
             $requestData['image'] = getImgFromTempById($requestData['imgId']);
         }
 
-        $user = Auth::user();
+        $user  = Auth::user();
         $house = $user->houses()->create($requestData);
 
         HouseManager::attachToHouse($request->facilities, $request->restrictions, $house);
@@ -66,21 +69,30 @@ class HousesController extends Controller
      * Show user's houses and incoming bookings (except rejected)
      *
      * @param Request $request
+     *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
     {
-        $userId = Auth::id();
-        $houses = House::where('user_id', '=', $userId)->latest()->get();
+        $userId   = Auth::id();
+        $houses   = House::where('user_id', '=', $userId)->latest()->get();
         $bookings = Booking::join('houses', 'houses.id', '=', 'house_id')
-            ->where('houses.user_id', '=', $userId)
-            ->where('status', '<>', Booking::STATUS_BOOKING_REJECT)
-            ->select('bookings.*')
-            ->with(['house', 'user'])
-            ->orderBy('updated_at', 'desc')
-            ->paginate(10);
+                           ->where('houses.user_id', '=', $userId)
+                           ->where('status', '<>', Booking::STATUS_BOOKING_REJECT);
 
-        if ($request->ajax()) {
+        $select = $request->select;
+        if ($select && $select != Booking::STATUS_BOOKING_ALL)
+        {
+            $bookings = $bookings->where('status', '=', $select);
+        }
+
+        $bookings = $bookings->select('bookings.*')
+                             ->with(['house', 'user'])
+                             ->orderBy('updated_at', 'desc')
+                             ->paginate(10);
+
+        if ($request->ajax())
+        {
             return view('houses.applications', compact('bookings'));
         }
 
@@ -91,26 +103,27 @@ class HousesController extends Controller
      * Show house and check if it's booked, free and have enough places
      *
      * @param House $house
+     *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show(House $house)
     {
         $house = $house->load(['user', 'facilities', 'restrictions']);
 
-        $arrival = Cookie::get('arrival');
+        $arrival   = Cookie::get('arrival');
         $departure = Cookie::get('departure');
-        $people = Cookie::get('people');
+        $people    = Cookie::get('people');
 
         $isBooked = Auth::check() ?
             $house->bookings()
-                ->where('user_id', '=', Auth::id())
-                ->where('arrival', '=', $arrival)
-                ->where('departure', '=', $departure)
-                ->where('status', '<>', Booking::STATUS_BOOKING_CANCEL)
-                ->exists()
-            : null;
+                  ->where('user_id', '=', Auth::id())
+                  ->where('arrival', '=', $arrival)
+                  ->where('departure', '=', $departure)
+                  ->where('status', '<>', Booking::STATUS_BOOKING_CANCEL)
+                  ->exists() :
+            null;
 
-        $isFree = $arrival ? $house->isFree($arrival, $departure, $people) : false;
+        $isFree       = $arrival ? $house->isFree($arrival, $departure, $people) : false;
         $enoughPlaces = $house->places >= $people;
 
         return view('houses.show',
@@ -121,6 +134,7 @@ class HousesController extends Controller
      * Delete house
      *
      * @param House $house
+     *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Exception
      */
@@ -135,13 +149,14 @@ class HousesController extends Controller
      * Show page for editing house
      *
      * @param House $house
+     *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit(House $house)
     {
         $this->authorize('update', $house->user);
-        $facilities = Facility::all();
+        $facilities   = Facility::all();
         $restrictions = Restriction::all();
 
         return view('houses.edit', compact('house', 'facilities', 'restrictions'));
@@ -152,6 +167,7 @@ class HousesController extends Controller
      *
      * @param House $house
      * @param HouseRequest $request
+     *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
@@ -159,9 +175,12 @@ class HousesController extends Controller
     {
         $requestData = $request->all();
 
-        if ($request->filled('deleteImage')) {
+        if ($request->filled('deleteImage'))
+        {
             $house->deleteImage();
-        } elseif ($requestData['imgId']) {
+        }
+        elseif ($requestData['imgId'])
+        {
             $requestData['image'] = getImgFromTempById($requestData['imgId']);
         }
 
@@ -173,18 +192,27 @@ class HousesController extends Controller
     }
 
     /**
-     * Upload image by ajax
+     * Upload or delete image by ajax
      *
      * @param ImageRequest $request
+     *
      * @return TemporaryImage
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function uploadImage(ImageRequest $request)
     {
-        $imgPath = storeImage($request->file);
+        if ($request->imgId)
+        {
+            $imgPathToDelete = getImgFromTempById($request->imgId);
+            Storage::disk('public')->delete($imgPathToDelete);
+        }
+        if ($request->has('delete'))
+        {
+            return true;
+        }
 
-        $user = Auth::user();
-        $img = $user->temporaryImages()->create(['image' => $imgPath]);
+        $imgPath = storeImage($request->file);
+        $img     = Auth::user()->temporaryImages()->create(['image' => $imgPath]);
 
         return $img;
     }

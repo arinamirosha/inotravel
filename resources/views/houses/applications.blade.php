@@ -1,5 +1,5 @@
 @forelse($bookings as $booking)
-    <div class="row pb-1 pt-2 h5 @if ($booking->new == \App\Booking::STATUS_BOOKING_NEW && $booking->status <> \App\Booking::STATUS_BOOKING_ACCEPT || $booking->status == \App\Booking::STATUS_BOOKING_SEND) bg-new @endif">
+    <div class="row pb-1 pt-2 h5 @if ($booking->new == \App\Booking::STATUS_BOOKING_NEW && $booking->status != \App\Booking::STATUS_BOOKING_ACCEPT) bg-new @endif">
 
         <div class="col-md-2">
             <a href="{{ route('house.show', $booking->house->id) }}">
@@ -15,7 +15,10 @@
                 {{ $booking->house->city }}
             </div>
             <div>
-                {{ __('Application from') }}: {{ $booking->user->name }} {{ $booking->user->surname }}
+                {{ __('Application from') }}:
+                <a class="text-dark" href="{{ route('profile.show', $booking->user->id) }}">
+                    {{ $booking->user->name }} {{ $booking->user->surname }}
+                </a>
             </div>
             <div>
                 {{ Carbon\Carbon::parse($booking->arrival)->format('d/m/y') }} - {{ Carbon\Carbon::parse($booking->departure)->format('d/m/y') }}
@@ -47,11 +50,8 @@
         <div class="col-md-2">
             <form method="post" action="{{ route('booking.update', $booking->id) }}">
                 @csrf
-                @if ($booking->new == \App\Booking::STATUS_BOOKING_NEW && $booking->status <> \App\Booking::STATUS_BOOKING_ACCEPT)
-                    <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_VIEWED}}">
-                    <button class="btn btn-sm btn-outline-primary ml-5">{{ __('Ok (new)') }}</button>
-                @elseif($booking->status <> \App\Booking::STATUS_BOOKING_SEND && $booking->status <> \App\Booking::STATUS_BOOKING_ACCEPT)
-                    <input type="hidden" name="status" value="{{\App\Booking::STATUS_BOOKING_DELETE}}">
+                @if($booking->status <> \App\Booking::STATUS_BOOKING_SEND && $booking->status <> \App\Booking::STATUS_BOOKING_ACCEPT)
+                    <input type="hidden" name="status" value="{{ \App\Booking::STATUS_BOOKING_DELETE }}">
                     <button class="btn btn-sm btn-outline-secondary ml-5">
                         {{ __('Hide') }}
                     </button>
@@ -68,13 +68,13 @@
 @empty
     <div class="row justify-content-center">
         <div class="col-md-12 p-3 h4">
-            {{ __('No incoming applications') }}
+            {{ __('No applications') }}
         </div>
     </div>
 @endforelse
 
 <div class="row offset-1">
     <div class="col-6">
-        {{$bookings->links()}}
+        {{ $bookings->links() }}
     </div>
 </div>

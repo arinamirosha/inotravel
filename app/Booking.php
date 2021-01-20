@@ -21,6 +21,8 @@ class Booking extends Model
     const STATUS_BOOKING_NEW = 7;
     const STATUS_BOOKING_VIEWED = 8;
 
+    const STATUS_BOOKING_ALL = 9;
+
     protected $guarded = [];
     protected $fillable = ['house_id', 'status', 'new', 'arrival', 'departure', 'people'];
 

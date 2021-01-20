@@ -4,7 +4,7 @@
         {{ __('New application status') }}
     </div>
     <div>
-        {{ __('from') }} <b>{{$booking->arrival}}</b> {{ __('to') }} <b>{{$booking->departure}}</b>:
+        {{ __('from') }} <b>{{ $booking->arrival }}</b> {{ __('to') }} <b>{{ $booking->departure }}</b>:
     </div>
     <div class="font-weight-bold m-3">
         @switch($booking->status)
@@ -16,9 +16,9 @@
     </div>
 @endcomponent
 @component('mail::panel')
-    {{ __('Accommodation name') }}: <b>{{$booking->house->name}}</b>
+    {{ __('Accommodation name') }}: <b>{{ $booking->house->name }}</b>
 @endcomponent
 @component('mail::panel')
-    {{ __('City') }}: <b>{{$booking->house->city}}</b>
+    {{ __('City') }}: <b>{{ $booking->house->city }}</b>
 @endcomponent
 @endcomponent

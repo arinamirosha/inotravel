@@ -35,16 +35,17 @@ class BookingController extends Controller
      * Create a new booking if house exists and free
      *
      * @param Request $request
+     *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function store(Request $request)
     {
         $houseId = $request->houseId;
-        $house = House::find($houseId);
+        $house   = House::find($houseId);
 
-        $arrival = $request->arrival;
+        $arrival   = $request->arrival;
         $departure = $request->departure;
-        $people = $request->people;
+        $people    = $request->people;
 
         if ($house && $house->isFree($arrival, $departure, $people)) {
             event(new NewBookingEvent($houseId, $arrival, $departure, $people));
@@ -57,18 +58,27 @@ class BookingController extends Controller
      * Show outgoing bookings (except cancelled)
      *
      * @param Request $request
+     *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
     {
-        $userId = Auth::id();
+        $userId   = Auth::id();
         $bookings = Booking::where('user_id', '=', $userId)
-            ->where('status', '<>', Booking::STATUS_BOOKING_CANCEL)
-            ->orderBy('updated_at', 'desc')
-            ->with(['house', 'house.user'])
-            ->paginate(15);
+                           ->where('status', '<>', Booking::STATUS_BOOKING_CANCEL);
 
-        if ($request->ajax()) {
+        $select = $request->select;
+        if ($select && $select != Booking::STATUS_BOOKING_ALL)
+        {
+            $bookings = $bookings->where('status', '=', $select);
+        }
+
+        $bookings = $bookings->orderBy('updated_at', 'desc')
+                             ->with(['house', 'house.user'])
+                             ->paginate(15);
+
+        if ($request->ajax())
+        {
             return view('booking.applications', compact('bookings'));
         }
 
@@ -79,24 +89,31 @@ class BookingController extends Controller
      * Apply filters to booking history or show full history (first page load)
      *
      * @param HistoryFilterRequest $request
+     *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function history(HistoryFilterRequest $request)
     {
         $userId = Auth::id();
 
-        if ($request->has('clearHistory')) {
+        if ($request->has('clearHistory'))
+        {
             BookingHistory::where('user_id', '=', $userId)->delete();
         }
 
-        if ($request->ajax()) {
+        if ($request->ajax())
+        {
             $histories = $request->statuses ? BookingHistoryManager::getFilteredHistory($userId, $request) : [];
+
             return view('booking.history_result', compact('histories'));
-        } else {
+        }
+        else
+        {
             $histories = BookingHistory::where('user_id', '=', $userId)
-                ->orderBy('created_at', 'desc')
-                ->with(['booking', 'booking.user', 'booking.house', 'booking.house.user'])
-                ->paginate(15);
+                                       ->orderBy('created_at', 'desc')
+                                       ->with(['booking', 'booking.user', 'booking.house', 'booking.house.user'])
+                                       ->paginate(15);
+
             return view('booking.history', compact('histories'));
         }
     }
@@ -106,6 +123,7 @@ class BookingController extends Controller
      *
      * @param Booking $booking
      * @param Request $request
+     *
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
@@ -114,7 +132,8 @@ class BookingController extends Controller
         $booking->load('user', 'house', 'house.user');
         $status = $request->status;
 
-        switch ($status) {
+        switch ($status)
+        {
             case Booking::STATUS_BOOKING_ACCEPT:
             case Booking::STATUS_BOOKING_REJECT:
                 event(new BookingAnswerEvent($booking, $status));
@@ -131,13 +150,41 @@ class BookingController extends Controller
             case Booking::STATUS_BOOKING_DELETE:
                 $booking->delete();
                 break;
-
-            case Booking::STATUS_BOOKING_VIEWED:
-                $booking->update(['new' => $status]);
-                break;
         }
 
         return back();
+    }
+
+    /**
+     * Make bookings viewed by ajax
+     *
+     * @param Request $request
+     */
+    public function viewed(Request $request)
+    {
+        $user = Auth::user();
+
+        switch ($request->page)
+        {
+            case 'bookings':
+                $user->bookings()
+                     ->where('new', '=', Booking::STATUS_BOOKING_NEW)
+                     ->whereIn('status', [Booking::STATUS_BOOKING_ACCEPT, Booking::STATUS_BOOKING_REJECT])
+                     ->update(['new' => Booking::STATUS_BOOKING_VIEWED]);
+                break;
+            case 'houses':
+                $houses = $user->houses()->get();
+                foreach ($houses as $house)
+                {
+                    $house->bookings()
+                          ->where('new', '=', Booking::STATUS_BOOKING_NEW)
+                          ->whereIn('status', [Booking::STATUS_BOOKING_CANCEL, Booking::STATUS_BOOKING_SEND])
+                          ->update(['new' => Booking::STATUS_BOOKING_VIEWED]);
+                }
+                break;
+        }
+
+        return true;
     }
 
 }

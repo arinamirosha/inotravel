@@ -8,7 +8,7 @@
                 {{ __('Approved application') }}
             </div>
             <div>
-                {{ __('from') }} <b>{{$arrival}}</b> {{ __('to') }} <b>{{$departure}}</b>
+                {{ __('from') }} <b>{{ $arrival }}</b> {{ __('to') }} <b>{{ $departure }}</b>
             </div>
             <div class="m-3">
                 <div class="font-weight-bold h2">
@@ -19,10 +19,10 @@
                 </div>
             </div>
             <div>
-                {{ __('Accommodation name') }}: <b>{{$name}}</b>
+                {{ __('Accommodation name') }}: <b>{{ $name }}</b>
             </div>
             <div>
-                {{ __('City') }}: <b>{{$city}}</b>
+                {{ __('City') }}: <b>{{ $city }}</b>
             </div>
         </div>
     </div>

@@ -26,8 +26,8 @@ class HistoryFilterRequest extends FormRequest
     public function rules()
     {
         return [
-            'city' => ['string', 'max:255', 'nullable'],
-            'arrival' => ['date', 'nullable'],
+            'city'      => ['string', 'max:255', 'nullable'],
+            'arrival'   => ['date', 'nullable'],
             'departure' => ['date', 'nullable', 'after:arrival', new TwoMonths($this->input('arrival'))],
         ];
     }
@@ -39,11 +39,13 @@ class HistoryFilterRequest extends FormRequest
      */
     public function messages()
     {
-        if (App::isLocale('ru')) {
+        if (App::isLocale('ru'))
+        {
             return [
                 'departure.after' => __('messages.after_arrival'),
             ];
         }
+
         return [];
     }
 }

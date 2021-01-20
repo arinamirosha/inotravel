@@ -22,7 +22,7 @@
                 </div>
 
                 <div class="row justify-content-center text-center">
-                    @if(! Auth::check() || ! Auth::user()->houses()->exists())
+                    @if(!Auth::check() || !Auth::user()->houses()->exists())
                         <a href="{{ route('house.create') }}" class="btn btn-dark btn-block w-25">{{ __('I will accept guests!') }}</a>
                     @endif
                 </div>

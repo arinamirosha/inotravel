@@ -14,6 +14,7 @@ class BookingHistoryManager
      *
      * @param $userId
      * @param $request
+     *
      * @return mixed
      */
     public function getFilteredHistory($userId, $request)
@@ -21,21 +22,25 @@ class BookingHistoryManager
         $requestData = $request->all();
 
         $histories = BookingHistory::where('booking_histories.user_id', '=', $userId)
-            ->leftJoin('bookings', 'booking_id', '=', 'bookings.id')
-            ->leftJoin('houses', 'bookings.house_id', '=', 'houses.id');
+                                   ->leftJoin('bookings', 'booking_id', '=', 'bookings.id')
+                                   ->leftJoin('houses', 'bookings.house_id', '=', 'houses.id');
 
         // if city/arrival/departure specified add where clause
-        if ($requestData['city']) {
+        if ($requestData['city'])
+        {
             $histories = $histories->where('city', 'like', "%" . $requestData['city'] . "%");
         }
-        if ($requestData['arrival']) {
+        if ($requestData['arrival'])
+        {
             $histories = $histories->where('arrival', '=', $requestData['arrival']);
         }
-        if ($requestData['departure']) {
+        if ($requestData['departure'])
+        {
             $histories = $histories->where('departure', '=', $requestData['departure']);
         }
 
-        switch ($requestData['searchAppsHouses']) {
+        switch ($requestData['searchAppsHouses'])
+        {
             case BookingHistory::MY_ACCOMMODATION: // bookings for user houses (user - owner)
                 $histories = $histories->where('houses.user_id', '=', $userId);
                 break;
@@ -45,10 +50,13 @@ class BookingHistoryManager
         }
 
         // filter type of action with booking
-        if ($request->has('statuses')) {
+        if ($request->has('statuses'))
+        {
             $arr = [];
-            foreach ($requestData['statuses'] as $status) {
-                switch ($status) {
+            foreach ($requestData['statuses'] as $status)
+            {
+                switch ($status)
+                {
                     case Booking::STATUS_BOOKING_SEND:
                         array_push($arr, BookingHistory::TYPE_SENT, BookingHistory::TYPE_RECEIVED);
                         break;
@@ -72,7 +80,8 @@ class BookingHistoryManager
             $histories = $histories->whereIn('type', $arr);
         }
 
-        switch ($requestData['searchOutIn']) {
+        switch ($requestData['searchOutIn'])
+        {
             case BookingHistory::OUTGOING: // user did something with booking (user's action)
                 $histories = $histories->whereIn('type', [
                     BookingHistory::TYPE_SENT,

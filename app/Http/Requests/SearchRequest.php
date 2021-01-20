@@ -26,10 +26,10 @@ class SearchRequest extends FormRequest
     public function rules()
     {
         return [
-            'where' => ['required', 'string', 'max:255'],
-            'arrival' => ['required', 'date', 'after:yesterday'],
+            'where'     => ['required', 'string', 'max:255'],
+            'arrival'   => ['required', 'date', 'after:yesterday'],
             'departure' => ['required', 'date', 'after:arrival', new TwoMonths($this->input('arrival'))],
-            'people' => ['required', 'numeric', 'max:100', 'min:1'],
+            'people'    => ['required', 'numeric', 'max:100', 'min:1'],
         ];
     }
 
@@ -40,12 +40,14 @@ class SearchRequest extends FormRequest
      */
     public function messages()
     {
-        if (App::isLocale('ru')) {
+        if (App::isLocale('ru'))
+        {
             return [
-                'arrival.after' => __('messages.from_today'),
+                'arrival.after'   => __('messages.from_today'),
                 'departure.after' => __('messages.after_arrival'),
             ];
         }
+
         return [];
     }
 }

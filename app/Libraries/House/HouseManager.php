@@ -54,7 +54,8 @@ class HouseManager
             // each house with right city or specific house
             ->leftJoin('houses', function ($query) use ($whereOrId, $whatToGet) {
 
-                switch ($whatToGet) {
+                switch ($whatToGet)
+                {
                     case House::ALL_HOUSES: // when searching among all houses
                         $query->on(DB::raw(1), '=', DB::raw(1))
                             ->where('city', 'like', "%$whereOrId%");

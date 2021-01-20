@@ -19,30 +19,31 @@ class NewBookingListener
      * Create new booking, add to history and dispatch SendNewBookingEmail job.
      *
      * @param NewBookingEvent $event
+     *
      * @return void
      */
     public function handle(NewBookingEvent $event)
     {
-        $user = Auth::user();
+        $user    = Auth::user();
         $booking = $user->bookings()->create([
-            'house_id' => $event->houseId,
-            'arrival' => $event->arrival,
+            'house_id'  => $event->houseId,
+            'arrival'   => $event->arrival,
             'departure' => $event->departure,
-            'people' => $event->people,
-            'status' => Booking::STATUS_BOOKING_SEND,
-            'new' => Booking::STATUS_BOOKING_VIEWED,
+            'people'    => $event->people,
+            'status'    => Booking::STATUS_BOOKING_SEND,
+            'new'       => Booking::STATUS_BOOKING_NEW,
         ]);
 
         BookingHistory::create([
-            'user_id' => $booking->user_id,
+            'user_id'    => $booking->user_id,
             'booking_id' => $booking->id,
-            'type' => BookingHistory::TYPE_SENT,
+            'type'       => BookingHistory::TYPE_SENT,
         ]);
 
         BookingHistory::create([
-            'user_id' => $booking->house->user_id,
+            'user_id'    => $booking->house->user_id,
             'booking_id' => $booking->id,
-            'type' => BookingHistory::TYPE_RECEIVED,
+            'type'       => BookingHistory::TYPE_RECEIVED,
         ]);
 
         SendNewBookingEmail::dispatch($booking->house->user->email, $booking)->delay(now()->addSeconds(10));

@@ -10,6 +10,10 @@
     <title>@yield('title', config('app.name', 'Laravel'))</title>
 
     <!-- Scripts -->
+    @if(Auth::check())
+    <script> var user = {!! Auth::user()->toJson() !!} </script>
+    @endif
+
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
@@ -93,27 +97,27 @@
                                         </a>
                                     </div>
                                     <div class="pr-3">
-                                        <a class="navbar-item" href="{{ route('admin.index') }}">
-                                            {{ __('Users') }}
+                                        <a class="navbar-item" href="{{ route('admin.index') }}">{{ __('Users') }}
+                                            <span id="newUsers">{{ Auth::user()->newNotifications() }}</span>
                                         </a>
                                     </div>
                                 @endif
 
                                 <div class="pr-3">
-                                    <a class="navbar-item" href="{{ route('profile.edit') }}">
+                                    <a class="navbar-item" href="{{ route('profile.show', Auth::user()->id) }}">
                                         {{ Auth::user()->name }} {{ Auth::user()->surname }}
                                     </a>
                                 </div>
 
                                 <div class="pr-3">
                                     <a class="navbar-item" href="{{ route('house.index') }}">{{ __('My accommodation') }}
-                                        {{ Auth::user()->newInBooks() }}
+                                        <span id="newInBooks">{{ Auth::user()->newInBooks() }}</span>
                                     </a>
                                 </div>
 
                                 <div class="pr-3">
                                     <a class="navbar-item" href="{{ route('booking.index') }}">{{ __('Applications') }}
-                                        {{ Auth::user()->unreadOutBooks() }}
+                                        <span id="newOutBooks">{{ Auth::user()->unreadOutBooks() }}</span>
                                     </a>
                                 </div>
 
@@ -140,6 +144,11 @@
         </nav>
 
         <main class="py-4">
+
+            <div aria-live="polite" aria-atomic="true" class="position-relative">
+                <div class="toast-container position-absolute p-3" id="toast-container"></div>
+            </div>
+
             <div class="row">
                 @yield('filters')
                 @yield('content')

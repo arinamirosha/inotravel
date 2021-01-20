@@ -24,12 +24,12 @@ class HouseRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'city' => ['required', 'string', 'max:255'],
+            'name'    => ['required', 'string', 'max:255'],
+            'city'    => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
-            'places' => ['required', 'numeric', 'max:100', 'min:1'],
-            'info' => ['max:1000'],
-            'imgId' => ['numeric', 'nullable', 'exists:temporary_images,id'],
+            'places'  => ['required', 'numeric', 'max:100', 'min:1'],
+            'info'    => ['max:1000'],
+            'imgId'   => ['numeric', 'nullable', 'exists:temporary_images,id'],
         ];
     }
 

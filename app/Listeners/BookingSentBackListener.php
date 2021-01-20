@@ -15,7 +15,8 @@ class BookingSentBackListener
      * Handle the event.
      * Update booking status, add to history, dispatch SendBookingChangedEmail job and soft delete booking.
      *
-     * @param  BookingSentBackEvent  $event
+     * @param BookingSentBackEvent $event
+     *
      * @return void
      */
     public function handle(BookingSentBackEvent $event)
@@ -24,15 +25,15 @@ class BookingSentBackListener
         $booking->update(['status' => Booking::STATUS_BOOKING_SEND_BACK]);
 
         BookingHistory::create([
-            'user_id' => $booking->user_id,
+            'user_id'    => $booking->user_id,
             'booking_id' => $booking->id,
-            'type' => BookingHistory::TYPE_SENT_BACK,
+            'type'       => BookingHistory::TYPE_SENT_BACK,
         ]);
 
         BookingHistory::create([
-            'user_id' => $booking->house->user_id,
+            'user_id'    => $booking->house->user_id,
             'booking_id' => $booking->id,
-            'type' => BookingHistory::TYPE_SENT_BACK_INFO,
+            'type'       => BookingHistory::TYPE_SENT_BACK_INFO,
         ]);
 
         SendBookingChangedEmail::dispatch($booking->house->user->email, $booking)->delay(now()->addSeconds(10));

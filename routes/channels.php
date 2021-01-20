@@ -1,5 +1,6 @@
 <?php
 
+use App\House;
 use Illuminate\Support\Facades\Broadcast;
 
 /*

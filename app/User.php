@@ -5,17 +5,23 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
     use Notifiable;
+
+    const NO_ADMIN = 0;
+    const ADMIN = 1;
+    const SUPER_ADMIN = 2;
+    const ALL = 3;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'surname', 'email', 'password', 'admin'];
+    protected $fillable = ['name', 'surname', 'email', 'password', 'admin', 'avatar'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -77,6 +83,31 @@ class User extends Authenticatable
     }
 
     /**
+     * Get path to user's avatar
+     *
+     * @return string
+     */
+    public function avatarImg()
+    {
+        $imagePath = ($this->avatar) ? Storage::url($this->avatar) : '/images/noImage.svg';
+
+        return $imagePath;
+    }
+
+    /**
+     * Delete user's avatar
+     */
+    public function deleteAvatar()
+    {
+        if ($this->avatar)
+        {
+            Storage::delete("public/$this->avatar");
+            $this->avatar = null;
+            $this->save();
+        }
+    }
+
+    /**
      * Get count of income bookings
      *
      * @return string
@@ -84,15 +115,12 @@ class User extends Authenticatable
     public function newInBooks()
     {
         $newInBooks = Booking::join('houses', 'houses.id', '=', 'house_id')
-            ->where('houses.user_id', '=', $this->id)
-            ->where(function ($query) {
-                $query->where('status', '=', Booking::STATUS_BOOKING_SEND)
-                    ->orWhere('new', '=', Booking::STATUS_BOOKING_NEW);
-            })
-            ->where('status', '<>', Booking::STATUS_BOOKING_ACCEPT)
-            ->where('status', '<>', Booking::STATUS_BOOKING_REJECT)
-            ->select('bookings.*')
-            ->count();
+                             ->where('houses.user_id', '=', $this->id)
+                             ->where('new', '=', Booking::STATUS_BOOKING_NEW)
+                             ->where('status', '<>', Booking::STATUS_BOOKING_ACCEPT)
+                             ->where('status', '<>', Booking::STATUS_BOOKING_REJECT)
+                             ->select('bookings.*')
+                             ->count();
 
         return $newInBooks != 0 ? "(+$newInBooks)" : '';
     }
@@ -105,10 +133,23 @@ class User extends Authenticatable
     public function unreadOutBooks()
     {
         $unreadOutBooks = Booking::where('user_id', '=', $this->id)
-            ->where('new', '=', Booking::STATUS_BOOKING_NEW)
-            ->where('status', '<>', Booking::STATUS_BOOKING_CANCEL)
-            ->count();
+                                 ->where('new', '=', Booking::STATUS_BOOKING_NEW)
+                                 ->where('status', '<>', Booking::STATUS_BOOKING_SEND)
+                                 ->where('status', '<>', Booking::STATUS_BOOKING_CANCEL)
+                                 ->count();
 
         return $unreadOutBooks != 0 ? "(+$unreadOutBooks)" : '';
+    }
+
+    /**
+     * Get count of unread notifications
+     *
+     * @return string
+     */
+    public function newNotifications()
+    {
+        $newNotifications = $this->unreadNotifications->count();
+
+        return $newNotifications != 0 ? "(+$newNotifications)" : '';
     }
 }

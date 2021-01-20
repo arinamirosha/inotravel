@@ -24,7 +24,7 @@ class BookingHistory extends Model
     const TYPE_DELETED_INFO = 12;
 
     const MY_ACCOMMODATION = 13;
-    const MY_APPLICATIONS =14;
+    const MY_APPLICATIONS = 14;
     const ALL = 15;
     const OUTGOING = 16;
     const INCOMING = 17;

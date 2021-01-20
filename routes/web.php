@@ -25,12 +25,15 @@ Route::group([
 
         Route::middleware('admin')->group(function () {
             Route::get('/admin', 'AdminController@index')->name('admin.index');
+            Route::post('/admin/mark-as-read', 'AdminController@markAsRead')->name('admin.mark-as-read');
             Route::post('/admin/{user}/update', 'AdminController@update')->name('admin.update');
         });
 
+        Route::get('/profile/{user}/show', 'ProfilesController@show')->name('profile.show');
         Route::get('/profile/edit', 'ProfilesController@edit')->name('profile.edit');
         Route::post('/profile/update', 'ProfilesController@update')->name('profile.update');
         Route::post('/profile/update-password', 'ProfilesController@updatePassword')->name('profile.update_password');
+        Route::post('/upload-avatar', 'ProfilesController@uploadAvatar')->name('profile.upload-avatar');
 
         Route::get('/house/create', 'HousesController@create')->name('house.create');
         Route::get('/house', 'HousesController@index')->name('house.index');
@@ -48,6 +51,9 @@ Route::group([
         Route::post('/booking', 'BookingController@store')->name('booking.store');
         Route::post('/booking/{booking}/update', 'BookingController@update')->name('booking.update');
 
+        Route::get('/viewed', 'BookingController@viewed');
+        Route::post('/toast', 'ToastController');
+
         // идет не в post
         Route::get('/profile/update', function ($user) { return redirect(route('profile.edit', $user)); });
         Route::get('/profile/update-password', function ($user) { return redirect(route('profile.edit', $user)); });
@@ -55,5 +61,8 @@ Route::group([
         Route::get('/booking/{booking}/update', function () { return redirect(route('booking.index')); });
         Route::get('/admin/{user}/update', function () { return redirect(route('admin.index')); });
         Route::get('/upload-image', function () { return redirect(route('house.index')); });
+        Route::get('/upload-avatar', function ($user) { return redirect(route('profile.edit', $user)); });
+        Route::get('/toast', function () { return redirect(route('welcome')); });
+        Route::get('/admin/mark-as-read/{id}', function () { return redirect(route('admin.index')); });
     }
 );

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\User;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,11 +13,13 @@ class CheckAdmin
      *
      * @param \Illuminate\Http\Request $request
      * @param \Closure $next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
-        if (!Auth::user()->admin) {
+        if (Auth::user()->admin == User::NO_ADMIN)
+        {
             return abort(403);
         }
 
