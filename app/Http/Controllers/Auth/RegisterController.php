@@ -97,7 +97,7 @@ class RegisterController extends Controller
         event(new Registered($user = $this->create($request->all())));
 
         // Notify admins about new user
-        $users = User::where('admin', '<>', '0')->get();
+        $users = User::where('admin', '<>', User::NO_ADMIN)->get();
         Notification::send($users, new NewUserNotification($user));
 
         $this->guard()->login($user);

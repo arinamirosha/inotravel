@@ -58,11 +58,9 @@ class AdminController extends Controller
 
     public function markAsRead(Request $request)
     {
-        $notificationId = $request->notificationId;
-
-        if ($notificationId)
+        if ($request->has('notificationId'))
         {
-            Auth::user()->unreadNotifications->where('id', '=', $notificationId)->markAsRead();
+            Auth::user()->unreadNotifications->where('id', '=', $request->notificationId)->markAsRead();
         }
         else
         {
@@ -81,9 +79,7 @@ class AdminController extends Controller
      */
     public function update(User $user)
     {
-        $user->admin ?
-            $user->update(['admin' => User::NO_ADMIN]) :
-            $user->update(['admin' => User::ADMIN]);
+        $user->update(['admin' => $user->admin ? User::NO_ADMIN : User::ADMIN]);
 
         return redirect(route('admin.index'));
     }
