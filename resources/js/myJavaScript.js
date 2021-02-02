@@ -64,17 +64,7 @@ $('document').ready(function () {
         e.preventDefault();
         var href = $(this).attr('href');
         var page = href.split('page=')[1];
-        if (href.includes('history')) {
-            getHistory(page);
-        } else if (href.includes('search')) {
-            getSearch(page);
-        } else if (href.includes('booking') || href.includes('house')) {
-            getSelect(page);
-        } else if (href.includes('admin')) {
-            getSearchUser(page);
-        } else {
-            getData(page);
-        }
+        location.hash = page;
     });
 
     var href = window.location.href;
