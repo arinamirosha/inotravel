@@ -101,7 +101,7 @@ class User extends Authenticatable
     {
         if ($this->avatar)
         {
-            Storage::delete("public/$this->avatar");
+            Storage::disk('public')->delete($this->avatar);
             $this->avatar = null;
             $this->save();
         }
