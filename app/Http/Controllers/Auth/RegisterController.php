@@ -83,18 +83,4 @@ class RegisterController extends Controller
             'admin' => User::NO_ADMIN,
         ]);
     }
-
-    /**
-     * The user has been registered.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $user
-     * @return mixed
-     */
-    protected function registered(\Illuminate\Http\Request $request, $user)
-    {
-        // Notify admins and super admins about new user
-        $users = User::where('admin', '<>', User::NO_ADMIN)->get();
-        Notification::send($users, new NewUserNotification($user));
-    }
 }

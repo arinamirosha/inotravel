@@ -12,6 +12,7 @@ use App\Listeners\BookingAnswerListener;
 use App\Listeners\BookingCancelledListener;
 use App\Listeners\BookingSentBackListener;
 use App\Listeners\HouseDeletedListener;
+use App\Listeners\NewUserRegisteredListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -27,6 +28,7 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+            NewUserRegisteredListener::class,
         ],
         NewBookingEvent::class => [
             NewBookingListener::class,
