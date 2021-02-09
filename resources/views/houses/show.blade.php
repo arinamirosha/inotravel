@@ -36,14 +36,15 @@
                                                 <div class="alert alert-info text-center">{{ __('Free') }}
                                                 </div>
                                                 <div class="mb-1">
-                                                    <form action="{{ route('booking.store') }}" method="post">
-                                                        @csrf
-                                                        <input type="hidden" value="{{ $house->id }}" name="houseId">
-                                                        <input type="hidden" value="{{ $arrival }}" name="arrival">
-                                                        <input type="hidden" value="{{ $departure }}" name="departure">
-                                                        <input type="hidden" value="{{ $people }}" name="people">
-                                                        <button class="btn btn-outline-secondary btn-block">{{ __('Book now') }}</button>
-                                                    </form>
+                                                    <send-application
+                                                        route="{{ route('booking.store') }}"
+                                                        houseid="{{ $house->id }}"
+                                                        arrival="{{ $arrival }}"
+                                                        departure="{{ $departure }}"
+                                                        people="{{ $people }}"
+                                                        textbutton="{{ __('Book now') }}"
+                                                        textsent="{{ __('Application has been sent!') }}"
+                                                    ></send-application>
                                                 </div>
                                             @else
                                                 <div class="alert alert-info">{{ __('Dates are busy') }}

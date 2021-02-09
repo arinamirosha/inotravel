@@ -18,6 +18,7 @@ use App\House;
 use GuzzleHttp\Psr7\Uri;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Response;
 use SebastianBergmann\Comparator\Book;
 use Symfony\Component\Console\Input\Input;
 
@@ -49,9 +50,12 @@ class BookingController extends Controller
 
         if ($house && $house->isFree($arrival, $departure, $people)) {
             event(new NewBookingEvent($houseId, $arrival, $departure, $people));
+            return;
         }
+        return Response::json(['error' => __('Error! Refresh the page.')], 422);
 
-        return back();
+//        return $request;
+//        return back();
     }
 
     /**
