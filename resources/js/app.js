@@ -22,6 +22,7 @@ window.Vue = require('vue');
 
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('send-application', require('./components/SendApplication.vue').default);
+Vue.component('new-user-notifications', require('./components/NewUserNotifications.vue').default);
 Vue.component('sync-loader', require('vue-spinner/src/SyncLoader.vue').default);
 
 /**

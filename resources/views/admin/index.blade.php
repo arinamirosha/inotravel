@@ -8,22 +8,13 @@
     <div class="container light-bg">
 
         @if($notifications->isNotEmpty())
-            <div class="row justify-content-center mb-4">
-
-                <form action="{{ route('admin.mark-as-read') }}" method="post">
-                    @csrf
-                    <button class="btn btn-outline-secondary">{{ __('Mark All As Read') }}</button>
-                </form>
-
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-md-10">
-
-                    @include('admin.notifications')
-
-                </div>
-            </div>
-            <div class="row border-top border-dark mt-3 mb-4"></div>
+            <new-user-notifications
+                route="{{ route('admin.mark-as-read') }}"
+                showroute="{{ route('profile.show', 'userid') }}"
+                notifications="{{ json_encode($notifications) }}"
+                textbutton="{{ __('Mark As Read') }}"
+                textbuttonall="{{ __('Mark All As Read') }}"
+            ></new-user-notifications>
         @endif
 
         <form action="{{ route('admin.index') }}" method="get" id="search-user-form">

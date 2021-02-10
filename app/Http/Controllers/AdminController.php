@@ -67,7 +67,7 @@ class AdminController extends Controller
             Auth::user()->unreadNotifications->markAsRead();
         }
 
-        return redirect(route('admin.index'));
+        return;
     }
 
     /**

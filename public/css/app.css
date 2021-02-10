@@ -10973,3 +10973,26 @@ body {
   font-family: "Manrope", sans-serif;
 }
 
+.notif-enter-active,
+.notif-leave-active {
+  transition: all 0.5s;
+}
+
+.notif-enter,
+.notif-leave-to {
+  transform: translateX(50px);
+  opacity: 0;
+}
+
+.notif_block-enter-active,
+.notif_block-leave-active {
+  transition: all 1s;
+}
+
+.notif_block-enter,
+.notif_block-leave-to {
+  transform: translateZ(-100px);
+  opacity: 0;
+  margin-bottom: -100%;
+}
+
