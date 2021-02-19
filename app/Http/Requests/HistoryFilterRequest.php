@@ -39,8 +39,7 @@ class HistoryFilterRequest extends FormRequest
      */
     public function messages()
     {
-        if (App::isLocale('ru'))
-        {
+        if (App::isLocale('ru')) {
             return [
                 'departure.after' => __('messages.after_arrival'),
             ];

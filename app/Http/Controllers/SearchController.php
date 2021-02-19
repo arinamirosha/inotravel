@@ -41,8 +41,7 @@ class SearchController extends Controller
         Cookie::queue('departure', $departure, 60);
         Cookie::queue('people', $people, 60);
 
-        if ($request->ajax())
-        {
+        if ($request->ajax()) {
             return view('search.houses', compact('houses'));
         }
 

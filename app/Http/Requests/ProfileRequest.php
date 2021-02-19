@@ -40,8 +40,7 @@ class ProfileRequest extends FormRequest
      */
     public function messages()
     {
-        if (App::isLocale('ru'))
-        {
+        if (App::isLocale('ru')) {
             return [
                 'email.unique' => __('messages.email_busy'),
             ];

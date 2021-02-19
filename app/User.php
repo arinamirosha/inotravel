@@ -99,8 +99,7 @@ class User extends Authenticatable
      */
     public function deleteAvatar()
     {
-        if ($this->avatar)
-        {
+        if ($this->avatar) {
             Storage::disk('public')->delete($this->avatar);
             $this->avatar = null;
             $this->save();

@@ -52,8 +52,7 @@ class HousesController extends Controller
     public function store(HouseRequest $request)
     {
         $requestData = $request->all();
-        if ($requestData['imgId'])
-        {
+        if ($requestData['imgId']) {
             $requestData['image'] = getImgFromTempById($requestData['imgId']);
         }
 
@@ -81,8 +80,7 @@ class HousesController extends Controller
                            ->where('status', '<>', Booking::STATUS_BOOKING_REJECT);
 
         $select = $request->select;
-        if ($select && $select != Booking::STATUS_BOOKING_ALL)
-        {
+        if ($select && $select != Booking::STATUS_BOOKING_ALL) {
             $bookings = $bookings->where('status', '=', $select);
         }
 
@@ -91,8 +89,7 @@ class HousesController extends Controller
                              ->orderBy('updated_at', 'desc')
                              ->paginate(10);
 
-        if ($request->ajax())
-        {
+        if ($request->ajax()) {
             return view('houses.applications', compact('bookings'));
         }
 
@@ -175,12 +172,9 @@ class HousesController extends Controller
     {
         $requestData = $request->all();
 
-        if ($request->filled('deleteImage'))
-        {
+        if ($request->filled('deleteImage')) {
             $house->deleteImage();
-        }
-        elseif ($requestData['imgId'])
-        {
+        } elseif ($requestData['imgId']) {
             $requestData['image'] = getImgFromTempById($requestData['imgId']);
         }
 
@@ -201,13 +195,11 @@ class HousesController extends Controller
      */
     public function uploadImage(ImageRequest $request)
     {
-        if ($request->imgId)
-        {
+        if ($request->imgId) {
             $imgPathToDelete = getImgFromTempById($request->imgId);
             Storage::disk('public')->delete($imgPathToDelete);
         }
-        if ($request->has('delete'))
-        {
+        if ($request->has('delete')) {
             return true;
         }
 

@@ -40,8 +40,7 @@ class SearchRequest extends FormRequest
      */
     public function messages()
     {
-        if (App::isLocale('ru'))
-        {
+        if (App::isLocale('ru')) {
             return [
                 'arrival.after'   => __('messages.from_today'),
                 'departure.after' => __('messages.after_arrival'),

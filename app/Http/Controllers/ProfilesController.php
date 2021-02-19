@@ -96,8 +96,7 @@ class ProfilesController extends Controller
         $user = Auth::user();
         $user->deleteAvatar();
 
-        if ($request->has('delete'))
-        {
+        if ($request->has('delete')) {
             return true;
         }
 

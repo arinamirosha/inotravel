@@ -47,11 +47,10 @@ class CleanImages extends Command
         $to     = $this->option('to');
         $userId = $this->option('user_id');
 
-        if ((!$from && $to && $userId) ||
-            ($from && !$to && $userId) ||
-            ($from && !($to || $userId)) ||
-            ($to && !($from || $userId)))
-        {
+        if (( ! $from && $to && $userId) ||
+            ($from && ! $to && $userId) ||
+            ($from && ! ($to || $userId)) ||
+            ($to && ! ($from || $userId))) {
             echo __('Wrong parameters');
 
             return false;
@@ -78,8 +77,7 @@ class CleanImages extends Command
             'userId' => ['numeric', 'nullable'],
         ], $messages);
 
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             $messages = $validator->errors()->getMessages();
             foreach ($messages as $message) {
                 echo $message[0] . "\n";

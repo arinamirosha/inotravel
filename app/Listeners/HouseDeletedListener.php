@@ -38,8 +38,7 @@ class HouseDeletedListener
 
         // Add to history for all
         $bookings = $house->bookings()->with(['user', 'house', 'house.user'])->get();
-        foreach ($bookings as $booking)
-        {
+        foreach ($bookings as $booking) {
             BookingHistory::create([
                 'user_id'    => $booking->user_id,
                 'booking_id' => $booking->id,

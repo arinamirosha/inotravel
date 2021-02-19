@@ -37,38 +37,27 @@ class CleanImages implements ShouldQueue
     {
         $data = $this->data;
 
-        if (!$data)
-        {
+        if ( ! $data) {
             // no parameters, get images uploaded more than 1 day ago
             $imagesToDelete = TemporaryImage::where('created_at', '<', Carbon::now()->subDay())->get();
-
-        }
-        else
-        {
+        } else {
             $from   = isset($data['from']) ? $data['from'] : null;
             $to     = isset($data['to']) ? $data['to'] : null;
             $userId = isset($data['userId']) ? $data['userId'] : null;
 
-            if ($from && $to && !$userId)
-            {
+            if ($from && $to && ! $userId) {
                 // only date range is set, get images uploaded between these dates
                 $imagesToDelete = TemporaryImage::whereBetween('created_at', [$from, $to])->get();
-            }
-            elseif ($from && $to && $userId)
-            {
+            } elseif ($from && $to && $userId) {
                 // date range and user id are specified, get images uploaded between these dates for that user
-                $imagesToDelete = TemporaryImage::whereBetween('created_at', [$from, $to])
-                                                ->where('user_id', '=', $userId)->get();
-            }
-            elseif (!($from || $to) && $userId)
-            {
+                $imagesToDelete = TemporaryImage::whereBetween('created_at', [$from, $to])->where('user_id', '=', $userId)->get();
+            } elseif ( ! ($from || $to) && $userId) {
                 // only user id is set, get images uploaded by this user
                 $imagesToDelete = TemporaryImage::where('user_id', '=', $userId)->get();
             }
         }
 
-        foreach ($imagesToDelete as $img)
-        {
+        foreach ($imagesToDelete as $img) {
             Storage::disk('public')->delete($img->image);
             $img->delete();
         }

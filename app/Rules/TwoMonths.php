@@ -23,8 +23,9 @@ class TwoMonths implements Rule
      * Determine if the validation rule passes.
      * Difference between departure and arrival maximum 60 days.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed $value
+     *
      * @return bool
      */
     public function passes($attribute, $value)

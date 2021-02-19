@@ -12,12 +12,9 @@ class ToastController extends Controller
         $requestData = $request->all();
         $data        = json_decode($requestData['ev'], true);
 
-        if (array_key_exists('type', $data) && $data['type'] == NewUserNotification::class)
-        {
+        if (array_key_exists('type', $data) && $data['type'] == NewUserNotification::class) {
             return view('toasts.new_user', compact('data'));
-        }
-        else
-        {
+        } else {
             return view('toasts.new_application', compact('data'));
         }
     }

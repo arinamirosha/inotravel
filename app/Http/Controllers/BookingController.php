@@ -50,12 +50,11 @@ class BookingController extends Controller
 
         if ($house && $house->isFree($arrival, $departure, $people)) {
             event(new NewBookingEvent($houseId, $arrival, $departure, $people));
+
             return;
         }
-        return Response::json(['error' => __('Error! Refresh the page.')], 422);
 
-//        return $request;
-//        return back();
+        return Response::json(['error' => __('Error! Refresh the page.')], 422);
     }
 
     /**
@@ -72,8 +71,7 @@ class BookingController extends Controller
                            ->where('status', '<>', Booking::STATUS_BOOKING_CANCEL);
 
         $select = $request->select;
-        if ($select && $select != Booking::STATUS_BOOKING_ALL)
-        {
+        if ($select && $select != Booking::STATUS_BOOKING_ALL) {
             $bookings = $bookings->where('status', '=', $select);
         }
 
@@ -81,8 +79,7 @@ class BookingController extends Controller
                              ->with(['house', 'house.user'])
                              ->paginate(15);
 
-        if ($request->ajax())
-        {
+        if ($request->ajax()) {
             return view('booking.applications', compact('bookings'));
         }
 
@@ -100,19 +97,15 @@ class BookingController extends Controller
     {
         $userId = Auth::id();
 
-        if ($request->has('clearHistory'))
-        {
+        if ($request->has('clearHistory')) {
             BookingHistory::where('user_id', '=', $userId)->delete();
         }
 
-        if ($request->ajax())
-        {
+        if ($request->ajax()) {
             $histories = $request->statuses ? BookingHistoryManager::getFilteredHistory($userId, $request) : [];
 
             return view('booking.history_result', compact('histories'));
-        }
-        else
-        {
+        } else {
             $histories = BookingHistory::where('user_id', '=', $userId)
                                        ->orderBy('created_at', 'desc')
                                        ->with(['booking', 'booking.user', 'booking.house', 'booking.house.user'])
@@ -136,8 +129,7 @@ class BookingController extends Controller
         $booking->load('user', 'house', 'house.user');
         $status = $request->status;
 
-        switch ($status)
-        {
+        switch ($status) {
             case Booking::STATUS_BOOKING_ACCEPT:
             case Booking::STATUS_BOOKING_REJECT:
                 event(new BookingAnswerEvent($booking, $status));
@@ -168,8 +160,7 @@ class BookingController extends Controller
     {
         $user = Auth::user();
 
-        switch ($request->page)
-        {
+        switch ($request->page) {
             case 'bookings':
                 $user->bookings()
                      ->where('new', '=', Booking::STATUS_BOOKING_NEW)
@@ -178,8 +169,7 @@ class BookingController extends Controller
                 break;
             case 'houses':
                 $houses = $user->houses()->get();
-                foreach ($houses as $house)
-                {
+                foreach ($houses as $house) {
                     $house->bookings()
                           ->where('new', '=', Booking::STATUS_BOOKING_NEW)
                           ->whereIn('status', [Booking::STATUS_BOOKING_CANCEL, Booking::STATUS_BOOKING_SEND])
