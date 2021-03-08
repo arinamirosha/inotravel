@@ -57289,6 +57289,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var AVATAR = 'avatar';
 var HOUSE_IMAGE = 'houseImage';
+var HOUSE_IMAGES = 'houseImages';
 $('document').ready(function () {
   if (typeof user !== 'undefined') {
     Echo["private"]('App.User.' + user.id).notification(function (e) {
@@ -57308,6 +57309,18 @@ $('document').ready(function () {
   $("#avatar").change(function (e) {
     e.preventDefault();
     uploadImageAjax($(this), AVATAR);
+  });
+  $("#images").change(function (e) {
+    e.preventDefault();
+    uploadHouseImagesAjax($(this));
+  });
+  $('#gallery a').click(function (e) {
+    e.preventDefault();
+  });
+  $('#gallery a.after-validation-error').click(function (e) {
+    var id = $(this).attr('id');
+    form = $("#form-more-images-ajax");
+    deleteImgFromGallery(id, form);
   });
   $('#deletePhoto').click(function () {
     deleteImageAjax(HOUSE_IMAGE);
@@ -57479,6 +57492,110 @@ function deleteImageAjax(type) {
           $('#deleteAvatar').addClass('invisible');
           break;
       }
+    },
+    error: function error(data) {
+      console.log(data);
+    }
+  });
+}
+
+function uploadHouseImagesAjax(input) {
+  var formData = new FormData();
+  var form = $("#form-more-images-ajax");
+  var files = input.prop('files');
+  var totalfiles = files.length;
+  var process = $("#form-more-images-ajax #process");
+  var msg = $('#message-images');
+  msg.fadeOut();
+  $('#imagesError').fadeOut();
+
+  if (totalfiles !== 0) {
+    for (var index = 0; index < totalfiles; index++) {
+      formData.append("images[]", files[index]);
+    }
+
+    formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+    $.ajax({
+      url: form.attr('action'),
+      type: form.attr('method'),
+      processData: false,
+      contentType: false,
+      cache: false,
+      dataType: 'json',
+      data: formData,
+      beforeSend: function beforeSend() {
+        process.fadeIn();
+      },
+      complete: function complete() {
+        process.fadeOut();
+      },
+      success: function success(data) {
+        var gallery = $('#gallery');
+        var inputGallery = $('#input-gallery');
+        data.forEach(function (img) {
+          var imgElement = new Image(100, 100);
+          imgElement.src = window.location.origin + '/storage/' + img.image;
+          var a = document.createElement("A");
+          a.href = '#';
+          a.innerHTML = '<i class="far fa-trash-alt"></i>';
+
+          a.onclick = function (id) {
+            return function () {
+              deleteImgFromGallery(id, form);
+            };
+          }(img.id);
+
+          var divWrap = document.createElement("DIV");
+          var divImage = document.createElement("DIV");
+          var divDeleteLink = document.createElement("DIV");
+          divWrap.classList.add("col-md-2");
+          divWrap.setAttribute("id", "gallery-img-" + img.id);
+          divImage.append(imgElement);
+          divDeleteLink.append(a);
+          divWrap.append(divImage);
+          divWrap.append(divDeleteLink);
+          gallery.append(divWrap);
+          var input = document.createElement("INPUT");
+          input.setAttribute("id", "input-gallery-img-" + img.id);
+          input.type = "text";
+          input.name = "images[]";
+          input.value = img.id;
+          inputGallery.append(input);
+        });
+      },
+      error: function error(data) {
+        var response = JSON.parse(data.responseText);
+        var errors = response.errors;
+        var errorMessage = errors[Object.keys(errors)[0]][0];
+        msg.html(errorMessage);
+        msg.fadeIn();
+      }
+    });
+  }
+}
+
+function deleteImgFromGallery(id, form) {
+  var process = $("#form-more-images-ajax #process");
+  var formData = new FormData();
+  formData.append('imgId', id);
+  formData.append('delete', 'on');
+  formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+  $.ajax({
+    url: form.attr('action'),
+    type: form.attr('method'),
+    processData: false,
+    contentType: false,
+    cache: false,
+    data: formData,
+    beforeSend: function beforeSend() {
+      process.fadeIn();
+    },
+    complete: function complete() {
+      process.fadeOut();
+    },
+    success: function success(data) {
+      $('#gallery-img-' + id).remove();
+      $('#input-gallery-img-' + id).remove();
     },
     error: function error(data) {
       console.log(data);

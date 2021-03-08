@@ -25,6 +25,8 @@ class ImageRequest extends FormRequest
     {
         return [
             'file' => ['image', 'nullable'],
+            'images' => ['nullable', 'array'],
+            'images.*' => ['image'],
         ];
     }
 }

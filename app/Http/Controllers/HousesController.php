@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Booking;
 use App\Facility;
+use App\Gallery;
 use App\House;
 use App\Http\Requests\ImageRequest;
 use App\TemporaryImage;
@@ -56,10 +57,18 @@ class HousesController extends Controller
             $requestData['image'] = getImgFromTempById($requestData['imgId']);
         }
 
-        $user  = Auth::user();
+        $user = Auth::user();
         $house = $user->houses()->create($requestData);
 
         HouseManager::attachToHouse($request->facilities, $request->restrictions, $house);
+
+        if ($request->has('images')) {
+            $images = $requestData['images'];
+            array_walk($images, function (&$imgId) {
+                $imgId = new Gallery(['image' => getImgFromTempById($imgId)]);
+            });
+            $house->gallery()->saveMany($images);
+        }
 
         return redirect(route('house.index'));
     }
@@ -207,5 +216,34 @@ class HousesController extends Controller
         $img     = Auth::user()->temporaryImages()->create(['image' => $imgPath]);
 
         return $img;
+    }
+
+    /**
+     * Upload or delete gallery images by ajax
+     *
+     * @param ImageRequest $request
+     *
+     * @return TemporaryImage
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    public function uploadImages(ImageRequest $request)
+    {
+        $images = $request->images;
+        $imgs   = [];
+
+        if ($request->imgId) {
+            $imgPathToDelete = getImgFromTempById($request->imgId);
+            Storage::disk('public')->delete($imgPathToDelete);
+        }
+        if ($request->has('delete')) {
+            return true;
+        }
+
+        foreach ($images as $image) {
+            $imgPath = storeImage($image, false);
+            $imgs[]  = Auth::user()->temporaryImages()->create(['image' => $imgPath]);
+        }
+
+        return $imgs;
     }
 }

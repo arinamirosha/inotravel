@@ -70,6 +70,16 @@ class House extends Model
     }
 
     /**
+     * One house to many images (gallery)
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function gallery()
+    {
+        return $this->hasMany(Gallery::class);
+    }
+
+    /**
      * Get path to house's image
      *
      * @return string
@@ -79,6 +89,21 @@ class House extends Model
         $imagePath = ($this->image) ? Storage::url($this->image) : '/images/noImage.svg';
 
         return $imagePath;
+    }
+
+    /**
+     * Get array of paths of house gallery images
+     *
+     * @return array
+     */
+    public function houseGallery()
+    {
+        $imagesPaths = [];
+        foreach ($this->gallery as $image) {
+            $imagesPaths[] = Storage::url($image->image);
+        }
+
+        return $imagesPaths;
     }
 
     /**
@@ -97,12 +122,22 @@ class House extends Model
      */
     public function deleteImage()
     {
-        if ($this->image)
-        {
+        if ($this->image) {
             Storage::disk('public')->delete($this->image);
             $this->image = null;
             $this->save();
         }
+    }
+
+    /**
+     * Delete house's gallery
+     */
+    public function deleteGallery()
+    {
+        foreach ($this->gallery as $img) {
+            Storage::disk('public')->delete($img->image);
+        }
+        $this->gallery()->delete();
     }
 
     /**

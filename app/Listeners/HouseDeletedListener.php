@@ -52,6 +52,7 @@ class HouseDeletedListener
         }
 
         $house->bookings()->delete();
+        $house->deleteGallery();
 //        $house->deleteImage();
         $house->facilities()->detach();
         $house->restrictions()->detach();

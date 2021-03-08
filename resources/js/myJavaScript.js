@@ -1,5 +1,6 @@
 const AVATAR = 'avatar';
 const HOUSE_IMAGE = 'houseImage';
+const HOUSE_IMAGES = 'houseImages';
 
 $('document').ready(function () {
     if (typeof user !== 'undefined') {
@@ -26,6 +27,21 @@ $('document').ready(function () {
     $("#avatar").change(function (e) {
         e.preventDefault();
         uploadImageAjax($(this), AVATAR);
+    });
+
+    $("#images").change(function (e) {
+        e.preventDefault();
+        uploadHouseImagesAjax($(this));
+    });
+
+    $('#gallery a').click(function (e) {
+        e.preventDefault();
+    });
+
+    $('#gallery a.after-validation-error').click(function (e) {
+        let id = $(this).attr('id');
+        form = $("#form-more-images-ajax");
+        deleteImgFromGallery(id, form);
     });
 
     $('#deletePhoto').click(function () {
@@ -198,6 +214,105 @@ function deleteImageAjax(type) {
                     $('#deleteAvatar').addClass('invisible');
                     break;
             }
+        },
+        error: function (data) {
+            console.log(data);
+        }
+    });
+}
+
+function uploadHouseImagesAjax(input) {
+    var formData = new FormData();
+    var form = $("#form-more-images-ajax");
+    var files = input.prop('files');
+    var totalfiles = files.length;
+    var process = $("#form-more-images-ajax #process");
+    var msg = $('#message-images');
+    msg.fadeOut();
+    $('#imagesError').fadeOut();
+
+    if (totalfiles !== 0) {
+        for (var index = 0; index < totalfiles; index++) {
+            formData.append("images[]", files[index]);
+        }
+        formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+
+        $.ajax({
+            url: form.attr('action'),
+            type: form.attr('method'),
+            processData: false,
+            contentType: false,
+            cache: false,
+            dataType: 'json',
+            data: formData,
+            beforeSend: function () { process.fadeIn(); },
+            complete: function () { process.fadeOut(); },
+            success: function (data) {
+                let gallery = $('#gallery');
+                let inputGallery = $('#input-gallery');
+
+                data.forEach(img => {
+                    let imgElement = new Image(100, 100);
+                    imgElement.src = window.location.origin + '/storage/' + img.image;
+
+                    let a = document.createElement("A");
+                    a.href = '#';
+                    a.innerHTML  = '<i class="far fa-trash-alt"></i>';
+                    a.onclick = function (id) {
+                        return function() {
+                            deleteImgFromGallery(id, form);
+                        }
+                    }(img.id);
+
+                    let divWrap = document.createElement("DIV");
+                    let divImage = document.createElement("DIV");
+                    let divDeleteLink = document.createElement("DIV");
+                    divWrap.classList.add("col-md-2");
+                    divWrap.setAttribute("id", "gallery-img-" + img.id);
+                    divImage.append(imgElement);
+                    divDeleteLink.append(a);
+                    divWrap.append(divImage);
+                    divWrap.append(divDeleteLink);
+                    gallery.append(divWrap);
+
+                    let input = document.createElement("INPUT");
+                    input.setAttribute("id", "input-gallery-img-" + img.id);
+                    input.type = "text";
+                    input.name = "images[]";
+                    input.value = img.id;
+                    inputGallery.append(input);
+
+                });
+            },
+            error: function (data) {
+                let response = JSON.parse(data.responseText);
+                let errors = response.errors;
+                let errorMessage = errors[Object.keys(errors)[0]][0];
+                msg.html(errorMessage);
+                msg.fadeIn();
+            }
+        });
+    }
+}
+
+function deleteImgFromGallery(id, form) {
+    var process = $("#form-more-images-ajax #process");
+    var formData = new FormData();
+    formData.append('imgId', id);
+    formData.append('delete', 'on');
+    formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+    $.ajax({
+        url: form.attr('action'),
+        type: form.attr('method'),
+        processData: false,
+        contentType: false,
+        cache: false,
+        data: formData,
+        beforeSend: function () { process.fadeIn(); },
+        complete: function () { process.fadeOut(); },
+        success: function (data) {
+            $('#gallery-img-' + id).remove();
+            $('#input-gallery-img-' + id).remove();
         },
         error: function (data) {
             console.log(data);

@@ -108,5 +108,33 @@
                 @endisset
             </div>
         </div>
+        @if($house->gallery()->exists())
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8">
+                <div id="houseGallery" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        @for ($i = 0; $i < $house->gallery->count(); $i++)
+                            <li data-target="#houseGallery" data-slide-to="{{ $i }}" aria-label="Slide {{ $i }}"
+                                @if ($i == 0) class="active" aria-current="true" @endif
+                            ></li>
+                        @endfor
+                    </ol>
+                    <div class="carousel-inner">
+                        @foreach($house->houseGallery() as $img)
+                            <div class="carousel-item @if ($loop->first) active @endif">
+                                <img src="{{ url($img) }}" class="d-block w-100 rounded" alt="">
+                            </div>
+                        @endforeach
+                    </div>
+                    <a class="carousel-control-prev" type="button" data-target="#houseGallery"  data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    </a>
+                    <a class="carousel-control-next" data-target="#houseGallery"  data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        @endif
     </div>
 @endsection

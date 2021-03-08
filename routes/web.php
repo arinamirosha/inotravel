@@ -43,6 +43,7 @@ Route::group([
         Route::post('/house/{house}/update', 'HousesController@update')->name('house.update');
         Route::post('/house/{house}', 'HousesController@destroy')->name('house.destroy');
         Route::post('/upload-image', 'HousesController@uploadImage')->name('house.upload-image');
+        Route::post('/upload-images', 'HousesController@uploadImages')->name('house.upload-images');
 
         Route::get('/search', 'SearchController')->name('search');
 
