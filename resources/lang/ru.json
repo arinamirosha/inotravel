@@ -247,6 +247,7 @@
     "The :attribute must be at least :length characters and contain at least one uppercase character, one number, and one special character.": "Поле :attribute должно быть не меньше :length символов и содержать как минимум один символ в верхнем регистре, одно число и один спецсимвол.",
     "The :attribute must be at least :length characters and contain at least one uppercase character.": "Поле :attribute должно быть не меньше :length символов и содержать как минимум один символ в верхнем регистре.",
     "The :attribute must be at least :length characters.": "Поле :attribute должно быть не меньше :length символов.",
+    "The image doesn't exists.": "Такого изображения нет.",
     "The image has been deleted. Please upload again.": "Изображение было удалено. Пожалуйста, загрузите снова.",
     "The image from gallery has been deleted. Please upload again.": "Изображение из галереи было удалено. Пожалуйста, загрузите снова.",
     "The provided password does not match your current password.": "Указанный пароль не соответствует Вашему текущему паролю.",

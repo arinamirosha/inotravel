@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Gallery extends Model
 {
@@ -18,5 +19,15 @@ class Gallery extends Model
     public function house()
     {
         return $this->belongsTo(House::class);
+    }
+
+    /**
+     * Get path to gallery's image
+     *
+     * @return string
+     */
+    public function galleryImage()
+    {
+        return Storage::url($this->image);
     }
 }

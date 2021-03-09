@@ -114,7 +114,7 @@ class HousesController extends Controller
      */
     public function show(House $house)
     {
-        $house = $house->load(['user', 'facilities', 'restrictions']);
+        $house = $house->load(['user', 'facilities', 'restrictions', 'gallery']);
 
         $arrival   = Cookie::get('arrival');
         $departure = Cookie::get('departure');
@@ -164,6 +164,7 @@ class HousesController extends Controller
         $this->authorize('update', $house->user);
         $facilities   = Facility::all();
         $restrictions = Restriction::all();
+        $house->load('facilities', 'restrictions', 'gallery');
 
         return view('houses.edit', compact('house', 'facilities', 'restrictions'));
     }
@@ -190,6 +191,24 @@ class HousesController extends Controller
         $house->update($requestData);
 
         HouseManager::attachToHouse($request->facilities, $request->restrictions, $house);
+
+        if ($request->has('oldimages')) {
+            $imgsToDelete = $house->gallery()->whereNotIn('id', $requestData['oldimages'])->get();
+            foreach ($imgsToDelete as $img) {
+                Storage::disk('public')->delete($img->image);
+                $img->delete();
+            }
+        } else {
+            $house->deleteGallery();
+        }
+
+        if ($request->has('images')) {
+            $images = $requestData['images'];
+            array_walk($images, function (&$imgId) {
+                $imgId = new Gallery(['image' => getImgFromTempById($imgId)]);
+            });
+            $house->gallery()->saveMany($images);
+        }
 
         return redirect(route('house.show', $house->id));
     }

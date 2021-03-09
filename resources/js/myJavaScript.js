@@ -44,6 +44,12 @@ $('document').ready(function () {
         deleteImgFromGallery(id, form);
     });
 
+    $('#gallery a.delete-old-images').click(function (e) {
+        let id = $(this).attr('id');
+        $('#input-gallery-img-' + id).remove();
+        $('#gallery-img-' + id).remove();
+    });
+
     $('#deletePhoto').click(function () {
         deleteImageAjax(HOUSE_IMAGE);
     });

@@ -99,7 +99,7 @@
                                 @foreach(old('images') as $img)
                                     <div class="col-md-2" id="gallery-img-{{$img}}">
                                         <div><img width="100" height="100" src="{{ url(\App\TemporaryImage::find($img)->tempImage()) }}"></div>
-                                        <div><a href="#" id="{{$img}}" class="after-validation-error">delete</a></div>
+                                        <div><a href="#" id="{{$img}}" class="after-validation-error"><i class="far fa-trash-alt"></i></a></div>
                                     </div>
                                 @endforeach
                             @endif

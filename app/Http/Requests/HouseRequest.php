@@ -24,14 +24,16 @@ class HouseRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'     => ['required', 'string', 'max:255'],
-            'city'     => ['required', 'string', 'max:255'],
-            'address'  => ['required', 'string', 'max:255'],
-            'places'   => ['required', 'numeric', 'max:100', 'min:1'],
-            'info'     => ['max:1000'],
-            'imgId'    => ['numeric', 'nullable', 'exists:temporary_images,id'],
-            'images'   => ['array', 'nullable'],
-            'images.*' => ['numeric', 'exists:temporary_images,id'],
+            'name'        => ['required', 'string', 'max:255'],
+            'city'        => ['required', 'string', 'max:255'],
+            'address'     => ['required', 'string', 'max:255'],
+            'places'      => ['required', 'numeric', 'max:100', 'min:1'],
+            'info'        => ['max:1000'],
+            'imgId'       => ['numeric', 'nullable', 'exists:temporary_images,id'],
+            'images'      => ['array', 'nullable'],
+            'images.*'    => ['numeric', 'exists:temporary_images,id'],
+            'oldimages'   => ['array', 'nullable'],
+            'oldimages.*' => ['numeric', 'exists:galleries,id'],
         ];
     }
 
@@ -45,6 +47,7 @@ class HouseRequest extends FormRequest
         return [
             'imgId.exists' => __('The image has been deleted. Please upload again.'),
             'images.*.exists' => __('The image from gallery has been deleted. Please upload again.'),
+            'oldimages.*.exists' => __('The image doesn\'t exists.'),
         ];
     }
 }

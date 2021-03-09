@@ -57322,6 +57322,11 @@ $('document').ready(function () {
     form = $("#form-more-images-ajax");
     deleteImgFromGallery(id, form);
   });
+  $('#gallery a.delete-old-images').click(function (e) {
+    var id = $(this).attr('id');
+    $('#input-gallery-img-' + id).remove();
+    $('#gallery-img-' + id).remove();
+  });
   $('#deletePhoto').click(function () {
     deleteImageAjax(HOUSE_IMAGE);
   });
