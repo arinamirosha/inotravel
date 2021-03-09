@@ -69,19 +69,18 @@
                             @endphp
 
                             <div id="input-gallery" class="d-none">
-                                @if(!$emptyErrors && !$errors->has('images.*') && old('images'))
-                                    @foreach(old('images') as $img)
-                                        <input type="text" name="images[]" id="input-gallery-img-{{$img}}" value="{{$img}}">
-                                    @endforeach
-                                @endif
-
-                                @if (!$emptyErrors && !$errors->has('oldimages.*') && old('oldimages'))
-                                    @foreach(old('oldimages') as $img)
-                                        <input type="text" name="oldimages[]" id="input-gallery-img-{{$img}}" value="{{$img}}">
-                                    @endforeach
-                                @endif
-
-                                @if ($emptyErrors && $house->gallery()->exists())
+                                @if(!$emptyErrors)
+                                    @if(!$errors->has('images.*') && old('images'))
+                                        @foreach(old('images') as $img)
+                                            <input type="text" name="images[]" id="input-gallery-img-{{$img}}" value="{{$img}}">
+                                        @endforeach
+                                    @endif
+                                    @if (!$errors->has('oldimages.*') && old('oldimages'))
+                                        @foreach(old('oldimages') as $img)
+                                            <input type="text" name="oldimages[]" id="input-gallery-img-{{$img}}" value="{{$img}}">
+                                        @endforeach
+                                    @endif
+                                @elseif($house->gallery()->exists())
                                     @foreach($house->gallery as $img)
                                         <input type="text" name="oldimages[]" id="input-gallery-img-{{$img->id}}" value="{{$img->id}}">
                                     @endforeach
@@ -115,25 +114,24 @@
                     </div>
                     <div class="col-md-9">
                         <div id="gallery" class="row justify-content-start">
-                            @if(!$emptyErrors && !$errors->has('images.*') && old('images'))
-                                @foreach(old('images') as $img)
-                                    <div class="col-md-2" id="gallery-img-{{$img}}">
-                                        <div><img width="100" height="100" src="{{ url(\App\TemporaryImage::find($img)->tempImage()) }}"></div>
-                                        <div><a href="#" id="{{$img}}" class="after-validation-error"><i class="far fa-trash-alt"></i></a></div>
-                                    </div>
-                                @endforeach
-                            @endif
-
-                            @if(!$emptyErrors && !$errors->has('oldimages.*') && old('oldimages'))
-                                @foreach(old('oldimages') as $img)
-                                    <div class="col-md-2" id="gallery-img-{{$img}}">
-                                        <div><img width="100" height="100" src="{{ url(\App\Gallery::find($img)->galleryImage()) }}"></div>
-                                        <div><a href="#" id="{{$img}}" class="delete-old-images"><i class="far fa-trash-alt"></i></a></div>
-                                    </div>
-                                @endforeach
-                            @endif
-
-                            @if($emptyErrors && $house->gallery()->exists())
+                            @if(!$emptyErrors)
+                                @if(!$errors->has('images.*') && old('images'))
+                                    @foreach(old('images') as $img)
+                                        <div class="col-md-2" id="gallery-img-{{$img}}">
+                                            <div><img width="100" height="100" src="{{ url(\App\TemporaryImage::find($img)->tempImage()) }}"></div>
+                                            <div><a href="#" id="{{$img}}" class="after-validation-error"><i class="far fa-trash-alt"></i></a></div>
+                                        </div>
+                                    @endforeach
+                                @endif
+                                @if(!$errors->has('oldimages.*') && old('oldimages'))
+                                    @foreach(old('oldimages') as $img)
+                                        <div class="col-md-2" id="gallery-img-{{$img}}">
+                                            <div><img width="100" height="100" src="{{ url(\App\Gallery::find($img)->galleryImage()) }}"></div>
+                                            <div><a href="#" id="{{$img}}" class="delete-old-images"><i class="far fa-trash-alt"></i></a></div>
+                                        </div>
+                                    @endforeach
+                                @endif
+                            @elseif($house->gallery()->exists())
                                 @foreach($house->gallery as $img)
                                     <div class="col-md-2" id="gallery-img-{{$img->id}}">
                                         <div><img width="100" height="100" src="{{ url($img->galleryImage()) }}"></div>
